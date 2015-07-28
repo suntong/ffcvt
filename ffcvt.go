@@ -33,7 +33,6 @@ import (
 // Constant and data type/structure definitions
 
 const (
-	CRF_HELP      = "Set the CRF value: 0-51. Higher CRF gives lower quality."
 	STATIC_PARAMS = "me=star:subme=7:bframes=16:b-adapt=2:ref=16:rc-lookahead=60:max-merge=5:tu-intra-depth=4:tu-inter-depth=4"
 )
 
@@ -52,7 +51,6 @@ type Episode struct {
 // Global variables definitions
 
 var (
-	crf     = flag.Int("crf", 24, CRF_HELP)
 	sprintf = fmt.Sprintf
 )
 
@@ -60,7 +58,14 @@ var (
 // Main
 
 func main() {
+	flag.Usage = Usage
 	flag.Parse()
+
+	// One mandatory non-flag arguments
+	if len(flag.Args()) < 1 {
+		Usage()
+	}
+
 	startTime := time.Now()
 	directory, _ := os.Getwd()
 	transcodeEpisodes(scanEpisodes(scanDirectory(directory), directory))
@@ -145,7 +150,7 @@ func (ep Episode) transcode(index, files int) {
 
 // Returns the encode parameters for the episode
 func encodeParameters(inputName, outputName *string) *exec.Cmd {
-	x265Parameters := sprintf("crf=%d:%s", *crf, STATIC_PARAMS)
+	x265Parameters := sprintf("crf=%d:%s", 28, STATIC_PARAMS)
 	return exec.Command("ffmpeg", "-i", *inputName, "-c:a", "libopus",
 		"-c:v", "libx265", "-x265-params",
 		x265Parameters, *outputName)

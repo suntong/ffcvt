@@ -1,0 +1,143 @@
+# easygen data driven file for ffcvt commandline handling
+#
+# easygen -tf $GOPATH/src/github.com/suntong001/easygen/Test/commandlineFlag ffcvt | sed '/\tAES\t\tstring/{ N; N; N; N; N; s|^.*$|\tEncoding\t// anonymous field to hold encoding values|; }' | gofmt > config.go
+#
+# Ref:
+# ... | sed -n '/ The Options struct /{N; N; N; N; N; N; N; p; q; }' | tee -a structEnc.go
+
+# program name, name for the executable
+ProgramName: ffcvt
+
+# package name
+# - For standalone program that does not belong to any package, e.g., 
+#   https://github.com/suntong001/easygen/blob/7791e4f0e5605543d27da1671a21376cdb9dcf2a/easygen/easygen.go
+#   just ignore the first line, the `package` output, and copy the rest
+# - If you don't mind using a separated file to handle commandline paramters,
+#   then name the package as "main". see the spin-out "TF-minus1.go" file under
+#   https://github.com/suntong001/easygen/tree/d1ab0b5fe80ddac57fe9ef51f6ccb3ab998cd5ee
+# - If you are using it in a pacakge, look no further than
+#   https://github.com/suntong001/easygen/blob/master/easygenapi/config.go
+#   which was a direct dump: easygen test/commandlineFlag > easygenapi/config.go
+#
+PackageName: main
+
+# Name of the structure to hold the values for/from commandline
+StructName: Options
+# The actual variable that hold the commandline paramter values
+StructVar: Opts
+
+Options:
+
+  # Basic fields for encoding
+  
+  - Name: AES
+    Type: string
+    Flag: aes
+    Value: '""'
+    Usage: "audio encoding method set"
+
+  - Name: VES
+    Type: string
+    Flag: ves
+    Value: '""'
+    Usage: "video encoding method set"
+
+  - Name: AEA
+    Type: string
+    Flag: aea
+    Value: '""'
+    Usage: "audio encoding method append"
+
+  - Name: VEA
+    Type: string
+    Flag: vea
+    Value: '""'
+    Usage: "video encoding method append"
+
+  - Name: ABR
+    Type: string
+    Flag: abr
+    Value: '"64k"'
+    Usage: "audio bitrate"
+
+  - Name: VCrf
+    Type: string
+    Flag: vcrf
+    Value: '"28"'
+    Usage: "the CRF value: 0-51. Higher CRF gives lower quality"
+
+  - Name: SEPARATOR
+  
+  - Name: Target
+    Type: string
+    Flag: t
+    Value: '"x265-opus"'
+    Usage: "target type: x265-opus"
+
+  # Optional parameters that controls the encoding
+  
+  - Name: File
+    Type: string
+    Flag: f
+    Value: '""'
+    Usage: "input file name (Mandatory)"
+    
+  - Name: Base
+    Type: string
+    Flag: base
+    Value: '""'
+    Usage: "used as basename for output files"
+
+  - Name: SEPARATOR
+
+  - Name: AC
+    Type: bool
+    Flag: ac
+    Value: false
+    Usage: copy audio codec
+
+  - Name: VC
+    Type: bool
+    Flag: vc
+    Value: false
+    Usage: copy video codec
+
+  - Name: VSS
+    Type: bool
+    Flag: vss
+    Value: true
+    Usage: "video: same size"
+
+  - Name: A2Opus
+    Type: bool
+    Flag: ato-opus
+    Value: false
+    Usage: "audio encode to opus, using -abr"
+
+  - Name: V2X265
+    Type: bool
+    Flag: vto-x265
+    Value: false
+    Usage: "video video encode to x265, using -vcrf"
+
+  - Name: SEPARATOR
+
+  - Name: Safe
+    Type: bool
+    Flag: safe
+    Value: false
+    Usage: do not overwrite any existing none-empty file
+
+  - Name: FFMpeg
+    Type: string
+    Flag: ffmpeg
+    Value: '"ffmpeg"'
+    Usage: "ffmpeg program executable name"
+
+# Use the USAGE_SUMMARY in Usage help
+UsageSummary: "TRUE"
+
+UsageLead: "\\nUsage:\\n %s [flags] \\n\\nFlags:\\n\\n"
+
+UsageEnd: "\\n \\n\\t \\n"
+
