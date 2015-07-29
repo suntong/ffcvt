@@ -134,6 +134,12 @@ Options:
     Value: false
     Usage: do not overwrite any existing none-empty file
 
+  - Name: Debug
+    Type: int
+    Flag: debug
+    Value: 0
+    Usage: debugging level
+    
   - Name: FFMpeg
     Type: string
     Flag: ffmpeg

@@ -28,6 +28,7 @@ type Options struct {
 	A2Opus    bool   // audio encode to opus, using -abr
 	V2X265    bool   // video video encode to x265, using -crf
 	Safe      bool   // do not overwrite any existing none-empty file
+	Debug     int    // debugging level
 	FFMpeg    string // ffmpeg program executable name
 }
 
@@ -78,6 +79,8 @@ func init() {
 
 	flag.BoolVar(&Opts.Safe, "safe", false,
 		"do not overwrite any existing none-empty file")
+	flag.IntVar(&Opts.Debug, "debug", 0,
+		"debugging level")
 	flag.StringVar(&Opts.FFMpeg, "ffmpeg", "ffmpeg",
 		"ffmpeg program executable name")
 
@@ -131,7 +134,7 @@ func init() {
 
 }
 
-const USAGE_SUMMARY = "  -aes\taudio encoding method set\n  -ves\tvideo encoding method set\n  -aea\taudio encoding method append\n  -vea\tvideo encoding method append\n  -abr\taudio bitrate\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\n  -t\ttarget type: x265-opus\n  -d\tdirectory that hold input files\n  -f\tinput file name\n  -base\tused as basename for output files\n\n  -ac\tcopy audio codec\n  -vc\tcopy video codec\n  -vss\tvideo: same size\n  -ato-opus\taudio encode to opus, using -abr\n  -vto-x265\tvideo video encode to x265, using -crf\n\n  -safe\tdo not overwrite any existing none-empty file\n  -ffmpeg\tffmpeg program executable name\n\nDetails:\n\n"
+const USAGE_SUMMARY = "  -aes\taudio encoding method set\n  -ves\tvideo encoding method set\n  -aea\taudio encoding method append\n  -vea\tvideo encoding method append\n  -abr\taudio bitrate\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\n  -t\ttarget type: x265-opus\n  -d\tdirectory that hold input files\n  -f\tinput file name\n  -base\tused as basename for output files\n\n  -ac\tcopy audio codec\n  -vc\tcopy video codec\n  -vss\tvideo: same size\n  -ato-opus\taudio encode to opus, using -abr\n  -vto-x265\tvideo video encode to x265, using -crf\n\n  -safe\tdo not overwrite any existing none-empty file\n  -debug\tdebugging level\n  -ffmpeg\tffmpeg program executable name\n\nDetails:\n\n"
 
 // The Usage function shows help on commandline usage
 func Usage() {

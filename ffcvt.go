@@ -21,11 +21,14 @@ by Michael Murphy (mmstick)
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -61,14 +64,19 @@ func main() {
 	flag.Usage = Usage
 	flag.Parse()
 
-	// One mandatory non-flag arguments
-	if len(flag.Args()) < 1 {
+	// One mandatory arguments, either -d or -f
+	if len(Opts.Directory)+len(Opts.File) < 1 {
 		Usage()
 	}
 
 	startTime := time.Now()
-	directory, _ := os.Getwd()
-	transcodeEpisodes(scanEpisodes(scanDirectory(directory), directory))
+	if Opts.Directory != "" {
+		transcodeEpisodes(scanEpisodes(scanDirectory(Opts.Directory), Opts.Directory))
+	} else if Opts.File != "" {
+		outputName := getOutputName(Opts.File)
+		fmt.Printf("\n== Transcoding: %s\n", Opts.File)
+		transcodeFile(Opts.File, outputName)
+	}
 	fmt.Printf("Transcoding completed in %s\n", time.Since(startTime))
 }
 
@@ -82,7 +90,7 @@ func main() {
 func transcodeEpisodes(episodeList *[]Episode) {
 	files := len(*episodeList)
 	for index, ep := range *episodeList {
-		ep.transcode(index+1, files)
+		ep.transcodeEpisode(index+1, files)
 		ep.status()
 	}
 }
@@ -125,10 +133,15 @@ func recurseDirectory(directory *string, filename string) {
 	scanEpisodes(scanDirectory(subdirectory), subdirectory)
 }
 
-// Append the current episode to the episode list.
+// Append the current episode to the episode list, unless it's encoded already
 func appendEpisode(list *[]Episode, file os.FileInfo, directory *string) {
+	fname := file.Name()
+	if fname[len(fname)-5:] == "_.mkv" {
+		return
+	}
+
 	*list = append(*list, Episode{
-		name:         file.Name(),
+		name:         fname,
 		directory:    *directory,
 		originalSize: file.Size() / 1000000,
 	})
@@ -138,48 +151,82 @@ func appendEpisode(list *[]Episode, file os.FileInfo, directory *string) {
 // Transcode handling
 
 // Transcode the current episode
-func (ep Episode) transcode(index, files int) {
-	inputName, outputName := getFileNames(&ep.directory, &ep.name)
-	fmt.Printf("Transcoding %d/%d: %s\n", index, files, ep.name)
-	startTime := time.Now()
-	ep.stat = encodeParameters(&inputName, &outputName).Run()
-	ep.time = time.Since(startTime)
-	ep.transcodedSize = transcodeSize(&outputName)
+func (ep Episode) transcodeEpisode(index, files int) {
+	inputName := sprintf("%s/%s", ep.directory, ep.name)
+	outputName := getOutputName(inputName)
+	fmt.Printf("\n== Transcoding [%d/%d]: %s\n", index, files, ep.name)
+	ep.time, ep.stat = transcodeFile(inputName, outputName)
+	ep.transcodedSize = transcodeSize(outputName)
 	ep.sizeDifference = ep.originalSize - ep.transcodedSize
 }
 
-// Returns the encode parameters for the episode
-func encodeParameters(inputName, outputName *string) *exec.Cmd {
-	x265Parameters := sprintf("crf=%d:%s", 28, STATIC_PARAMS)
-	return exec.Command("ffmpeg", "-i", *inputName, "-c:a", "libopus",
-		"-c:v", "libx265", "-x265-params",
-		x265Parameters, *outputName)
+func transcodeFile(inputName, outputName string) (time.Duration, error) {
+	startTime := time.Now()
+
+	args := encodeParametersV(encodeParametersA(
+		[]string{"-i", inputName}))
+	args = append(args, os.Args...)
+	args = append(args, outputName)
+	debug(Opts.FFMpeg)
+	debug(strings.Join(args, " "))
+
+	cmd := exec.Command(Opts.FFMpeg, args...)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	err := cmd.Run()
+	if err != nil {
+		log.Printf("%s: Exec error - %s", progname, err.Error())
+	}
+	//fmt.Printf("\n== Out:\n%s\n", out.String())
+	time := time.Since(startTime)
+	return time, err
+}
+
+// Returns the encode parameters for Audio
+func encodeParametersA(args []string) []string {
+	if Opts.AC {
+		args = append(args, "-c:a", "copy")
+		return args
+	}
+	return args
+}
+
+// Returns the encode parameters for Video
+func encodeParametersV(args []string) []string {
+	if Opts.VC {
+		args = append(args, "-c:v", "copy")
+		return args
+	}
+	return args
 }
 
 // Returns the size of the newly transcoded episode, if it exists.
-func transcodeSize(transcodedEpisode *string) int64 {
-	file, err := os.Open(*transcodedEpisode)
+func transcodeSize(transcodedEpisode string) int64 {
+	file, err := os.Open(transcodedEpisode)
 	if err == nil {
 		stat, _ := file.Stat()
 		return stat.Size() / 1000000
 	} else {
+		log.Printf("%s: Open error - %s", progname, err.Error())
 		return 0
 	}
 }
 
-// Returns the input name and output name for the file to be encoded
-func getFileNames(directory, name *string) (string, string) {
-	inputName := sprintf("%s/%s", *directory, *name)
-	outputName := convertToMKV(sprintf("%s/encoded_%s", *directory, *name))
-	return inputName, outputName
-}
-
-// Replaces the file extension from the input string and changes it to mkv
-func convertToMKV(input string) string {
+// Replaces the file extension from the input string with _.mkv
+func getOutputName(input string) string {
 	for index := len(input) - 1; index >= 0; index-- {
 		if input[index] == '.' {
 			input = input[:index]
 		}
 	}
-	return input + ".mkv"
+	return input + "_.mkv"
+}
+
+func debug(input string) {
+	if Opts.Debug == 0 {
+		return
+	}
+	print("] ")
+	print(input)
+	print("\n")
 }
