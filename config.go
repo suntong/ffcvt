@@ -17,17 +17,18 @@ const progname = "ffcvt" // os.Args[0]
 
 // The Options struct defines the structure to hold the commandline values
 type Options struct {
-	Encoding        // anonymous field to hold encoding values
-	Target   string // target type: x265-opus
-	File     string // input file name (Mandatory)
-	Base     string // used as basename for output files
-	AC       bool   // copy audio codec
-	VC       bool   // copy video codec
-	VSS      bool   // video: same size
-	A2Opus   bool   // audio encode to opus, using -abr
-	V2X265   bool   // video video encode to x265, using -vcrf
-	Safe     bool   // do not overwrite any existing none-empty file
-	FFMpeg   string // ffmpeg program executable name
+	Encoding         // anonymous field to hold encoding values
+	Target    string // target type: x265-opus
+	Directory string // directory that hold input files
+	File      string // input file name
+	Base      string // used as basename for output files
+	AC        bool   // copy audio codec
+	VC        bool   // copy video codec
+	VSS       bool   // video: same size
+	A2Opus    bool   // audio encode to opus, using -abr
+	V2X265    bool   // video video encode to x265, using -crf
+	Safe      bool   // do not overwrite any existing none-empty file
+	FFMpeg    string // ffmpeg program executable name
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -57,8 +58,10 @@ func init() {
 
 	flag.StringVar(&Opts.Target, "t", "x265-opus",
 		"target type: x265-opus")
+	flag.StringVar(&Opts.Directory, "d", "",
+		"directory that hold input files")
 	flag.StringVar(&Opts.File, "f", "",
-		"input file name (Mandatory)")
+		"input file name")
 	flag.StringVar(&Opts.Base, "base", "",
 		"used as basename for output files")
 
@@ -71,7 +74,7 @@ func init() {
 	flag.BoolVar(&Opts.A2Opus, "ato-opus", false,
 		"audio encode to opus, using -abr")
 	flag.BoolVar(&Opts.V2X265, "vto-x265", false,
-		"video video encode to x265, using -vcrf")
+		"video video encode to x265, using -crf")
 
 	flag.BoolVar(&Opts.Safe, "safe", false,
 		"do not overwrite any existing none-empty file")
@@ -108,6 +111,10 @@ func init() {
 		len(os.Getenv("FFCVT_T")) != 0 {
 		Opts.Target = os.Getenv("FFCVT_T")
 	}
+	if len(Opts.Directory) == 0 ||
+		len(os.Getenv("FFCVT_D")) != 0 {
+		Opts.Directory = os.Getenv("FFCVT_D")
+	}
 	if len(Opts.File) == 0 ||
 		len(os.Getenv("FFCVT_F")) != 0 {
 		Opts.File = os.Getenv("FFCVT_F")
@@ -124,7 +131,7 @@ func init() {
 
 }
 
-const USAGE_SUMMARY = "  -aes\taudio encoding method set\n  -ves\tvideo encoding method set\n  -aea\taudio encoding method append\n  -vea\tvideo encoding method append\n  -abr\taudio bitrate\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\n  -t\ttarget type: x265-opus\n  -f\tinput file name (Mandatory)\n  -base\tused as basename for output files\n\n  -ac\tcopy audio codec\n  -vc\tcopy video codec\n  -vss\tvideo: same size\n  -ato-opus\taudio encode to opus, using -abr\n  -vto-x265\tvideo video encode to x265, using -vcrf\n\n  -safe\tdo not overwrite any existing none-empty file\n  -ffmpeg\tffmpeg program executable name\n\nDetails:\n\n"
+const USAGE_SUMMARY = "  -aes\taudio encoding method set\n  -ves\tvideo encoding method set\n  -aea\taudio encoding method append\n  -vea\tvideo encoding method append\n  -abr\taudio bitrate\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\n  -t\ttarget type: x265-opus\n  -d\tdirectory that hold input files\n  -f\tinput file name\n  -base\tused as basename for output files\n\n  -ac\tcopy audio codec\n  -vc\tcopy video codec\n  -vss\tvideo: same size\n  -ato-opus\taudio encode to opus, using -abr\n  -vto-x265\tvideo video encode to x265, using -crf\n\n  -safe\tdo not overwrite any existing none-empty file\n  -ffmpeg\tffmpeg program executable name\n\nDetails:\n\n"
 
 // The Usage function shows help on commandline usage
 func Usage() {

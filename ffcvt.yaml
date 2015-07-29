@@ -76,11 +76,17 @@ Options:
 
   # Optional parameters that controls the encoding
   
+  - Name: Directory
+    Type: string
+    Flag: d
+    Value: '""'
+    Usage: "directory that hold input files"
+    
   - Name: File
     Type: string
     Flag: f
     Value: '""'
-    Usage: "input file name (Mandatory)"
+    Usage: "input file name"
     
   - Name: Base
     Type: string
