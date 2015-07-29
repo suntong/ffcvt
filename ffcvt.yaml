@@ -60,9 +60,9 @@ Options:
     Value: '"64k"'
     Usage: "audio bitrate"
 
-  - Name: VCrf
+  - Name: Crf
     Type: string
-    Flag: vcrf
+    Flag: crf
     Value: '"28"'
     Usage: "the CRF value: 0-51. Higher CRF gives lower quality"
 
@@ -118,7 +118,7 @@ Options:
     Type: bool
     Flag: vto-x265
     Value: false
-    Usage: "video video encode to x265, using -vcrf"
+    Usage: "video video encode to x265, using -crf"
 
   - Name: SEPARATOR
 
