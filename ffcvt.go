@@ -165,7 +165,7 @@ func transcodeFile(inputName, outputName string) (time.Duration, error) {
 
 	args := encodeParametersV(encodeParametersA(
 		[]string{"-i", inputName}))
-	args = append(args, os.Args...)
+	args = append(args, flag.Args()...)
 	args = append(args, outputName)
 	debug(Opts.FFMpeg)
 	debug(strings.Join(args, " "))
@@ -177,7 +177,7 @@ func transcodeFile(inputName, outputName string) (time.Duration, error) {
 	if err != nil {
 		log.Printf("%s: Exec error - %s", progname, err.Error())
 	}
-	//fmt.Printf("\n== Out:\n%s\n", out.String())
+	fmt.Printf("\n%s\n", out.String())
 	time := time.Since(startTime)
 	return time, err
 }
