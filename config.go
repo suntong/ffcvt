@@ -18,16 +18,16 @@ const progname = "ffcvt" // os.Args[0]
 // The Options struct defines the structure to hold the commandline values
 type Options struct {
 	Encoding         // anonymous field to hold encoding values
-	Target    string // target type: x265-opus
+	Target    string // target type: x265-opus/x264-mp3
 	Directory string // directory that hold input files
-	File      string // input file name
+	File      string // input file name (either -d or -f must be specified)
 	Base      string // used as basename for output files
 	AC        bool   // copy audio codec
 	VC        bool   // copy video codec
 	VSS       bool   // video: same size
 	A2Opus    bool   // audio encode to opus, using -abr
 	V2X265    bool   // video video encode to x265, using -crf
-	Safe      bool   // do not overwrite any existing none-empty file
+	Force     bool   // overwrite any existing none-empty file
 	Debug     int    // debugging level
 	FFMpeg    string // ffmpeg program executable name
 }
@@ -52,17 +52,17 @@ func init() {
 		"audio encoding method append")
 	flag.StringVar(&Opts.VEA, "vea", "",
 		"video encoding method append")
-	flag.StringVar(&Opts.ABR, "abr", "64k",
-		"audio bitrate")
-	flag.StringVar(&Opts.Crf, "crf", "28",
-		"the CRF value: 0-51. Higher CRF gives lower quality")
+	flag.StringVar(&Opts.ABR, "abr", "",
+		"audio bitrate (64k for opus, 256k for mp3)")
+	flag.StringVar(&Opts.CRF, "crf", "",
+		"the CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264)")
 
 	flag.StringVar(&Opts.Target, "t", "x265-opus",
-		"target type: x265-opus")
+		"target type: x265-opus/x264-mp3")
 	flag.StringVar(&Opts.Directory, "d", "",
 		"directory that hold input files")
 	flag.StringVar(&Opts.File, "f", "",
-		"input file name")
+		"input file name (either -d or -f must be specified)")
 	flag.StringVar(&Opts.Base, "base", "",
 		"used as basename for output files")
 
@@ -77,8 +77,8 @@ func init() {
 	flag.BoolVar(&Opts.V2X265, "vto-x265", false,
 		"video video encode to x265, using -crf")
 
-	flag.BoolVar(&Opts.Safe, "safe", false,
-		"do not overwrite any existing none-empty file")
+	flag.BoolVar(&Opts.Force, "force", false,
+		"overwrite any existing none-empty file")
 	flag.IntVar(&Opts.Debug, "debug", 0,
 		"debugging level")
 	flag.StringVar(&Opts.FFMpeg, "ffmpeg", "ffmpeg",
@@ -105,9 +105,9 @@ func init() {
 		len(os.Getenv("FFCVT_ABR")) != 0 {
 		Opts.ABR = os.Getenv("FFCVT_ABR")
 	}
-	if len(Opts.Crf) == 0 ||
+	if len(Opts.CRF) == 0 ||
 		len(os.Getenv("FFCVT_CRF")) != 0 {
-		Opts.Crf = os.Getenv("FFCVT_CRF")
+		Opts.CRF = os.Getenv("FFCVT_CRF")
 	}
 
 	if len(Opts.Target) == 0 ||
@@ -134,7 +134,7 @@ func init() {
 
 }
 
-const USAGE_SUMMARY = "  -aes\taudio encoding method set\n  -ves\tvideo encoding method set\n  -aea\taudio encoding method append\n  -vea\tvideo encoding method append\n  -abr\taudio bitrate\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\n  -t\ttarget type: x265-opus\n  -d\tdirectory that hold input files\n  -f\tinput file name\n  -base\tused as basename for output files\n\n  -ac\tcopy audio codec\n  -vc\tcopy video codec\n  -vss\tvideo: same size\n  -ato-opus\taudio encode to opus, using -abr\n  -vto-x265\tvideo video encode to x265, using -crf\n\n  -safe\tdo not overwrite any existing none-empty file\n  -debug\tdebugging level\n  -ffmpeg\tffmpeg program executable name\n\nDetails:\n\n"
+const USAGE_SUMMARY = "  -aes\taudio encoding method set\n  -ves\tvideo encoding method set\n  -aea\taudio encoding method append\n  -vea\tvideo encoding method append\n  -abr\taudio bitrate (64k for opus, 256k for mp3)\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264)\n\n  -t\ttarget type: x265-opus/x264-mp3\n  -d\tdirectory that hold input files\n  -f\tinput file name (either -d or -f must be specified)\n  -base\tused as basename for output files\n\n  -ac\tcopy audio codec\n  -vc\tcopy video codec\n  -vss\tvideo: same size\n  -ato-opus\taudio encode to opus, using -abr\n  -vto-x265\tvideo video encode to x265, using -crf\n\n  -force\toverwrite any existing none-empty file\n  -debug\tdebugging level\n  -ffmpeg\tffmpeg program executable name\n\nDetails:\n\n"
 
 // The Usage function shows help on commandline usage
 func Usage() {

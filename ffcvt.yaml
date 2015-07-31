@@ -57,14 +57,14 @@ Options:
   - Name: ABR
     Type: string
     Flag: abr
-    Value: '"64k"'
-    Usage: "audio bitrate"
+    Value: '""'
+    Usage: "audio bitrate (64k for opus, 256k for mp3)"
 
-  - Name: Crf
+  - Name: CRF
     Type: string
     Flag: crf
-    Value: '"28"'
-    Usage: "the CRF value: 0-51. Higher CRF gives lower quality"
+    Value: '""'
+    Usage: "the CRF value: 0-51. Higher CRF gives lower quality\\n\\t (28 for x265, ~ 23 for x264)"
 
   - Name: SEPARATOR
   
@@ -72,7 +72,7 @@ Options:
     Type: string
     Flag: t
     Value: '"x265-opus"'
-    Usage: "target type: x265-opus"
+    Usage: "target type: x265-opus/x264-mp3"
 
   # Optional parameters that controls the encoding
   
@@ -86,7 +86,7 @@ Options:
     Type: string
     Flag: f
     Value: '""'
-    Usage: "input file name"
+    Usage: "input file name (either -d or -f must be specified)"
     
   - Name: Base
     Type: string
@@ -128,11 +128,11 @@ Options:
 
   - Name: SEPARATOR
 
-  - Name: Safe
+  - Name: Force
     Type: bool
-    Flag: safe
+    Flag: force
     Value: false
-    Usage: do not overwrite any existing none-empty file
+    Usage: overwrite any existing none-empty file
 
   - Name: Debug
     Type: int

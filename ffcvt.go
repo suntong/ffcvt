@@ -9,9 +9,8 @@
 Transcodes all episodes in the given directory and all of it's subdirectories
 using ffmpeg.
 
-Initial version based (but also heavily hacked) on
+Forked from Michael Murphy (mmstick)'s
 https://gist.github.com/mmstick/3182c1c8596c1f830c7e
-by Michael Murphy (mmstick)
 
 */
 
@@ -34,10 +33,6 @@ import (
 
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
-
-const (
-	STATIC_PARAMS = "me=star:subme=7:bframes=16:b-adapt=2:ref=16:rc-lookahead=60:max-merge=5:tu-intra-depth=4:tu-inter-depth=4"
-)
 
 // Contains information about each episode
 type Episode struct {
@@ -67,6 +62,12 @@ func main() {
 	// One mandatory arguments, either -d or -f
 	if len(Opts.Directory)+len(Opts.File) < 1 {
 		Usage()
+	}
+
+	if encDefault, ok := Defaults[Opts.Target]; ok {
+		Opts.Encoding = encDefault
+	} else {
+		log.Fatal(progname + " Error: Wrong target option passed to -t.")
 	}
 
 	startTime := time.Now()
@@ -165,10 +166,13 @@ func transcodeFile(inputName, outputName string) (time.Duration, error) {
 
 	args := encodeParametersV(encodeParametersA(
 		[]string{"-i", inputName}))
+	if Opts.Force {
+		args = append(args, "-y")
+	}
 	args = append(args, flag.Args()...)
 	args = append(args, outputName)
-	debug(Opts.FFMpeg)
-	debug(strings.Join(args, " "))
+	debug(Opts.FFMpeg, 2)
+	debug(strings.Join(args, " "), 1)
 
 	cmd := exec.Command(Opts.FFMpeg, args...)
 	var out bytes.Buffer
@@ -177,7 +181,7 @@ func transcodeFile(inputName, outputName string) (time.Duration, error) {
 	if err != nil {
 		log.Printf("%s: Exec error - %s", progname, err.Error())
 	}
-	fmt.Printf("\n%s\n", out.String())
+	fmt.Printf("%s\n", out.String())
 	time := time.Since(startTime)
 	return time, err
 }
@@ -188,6 +192,18 @@ func encodeParametersA(args []string) []string {
 		args = append(args, "-c:a", "copy")
 		return args
 	}
+	if Opts.A2Opus {
+		Opts.AES = "libopus"
+	}
+	if Opts.AES != "" {
+		args = append(args, "-c:a", Opts.AES)
+	}
+	if Opts.ABR != "" {
+		args = append(args, "-b:a", Opts.ABR)
+	}
+	if Opts.AEA != "" {
+		args = append(args, strings.Fields(Opts.AEA)...)
+	}
 	return args
 }
 
@@ -196,6 +212,20 @@ func encodeParametersV(args []string) []string {
 	if Opts.VC {
 		args = append(args, "-c:v", "copy")
 		return args
+	}
+	if Opts.V2X265 {
+		Opts.VES = "libx265"
+	}
+	if Opts.VES != "" {
+		args = append(args, "-c:v", Opts.VES)
+	}
+	if Opts.CRF != "" {
+		if Opts.VES[:6] == "libx26" {
+			args = append(args, "-"+Opts.VES[3:]+"-params", "crf="+Opts.CRF)
+		}
+	}
+	if Opts.VEA != "" {
+		args = append(args, strings.Fields(Opts.VEA)...)
 	}
 	return args
 }
@@ -222,8 +252,8 @@ func getOutputName(input string) string {
 	return input + "_.mkv"
 }
 
-func debug(input string) {
-	if Opts.Debug == 0 {
+func debug(input string, threshold int) {
+	if !(Opts.Debug >= threshold) {
 		return
 	}
 	print("] ")
