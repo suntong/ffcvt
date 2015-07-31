@@ -24,6 +24,8 @@ type Options struct {
 	Base      string // used as basename for output files
 	AC        bool   // copy audio codec
 	VC        bool   // copy video codec
+	AN        bool   // no audio, output video only
+	VN        bool   // no video, output audio only
 	VSS       bool   // video: same size
 	A2Opus    bool   // audio encode to opus, using -abr
 	V2X265    bool   // video video encode to x265, using -crf
@@ -70,6 +72,10 @@ func init() {
 		"copy audio codec")
 	flag.BoolVar(&Opts.VC, "vc", false,
 		"copy video codec")
+	flag.BoolVar(&Opts.AN, "an", false,
+		"no audio, output video only")
+	flag.BoolVar(&Opts.VN, "vn", false,
+		"no video, output audio only")
 	flag.BoolVar(&Opts.VSS, "vss", true,
 		"video: same size")
 	flag.BoolVar(&Opts.A2Opus, "ato-opus", false,
@@ -134,7 +140,7 @@ func init() {
 
 }
 
-const USAGE_SUMMARY = "  -aes\taudio encoding method set\n  -ves\tvideo encoding method set\n  -aea\taudio encoding method append\n  -vea\tvideo encoding method append\n  -abr\taudio bitrate (64k for opus, 256k for mp3)\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264)\n\n  -t\ttarget type: x265-opus/x264-mp3\n  -d\tdirectory that hold input files\n  -f\tinput file name (either -d or -f must be specified)\n  -base\tused as basename for output files\n\n  -ac\tcopy audio codec\n  -vc\tcopy video codec\n  -vss\tvideo: same size\n  -ato-opus\taudio encode to opus, using -abr\n  -vto-x265\tvideo video encode to x265, using -crf\n\n  -force\toverwrite any existing none-empty file\n  -debug\tdebugging level\n  -ffmpeg\tffmpeg program executable name\n\nDetails:\n\n"
+const USAGE_SUMMARY = "  -aes\taudio encoding method set\n  -ves\tvideo encoding method set\n  -aea\taudio encoding method append\n  -vea\tvideo encoding method append\n  -abr\taudio bitrate (64k for opus, 256k for mp3)\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264)\n\n  -t\ttarget type: x265-opus/x264-mp3\n  -d\tdirectory that hold input files\n  -f\tinput file name (either -d or -f must be specified)\n  -base\tused as basename for output files\n\n  -ac\tcopy audio codec\n  -vc\tcopy video codec\n  -an\tno audio, output video only\n  -vn\tno video, output audio only\n  -vss\tvideo: same size\n  -ato-opus\taudio encode to opus, using -abr\n  -vto-x265\tvideo video encode to x265, using -crf\n\n  -force\toverwrite any existing none-empty file\n  -debug\tdebugging level\n  -ffmpeg\tffmpeg program executable name\n\nDetails:\n\n"
 
 // The Usage function shows help on commandline usage
 func Usage() {

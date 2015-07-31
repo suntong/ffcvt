@@ -192,6 +192,10 @@ func encodeParametersA(args []string) []string {
 		args = append(args, "-c:a", "copy")
 		return args
 	}
+	if Opts.AN {
+		args = append(args, "-an")
+		return args
+	}
 	if Opts.A2Opus {
 		Opts.AES = "libopus"
 	}
@@ -211,6 +215,10 @@ func encodeParametersA(args []string) []string {
 func encodeParametersV(args []string) []string {
 	if Opts.VC {
 		args = append(args, "-c:v", "copy")
+		return args
+	}
+	if Opts.VN {
+		args = append(args, "-vn")
 		return args
 	}
 	if Opts.V2X265 {

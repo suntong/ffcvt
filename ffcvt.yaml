@@ -108,6 +108,18 @@ Options:
     Value: false
     Usage: copy video codec
 
+  - Name: AN
+    Type: bool
+    Flag: an
+    Value: false
+    Usage: no audio, output video only
+
+  - Name: VN
+    Type: bool
+    Flag: vn
+    Value: false
+    Usage: no video, output audio only
+
   - Name: VSS
     Type: bool
     Flag: vss
