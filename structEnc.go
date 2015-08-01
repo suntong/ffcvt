@@ -1,5 +1,7 @@
 package main
 
+import "log"
+
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
@@ -39,4 +41,23 @@ func init() {
 		},
 	}
 
+}
+
+func getDefault() {
+	// preserve command line values
+	abr, crf := Opts.ABR, Opts.CRF
+
+	if encDefault, ok := Defaults[Opts.Target]; ok {
+		Opts.Encoding = encDefault
+	} else {
+		log.Fatal(progname + " Error: Wrong target option passed to -t.")
+	}
+
+	// restore command line values
+	if abr != "" {
+		Opts.ABR = abr
+	}
+	if crf != "" {
+		Opts.CRF = crf
+	}
 }

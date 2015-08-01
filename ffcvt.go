@@ -63,12 +63,7 @@ func main() {
 	if len(Opts.Directory)+len(Opts.File) < 1 {
 		Usage()
 	}
-
-	if encDefault, ok := Defaults[Opts.Target]; ok {
-		Opts.Encoding = encDefault
-	} else {
-		log.Fatal(progname + " Error: Wrong target option passed to -t.")
-	}
+	getDefault()
 
 	startTime := time.Now()
 	if Opts.Directory != "" {
