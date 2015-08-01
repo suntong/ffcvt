@@ -252,7 +252,7 @@ func getOutputName(input string) string {
 			input = input[:index]
 		}
 	}
-	return input + "_.mkv"
+	return input + Opts.Suffix + "_.mkv"
 }
 
 func debug(input string, threshold int) {

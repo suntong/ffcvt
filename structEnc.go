@@ -60,4 +60,9 @@ func getDefault() {
 	if crf != "" {
 		Opts.CRF = crf
 	}
+
+	if Opts.Suffix != "" {
+		Opts.Suffix = "_" + Opts.Suffix
+	}
+
 }

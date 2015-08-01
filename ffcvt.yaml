@@ -88,11 +88,11 @@ Options:
     Value: '""'
     Usage: "input file name (either -d or -f must be specified)"
     
-  - Name: Base
+  - Name: Suffix
     Type: string
-    Flag: base
+    Flag: suf
     Value: '""'
-    Usage: "used as basename for output files"
+    Usage: "suffix to the output file names"
 
   - Name: SEPARATOR
 
