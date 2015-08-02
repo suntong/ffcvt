@@ -113,14 +113,17 @@ Here is another set of results, sizes and the conversion time (in minutes):
 
 The `ffmpeg` `x265` `preset` determines how fast the encoding process will be. if you choose `ultrafast`, the encoding process is going to run fast, but the file size will be larger when compared to `medium`. [The visual quality will be the same](https://trac.ffmpeg.org/wiki/Encode/H.265). Valid presets are `ultrafast`, `superfast`, `veryfast`, `faster`, `fast`, `medium`, `slow`, `slower`, `veryslow` and `placebo`.
 
-Because that [the visual quality are the same](https://trac.ffmpeg.org/wiki/Encode/H.265), so there is no need to go for the slower options, because you won't be gaining anything but for the final file size. Therefore, check for yourself the above result file sizes and the conversion times, then pick a preset level you feel comfortable. The following present the same data in graph. Click on them each to bring up bigger and most importantly, interactive graph.
+Because that [the visual quality are the same](https://trac.ffmpeg.org/wiki/Encode/H.265), so there is no need to go for the slower options, because you won't be gaining anything but for the final file size. Therefore, check for yourself the above result file sizes and the conversion times, then pick a preset level you feel comfortable. The following present the same data in graphs. Click on them each to bring up bigger and most importantly, interactive graph.
 
 [![preset small](preset-small.png)](https://fiddle.jshell.net/cL2q5p1z/3/show/ "Preset Small")
 
 [![preset large](preset-large.png)](https://fiddle.jshell.net/nfLfd9p6/show/ "Preset Large")
 
-I personally would go for `veryfast` because it produces the final size not much different than `fast`, `medium`, but only take less than a quarter of the time, but you may choose anything.
+I personally would go for `veryfast` because it produces the final size not much different than `fast`, `medium`, but only take less than a quarter of the time (but you may choose anything). I.e., I'll use 
 
+    export FFCVT_O="-preset veryfast"
+
+so as to avoid specifying it each time when invoking `ffcvt`.
 
 ## Environment Variables
 
