@@ -164,8 +164,9 @@ func transcodeFile(inputName, outputName string) (time.Duration, error) {
 	if Opts.Force {
 		args = append(args, "-y")
 	}
-	args = append(args, flag.Args()...)
+	args = append(args, strings.Fields(Opts.OptExtra)...)
 	args = append(args, outputName)
+	args = append(args, flag.Args()...)
 	debug(Opts.FFMpeg, 2)
 	debug(strings.Join(args, " "), 1)
 

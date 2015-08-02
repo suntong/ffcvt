@@ -126,6 +126,12 @@ Options:
     Value: true
     Usage: "video: same size"
 
+  - Name: OptExtra
+    Type: string
+    Flag: o
+    Value: '""'
+    Usage: "more options that will pass to ffmpeg program"
+    
   - Name: A2Opus
     Type: bool
     Flag: ato-opus
@@ -163,5 +169,5 @@ UsageSummary: "TRUE"
 
 UsageLead: "\\nUsage:\\n %s [flags] \\n\\nFlags:\\n\\n"
 
-UsageEnd: "\\nThe `ffcvt -f testf.mp4 -debug 1 -force` will invoke\\n\\n  ffmpeg -i testf.mp4 -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 -y testf_.mkv\\n\\nTo use `preset`:\\n\\n  cm=medium\\n  ffcvt -f testf.mp4 -debug 1 -force -suf $cm -- -preset $cm\\n\\nWhich will invoke\\n\\n  ffmpeg -i testf.mp4 -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 -y -preset medium testf_medium_.mkv\\n\\nHere are the final sizes and the conversion time (in seconds):\\n\\n  2916841  testf.mp4\\n  1807513  testf_.mkv\\n  1743701  testf_veryfast_.mkv   41\\n  2111667  testf_faster_.mkv     44\\n  1793216  testf_fast_.mkv       85\\n  1807513  testf_medium_.mkv    120\\n  1628502  testf_slow_.mkv      366\\n  1521889  testf_slower_.mkv    964\\n  1531154  testf_veryslow_.mkv 1413\\n\\nI.e., if `preset` is not used, the default is `medium`.\\n\\nHere is another set of results, sizes and the conversion time (in minutes):\\n\\n 171019470  testf.avi\\n  55114663  testf_veryfast_.mkv  39.2\\n  57287586  testf_faster_.mkv    51.07\\n  52950504  testf_fast_.mkv     147.11\\n  55641838  testf_medium_.mkv   174.25\\n"
+UsageEnd: "\\nThe `ffcvt -f testf.mp4 -debug 1 -force` will invoke\\n\\n  ffmpeg -i testf.mp4 -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 -y testf_.mkv\\n\\nTo use `preset`, do the following or set it in env var FFCVT_O\\n\\n  cm=medium\\n  ffcvt -f testf.mp4 -debug 1 -force -suf $cm -- -preset $cm\\n\\nWhich will invoke\\n\\n  ffmpeg -i testf.mp4 -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 -y -preset medium testf_medium_.mkv\\n\\nHere are the final sizes and the conversion time (in seconds):\\n\\n  2916841  testf.mp4\\n  1807513  testf_.mkv\\n  1743701  testf_veryfast_.mkv   41\\n  2111667  testf_faster_.mkv     44\\n  1793216  testf_fast_.mkv       85\\n  1807513  testf_medium_.mkv    120\\n  1628502  testf_slow_.mkv      366\\n  1521889  testf_slower_.mkv    964\\n  1531154  testf_veryslow_.mkv 1413\\n\\nI.e., if `preset` is not used, the default is `medium`.\\n\\nHere is another set of results, sizes and the conversion time (in minutes):\\n\\n 171019470  testf.avi\\n  55114663  testf_veryfast_.mkv  39.2\\n  57287586  testf_faster_.mkv    51.07\\n  52950504  testf_fast_.mkv     147.11\\n  55641838  testf_medium_.mkv   174.25\\n"
 
