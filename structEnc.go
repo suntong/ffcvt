@@ -34,10 +34,20 @@ func init() {
 		},
 		"x264-mp3": {
 			AES: "libmp3lame",
-			AEA: "-q:a 2",
+			AEA: "-q:a 3",
 			VES: "libx264",
 			ABR: "256k",
 			CRF: "23",
+		},
+		"youtube": {
+			// https://trac.ffmpeg.org/wiki/Encode/YouTube
+			// https://trac.ffmpeg.org/wiki/Encode/HighQualityAudio
+			AES: "libvorbis",
+			AEA: "-q:a 5",
+			VES: "libx264",
+			VEA: "-pix_fmt yuv420p",
+			ABR: "",
+			CRF: "20",
 		},
 	}
 

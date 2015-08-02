@@ -18,7 +18,7 @@ const progname = "ffcvt" // os.Args[0]
 // The Options struct defines the structure to hold the commandline values
 type Options struct {
 	Encoding         // anonymous field to hold encoding values
-	Target    string // target type: x265-opus/x264-mp3
+	Target    string // target type: x265-opus/x264-mp3/youtube
 	Directory string // directory that hold input files
 	File      string // input file name (either -d or -f must be specified)
 	Suffix    string // suffix to the output file names
@@ -61,7 +61,7 @@ func init() {
 		"the CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264)")
 
 	flag.StringVar(&Opts.Target, "t", "x265-opus",
-		"target type: x265-opus/x264-mp3")
+		"target type: x265-opus/x264-mp3/youtube")
 	flag.StringVar(&Opts.Directory, "d", "",
 		"directory that hold input files")
 	flag.StringVar(&Opts.File, "f", "",
@@ -148,7 +148,7 @@ func init() {
 
 }
 
-const USAGE_SUMMARY = "  -aes\taudio encoding method set (FFCVT_AES)\n  -ves\tvideo encoding method set (FFCVT_VES)\n  -aea\taudio encoding method append (FFCVT_AEA)\n  -vea\tvideo encoding method append (FFCVT_VEA)\n  -abr\taudio bitrate (64k for opus, 256k for mp3) (FFCVT_ABR)\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264) (FFCVT_CRF)\n\n  -t\ttarget type: x265-opus/x264-mp3 (FFCVT_T)\n  -d\tdirectory that hold input files (FFCVT_D)\n  -f\tinput file name (either -d or -f must be specified) (FFCVT_F)\n  -suf\tsuffix to the output file names (FFCVT_SUF)\n\n  -ac\tcopy audio codec (FFCVT_AC)\n  -vc\tcopy video codec (FFCVT_VC)\n  -an\tno audio, output video only (FFCVT_AN)\n  -vn\tno video, output audio only (FFCVT_VN)\n  -vss\tvideo: same size (FFCVT_VSS)\n  -o\tmore options that will pass to ffmpeg program (FFCVT_O)\n  -ato-opus\taudio encode to opus, using -abr (FFCVT_ATO_OPUS)\n  -vto-x265\tvideo video encode to x265, using -crf (FFCVT_VTO_X265)\n\n  -force\toverwrite any existing none-empty file (FFCVT_FORCE)\n  -debug\tdebugging level (FFCVT_DEBUG)\n  -ffmpeg\tffmpeg program executable name (FFCVT_FFMPEG)\n\nDetails:\n\n"
+const USAGE_SUMMARY = "  -aes\taudio encoding method set (FFCVT_AES)\n  -ves\tvideo encoding method set (FFCVT_VES)\n  -aea\taudio encoding method append (FFCVT_AEA)\n  -vea\tvideo encoding method append (FFCVT_VEA)\n  -abr\taudio bitrate (64k for opus, 256k for mp3) (FFCVT_ABR)\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264) (FFCVT_CRF)\n\n  -t\ttarget type: x265-opus/x264-mp3/youtube (FFCVT_T)\n  -d\tdirectory that hold input files (FFCVT_D)\n  -f\tinput file name (either -d or -f must be specified) (FFCVT_F)\n  -suf\tsuffix to the output file names (FFCVT_SUF)\n\n  -ac\tcopy audio codec (FFCVT_AC)\n  -vc\tcopy video codec (FFCVT_VC)\n  -an\tno audio, output video only (FFCVT_AN)\n  -vn\tno video, output audio only (FFCVT_VN)\n  -vss\tvideo: same size (FFCVT_VSS)\n  -o\tmore options that will pass to ffmpeg program (FFCVT_O)\n  -ato-opus\taudio encode to opus, using -abr (FFCVT_ATO_OPUS)\n  -vto-x265\tvideo video encode to x265, using -crf (FFCVT_VTO_X265)\n\n  -force\toverwrite any existing none-empty file (FFCVT_FORCE)\n  -debug\tdebugging level (FFCVT_DEBUG)\n  -ffmpeg\tffmpeg program executable name (FFCVT_FFMPEG)\n\nDetails:\n\n"
 
 // The Usage function shows help on commandline usage
 func Usage() {
