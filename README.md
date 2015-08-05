@@ -107,13 +107,24 @@ Here is another set of results, sizes and the conversion time (in minutes):
   52950504  testf_fast_.mkv     147.11
   55641838  testf_medium_.mkv   174.25
 
+Same source file, using the fixed `-preset fast`, altering the crf:
+
+  52950504  testf_28_.mkv       147.11
+  43480573  testf_30_.mkv       146.5
+  36609186  testf_32_.mkv       144.5
+  31427912  testf_34_.mkv       143.9
+  27397348  testf_36_.mkv       139.33
+
+So it confirms that `-preset` determines the conversion time,
+while `crf` controls the final file size, not conversion time.
+
 ```
 
 ## Preset Method Comparison
 
 The `ffmpeg` `x265` `preset` determines how fast the encoding process will be. if you choose `ultrafast`, the encoding process is going to run fast, but the file size will be larger when compared to `medium`. [The visual quality will be the same](https://trac.ffmpeg.org/wiki/Encode/H.265). Valid presets are `ultrafast`, `superfast`, `veryfast`, `faster`, `fast`, `medium`, `slow`, `slower`, `veryslow` and `placebo`.
 
-Because that [the visual quality are the same](https://trac.ffmpeg.org/wiki/Encode/H.265), so there is no need to go for the slower options, because you won't be gaining anything but for the final file size. Therefore, check for yourself the above result file sizes and the conversion times, then pick a preset level you feel comfortable. The following present the same data in graphs. Click on them each to bring up bigger and most importantly, interactive graph.
+Because that [the visual quality are the same](https://trac.ffmpeg.org/wiki/Encode/H.265), so there is no need to go for the slower options, because you won't be gaining anything but for the final file size. Therefore, check for yourself the above result file sizes and the conversion times, then pick a preset level you feel comfortable. The following present the same data of above first two list in graphs. Click on them each to bring up bigger and most importantly, interactive graph.
 
 [![preset small](preset-small.png)](https://fiddle.jshell.net/cL2q5p1z/3/show/ "Preset Small")
 
@@ -125,13 +136,21 @@ I personally would go for `veryfast` because it produces the final size not much
 
 so as to avoid specifying it each time when invoking `ffcvt`.
 
+## The CRF Comparison
+
+The following present the `crf` comparison data from above list in graph. Click on it to bring up the bigger and interactive graph.
+
+[![CRF Comparison](video-crf.png)](https://fiddle.jshell.net/nfLfd9p6/1/show/ "CRF Comparison")
+
+So we can confirms that, `crf` controls the final file size, not conversion time. When `crf=36` the final file size is almost half the size of `crf=28` (and only 16% of the original size), but that's only good for the content like slide presentation, in which the content are mostly static, and a blur of up to a quarter of second during transition is not too troublesome. 
+
 ## Environment Variables
 
 For each `ffcvt` command line parameter, there is a environment variable corresponding to it. For example you can use `export FFCVT_FFMPEG=avconv` to use `avconv` instead of `ffmpeg` (Don't, I use it for my [CommandLineArgs](https://github.com/suntong001/lang/blob/master/lang/Go/src/sys/CommandLineArgs.go) to develop/test `ffcvt` without invoking `ffmpeg` each time). 
 
 ## Example: YouTube Encoding
 
-The target type `youtube` has now been added, with settings and parameters taken from [How to Encode Videos for YouTube and other Video Sharing Sites](https://trac.ffmpeg.org/wiki/Encode/YouTube). In essence, because *"Since YouTube, Vimeo, and other similar sites will re-encode anything you give it the best practice is to provide the highest quality video that is practical for you to upload."*, every parameter has been set to aim for that high standard. I.e., a command `ffcvt -f Whatever1.mp4 -debug 1 -force -t youtube` will do:
+The target type `youtube` has now been added, with settings and parameters taken from [How to Encode Videos for YouTube and other Video Sharing Sites](https://trac.ffmpeg.org/wiki/Encode/YouTube). In essence, because *"Since YouTube, Vimeo, and other similar sites will re-encode anything you give it* ***the best practice is to provide the highest quality video*** *that is practical for you to upload."*, every parameter has been set to aim for that high standard. I.e., a command `ffcvt -f Whatever1.mp4 -debug 1 -force -t youtube` will do:
 
     ffmpeg -i Whatever1.mp4 -c:a libvorbis -q:a 5 -c:v libx264 -x264-params crf=20 -pix_fmt yuv420p -y Whatever1_.mkv
 
