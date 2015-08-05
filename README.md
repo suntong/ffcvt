@@ -183,6 +183,41 @@ and optionally, as explained before:
 
 Then just use `ffcvt -f` for files or `ffcvt -d` for directories. 
 
+## Example 2: Talk Encoding
+
+The whole video is about somebody talking, nothing but talking. Here is its details:
+
+	$ ffprobe Talk-A.MP4 
+		Stream #0:0(eng): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuvj420p(pc, bt709), 1920x1080 [SAR 1:1 DAR 16:9], 15250 kb/s, 29.97 fps, 29.97 tbr, 30k tbn, 59.94 tbc (default)
+		Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 255 kb/s (default)
+
+The whole video is 4G in size, and it is only the first half. So before the re-encode, I need to make some compromises:
+
+- A `-preset fast` is good enough for me, because I'm not too keen about spending 4x time yet not able to enhance the video quality much.
+- The whole video is about him talking, so I don't mind his face not being crystal clear 100% of time. Thus I choose `crf=30` to maximize file size saving. 
+- I also don't need video to have such gigantic resolution of `1920x1080`, as it is only a fixed camera shooting a fixed scene. Half the size (`1920/2 = 960`) would be good enough for me.
+- For human voices, opus bandwidth as low as `16k` can already do a pretty good job, but I don't want any compromise in audio, so I'll keep the `64k` opus bandwidth. Furthermore, as the recorded sound is a bit low, I need to increase the sound volume, to 200% of the original volume, which means the `-af volume=2` parameter to `ffmpeg`.
+
+The final command is:
+
+     $ nice -n 19 ffcvt -f Talk-A.MP4 -debug 1 -force -crf=30 -o '-preset fast -vf scale=960:-1 -af volume=2' 
+
+What's actually being invoked:
+
+    ffmpeg -i Talk-A.MP4 -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=30 -y -preset fast -vf scale=960:-1 -af volume=2 Talk-A_.mkv
+
+And the final result --
+
+ 4273831936  Talk-A.MP4*
+   44232824  Talk-A_.mkv*
+
+I.e., the converted file came down from the original 4.0G to only 43M in size, only about one percent of the original size!
+
+Ref:
+
+- [Scaling (resizing) with ffmpeg](https://trac.ffmpeg.org/wiki/Scaling%20(resizing)%20with%20ffmpeg)
+- [How to change audio volume up-down with FFmpeg](https://trac.ffmpeg.org/wiki/How%20to%20change%20audio%20volume%20up-down%20with%20FFmpeg)
+
 ## Tools Choices
 
 As suggested before, don't use `avconv`, use `ffmpeg` instead (the `avconv` fork was more for political reasons. I personally believe `ffmpeg` is technically superior although might not be politically).
