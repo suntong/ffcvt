@@ -251,6 +251,7 @@ func getOutputName(input string) string {
 	for index := len(input) - 1; index >= 0; index-- {
 		if input[index] == '.' {
 			input = input[:index]
+			break
 		}
 	}
 	return input + Opts.Suffix + "_.mkv"
