@@ -148,6 +148,16 @@ So we can confirms that, `crf` controls the final file size, not conversion time
 
 For each `ffcvt` command line parameter, there is a environment variable corresponding to it. For example you can use `export FFCVT_FFMPEG=avconv` to use `avconv` instead of `ffmpeg` (Don't, I use it for my [CommandLineArgs](https://github.com/suntong001/lang/blob/master/lang/Go/src/sys/CommandLineArgs.go) to develop/test `ffcvt` without invoking `ffmpeg` each time). 
 
+## Installation
+
+To compile and install `ffcvt` from source is still a manual process for now, but fret not, it's pretty straightforward and simple.
+
+0. Get the source via `git clone` or [`go get`](https://golang.org/cmd/go/#hdr-Download_and_install_packages_and_dependencies).
+0. Do `cd ffcvt`, then issue [`go build`](https://golang.org/cmd/go/#hdr-Compile_packages_and_dependencies) without any other parameters.
+0. Copy the generated executable somewhere in the PATH
+
+That's it, it's ready to roll. 
+
 ## Example: YouTube Encoding
 
 The target type `youtube` has now been added, with settings and parameters taken from [How to Encode Videos for YouTube and other Video Sharing Sites](https://trac.ffmpeg.org/wiki/Encode/YouTube). In essence, because *"Since YouTube, Vimeo, and other similar sites will re-encode anything you give it* ***the best practice is to provide the highest quality video*** *that is practical for you to upload."*, every parameter has been set to aim for that high standard. I.e., a command `ffcvt -f Whatever1.mp4 -debug 1 -force -t youtube` will do:
@@ -208,8 +218,8 @@ What's actually being invoked:
 
 And the final result --
 
- 4273831936  Talk-A.MP4*
-   44232824  Talk-A_.mkv*
+	4273831936  Talk-A.MP4*
+	  44232824  Talk-A_.mkv*
 
 I.e., the converted file came down from the original 4.0G to only 43M in size, only about one percent of the original size!
 
@@ -224,3 +234,10 @@ As suggested before, don't use `avconv`, use `ffmpeg` instead (the `avconv` fork
 
 As for video/movie play back, use [mpv](http://mpv.io/). It is a fork of mplayer2 and MPlayer, and is a true *modern* *all-in-one* movie player that can play ANYTHING, and one of the few movie players being actively developed all the time. Download link is in [mpv.io](http://mpv.io/), from which Ubuntu repo I get my Ubuntu `ffmpeg` package as well. If you are unsatisfied with mpv's simple user interface, check out https://wiki.archlinux.org/index.php/Mpv#Front_ends.
 
+## Author(s)
+
+Tong SUN
+
+![suntong from cpan.org](http://i.stack.imgur.com/CNcsd.png "email address")
+
+All patches welcome. 
