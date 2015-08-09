@@ -227,11 +227,7 @@ func encodeParametersV(args []string) []string {
 
 // Returns the file size
 func fileSize(transcodedEpisode string) int64 {
-	file, err := os.Open(transcodedEpisode)
-	checkError(err)
-	defer file.Close()
-
-	stat, err := file.Stat()
+	stat, err := os.Stat(transcodedEpisode)
 	checkError(err)
 
 	return stat.Size() / 1024
