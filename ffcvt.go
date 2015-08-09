@@ -9,9 +9,6 @@
 Transcodes all episodes in the given directory and all of it's subdirectories
 using ffmpeg.
 
-Forked from Michael Murphy (mmstick)'s
-https://gist.github.com/mmstick/3182c1c8596c1f830c7e
-
 */
 
 ////////////////////////////////////////////////////////////////////////////
@@ -36,13 +33,8 @@ import (
 
 // Contains information about each episode
 type Episode struct {
-	name           string
-	directory      string
-	originalSize   int64
-	transcodedSize int64
-	sizeDifference int64
-	time           time.Duration
-	stat           error
+	name      string
+	directory string
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -73,7 +65,7 @@ func main() {
 		fmt.Printf("\n== Transcoding: %s\n", Opts.File)
 		transcodeFile(Opts.File, outputName)
 	}
-	fmt.Printf("Transcoding completed in %s\n", time.Since(startTime))
+	fmt.Printf("\nTranscoding completed in %s\n", time.Since(startTime))
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -87,20 +79,6 @@ func transcodeEpisodes(episodeList *[]Episode) {
 	files := len(*episodeList)
 	for index, ep := range *episodeList {
 		ep.transcodeEpisode(index+1, files)
-		ep.status()
-	}
-}
-
-// Print the status of the transcoded episode
-func (episode Episode) status() {
-	if episode.stat != nil {
-		fmt.Println("Failed to transcode", episode.name)
-	} else {
-		fmt.Println("Transcoded", episode.name)
-		fmt.Println("Original Size:", episode.originalSize, "MB")
-		fmt.Println("New Size:", episode.transcodedSize, "MB")
-		fmt.Println("Difference:", episode.sizeDifference, "MB")
-		fmt.Println("Time:", episode.time)
 	}
 }
 
@@ -137,9 +115,8 @@ func appendEpisode(list *[]Episode, file os.FileInfo, directory *string) {
 	}
 
 	*list = append(*list, Episode{
-		name:         fname,
-		directory:    *directory,
-		originalSize: file.Size() / 1000000,
+		name:      fname,
+		directory: *directory,
 	})
 }
 
@@ -151,12 +128,10 @@ func (ep Episode) transcodeEpisode(index, files int) {
 	inputName := sprintf("%s/%s", ep.directory, ep.name)
 	outputName := getOutputName(inputName)
 	fmt.Printf("\n== Transcoding [%d/%d]: %s\n", index, files, ep.name)
-	ep.time, ep.stat = transcodeFile(inputName, outputName)
-	ep.transcodedSize = transcodeSize(outputName)
-	ep.sizeDifference = ep.originalSize - ep.transcodedSize
+	transcodeFile(inputName, outputName)
 }
 
-func transcodeFile(inputName, outputName string) (time.Duration, error) {
+func transcodeFile(inputName, outputName string) {
 	startTime := time.Now()
 
 	args := encodeParametersV(encodeParametersA(
@@ -179,7 +154,23 @@ func transcodeFile(inputName, outputName string) (time.Duration, error) {
 	}
 	fmt.Printf("%s\n", out.String())
 	time := time.Since(startTime)
-	return time, err
+
+	if err != nil {
+		fmt.Println("Failed.")
+	} else {
+		originalSize := fileSize(inputName)
+		transcodedSize := fileSize(outputName)
+		sizeDifference := originalSize - transcodedSize
+
+		fmt.Println("Done.")
+		fmt.Printf("Org Size: %d KB\n", originalSize)
+		fmt.Printf("New Size: %d KB\n", transcodedSize)
+		fmt.Printf("Saved:    %d%% with %d KB\n",
+			sizeDifference*100/originalSize, sizeDifference)
+		fmt.Printf("Time: %v\n\n", time)
+	}
+
+	return
 }
 
 // Returns the encode parameters for Audio
@@ -234,25 +225,23 @@ func encodeParametersV(args []string) []string {
 	return args
 }
 
-// Returns the size of the newly transcoded episode, if it exists.
-func transcodeSize(transcodedEpisode string) int64 {
+// Returns the file size
+func fileSize(transcodedEpisode string) int64 {
 	file, err := os.Open(transcodedEpisode)
-	if err == nil {
-		stat, _ := file.Stat()
-		return stat.Size() / 1000000
-	} else {
-		log.Printf("%s: Open error - %s", progname, err.Error())
-		return 0
-	}
+	checkError(err)
+	defer file.Close()
+
+	stat, err := file.Stat()
+	checkError(err)
+
+	return stat.Size() / 1024
 }
 
-// Replaces the file extension from the input string with _.mkv
+// Replaces the file extension from the input string with _.mkv, and optionally Opts.Suffix
 func getOutputName(input string) string {
-	for index := len(input) - 1; index >= 0; index-- {
-		if input[index] == '.' {
-			input = input[:index]
-			break
-		}
+	index := strings.LastIndex(input, ".")
+	if index > 0 {
+		input = input[:index]
 	}
 	return input + Opts.Suffix + "_.mkv"
 }
@@ -264,4 +253,11 @@ func debug(input string, threshold int) {
 	print("] ")
 	print(input)
 	print("\n")
+}
+
+func checkError(err error) {
+	if err != nil {
+		log.Printf("%s: Fatal error - %s", progname, err.Error())
+		os.Exit(1)
+	}
 }
