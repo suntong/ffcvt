@@ -113,6 +113,15 @@ func appendEpisode(list *[]Episode, file os.FileInfo, directory *string) {
 		return
 	}
 
+	fext := strings.ToUpper(fname[len(fname)-4:])
+	if strings.Index(Opts.Exts, fext) < 0 {
+		return
+	}
+
+	if Opts.NoClobber && fileExist(getOutputName(fname)) {
+		return
+	}
+
 	*list = append(*list, Episode{
 		name:      fname,
 		directory: *directory,
@@ -144,29 +153,34 @@ func transcodeFile(inputName string) {
 	debug(Opts.FFMpeg, 2)
 	debug(strings.Join(args, " "), 1)
 
-	cmd := exec.Command(Opts.FFMpeg, args...)
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	err := cmd.Run()
-	if err != nil {
-		log.Printf("%s: Exec error - %s", progname, err.Error())
-	}
-	fmt.Printf("%s\n", out.String())
-	time := time.Since(startTime)
-
-	if err != nil {
-		fmt.Println("Failed.")
+	if Opts.NoExec {
+		fmt.Printf("%s: to execute -\n  %s %s\n",
+			progname, Opts.FFMpeg, strings.Join(args, " "))
 	} else {
-		originalSize := fileSize(inputName)
-		transcodedSize := fileSize(outputName)
-		sizeDifference := originalSize - transcodedSize
+		cmd := exec.Command(Opts.FFMpeg, args...)
+		var out bytes.Buffer
+		cmd.Stdout = &out
+		err := cmd.Run()
+		if err != nil {
+			log.Printf("%s: Exec error - %s", progname, err.Error())
+		}
+		fmt.Printf("%s\n", out.String())
+		time := time.Since(startTime)
 
-		fmt.Println("Done.")
-		fmt.Printf("Org Size: %d KB\n", originalSize)
-		fmt.Printf("New Size: %d KB\n", transcodedSize)
-		fmt.Printf("Saved:    %d%% with %d KB\n",
-			sizeDifference*100/originalSize, sizeDifference)
-		fmt.Printf("Time: %v\n\n", time)
+		if err != nil {
+			fmt.Println("Failed.")
+		} else {
+			originalSize := fileSize(inputName)
+			transcodedSize := fileSize(outputName)
+			sizeDifference := originalSize - transcodedSize
+
+			fmt.Println("Done.")
+			fmt.Printf("Org Size: %d KB\n", originalSize)
+			fmt.Printf("New Size: %d KB\n", transcodedSize)
+			fmt.Printf("Saved:    %d%% with %d KB\n",
+				sizeDifference*100/originalSize, sizeDifference)
+			fmt.Printf("Time: %v\n\n", time)
+		}
 	}
 
 	return
@@ -224,9 +238,18 @@ func encodeParametersV(args []string) []string {
 	return args
 }
 
+//==========================================================================
+// Dealing with Files
+
+// Returns true if the file exist
+func fileExist(fname string) bool {
+	_, err := os.Stat(fname)
+	return err == nil
+}
+
 // Returns the file size
-func fileSize(transcodedEpisode string) int64 {
-	stat, err := os.Stat(transcodedEpisode)
+func fileSize(fname string) int64 {
+	stat, err := os.Stat(fname)
 	checkError(err)
 
 	return stat.Size() / 1024
