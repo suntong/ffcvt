@@ -61,9 +61,8 @@ func main() {
 	if Opts.Directory != "" {
 		transcodeEpisodes(scanEpisodes(scanDirectory(Opts.Directory), Opts.Directory))
 	} else if Opts.File != "" {
-		outputName := getOutputName(Opts.File)
 		fmt.Printf("\n== Transcoding: %s\n", Opts.File)
-		transcodeFile(Opts.File, outputName)
+		transcodeFile(Opts.File)
 	}
 	fmt.Printf("\nTranscoding completed in %s\n", time.Since(startTime))
 }
@@ -126,13 +125,13 @@ func appendEpisode(list *[]Episode, file os.FileInfo, directory *string) {
 // Transcode the current episode
 func (ep Episode) transcodeEpisode(index, files int) {
 	inputName := sprintf("%s/%s", ep.directory, ep.name)
-	outputName := getOutputName(inputName)
 	fmt.Printf("\n== Transcoding [%d/%d]: %s\n", index, files, ep.name)
-	transcodeFile(inputName, outputName)
+	transcodeFile(inputName)
 }
 
-func transcodeFile(inputName, outputName string) {
+func transcodeFile(inputName string) {
 	startTime := time.Now()
+	outputName := getOutputName(inputName)
 
 	args := encodeParametersV(encodeParametersA(
 		[]string{"-i", inputName}))
