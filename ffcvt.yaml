@@ -91,7 +91,7 @@ Options:
   - Name: Exts
     Type: string
     Flag: ext
-    Value: '".3GP.AVI.M2TS.MKV.MOV.MP4.MPG.VOB"'
+    Value: '".3GP.3G2.ASF.AVI.DAT.DIVX.FLV.M2TS.M4V.MKV.MOV.MPEG.MP4.MPG.RMVB.RM.TS.VOB.WEBM.WMV"'
     Usage: "extension list for all the files to be queued"
 
   - Name: Suffix

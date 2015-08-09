@@ -69,7 +69,7 @@ func init() {
 		"directory that hold input files")
 	flag.StringVar(&Opts.File, "f", "",
 		"input file name (either -d or -f must be specified)")
-	flag.StringVar(&Opts.Exts, "ext", ".3GP.AVI.M2TS.MKV.MOV.MP4.MPG.VOB",
+	flag.StringVar(&Opts.Exts, "ext", ".3GP.3G2.ASF.AVI.DAT.DIVX.FLV.M2TS.M4V.MKV.MOV.MPEG.MP4.MPG.RMVB.RM.TS.VOB.WEBM.WMV",
 		"extension list for all the files to be queued")
 	flag.StringVar(&Opts.Suffix, "suf", "",
 		"suffix to the output file names")
