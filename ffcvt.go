@@ -6,7 +6,7 @@
 
 /*
 
-Transcodes all episodes in the given directory and all of it's subdirectories
+Transcodes all videos in the given directory and all of it's subdirectories
 using ffmpeg.
 
 */
@@ -20,10 +20,10 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -31,17 +31,12 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
-// Contains information about each episode
-type Episode struct {
-	name      string
-	directory string
-}
-
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
 var (
 	sprintf = fmt.Sprintf
+	videos  []string
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -59,7 +54,8 @@ func main() {
 
 	startTime := time.Now()
 	if Opts.Directory != "" {
-		transcodeEpisodes(scanEpisodes(scanDirectory(Opts.Directory), Opts.Directory))
+		filepath.Walk(Opts.Directory, visit)
+		transcodeVideos()
 	} else if Opts.File != "" {
 		fmt.Printf("\n== Transcoding: %s\n", Opts.File)
 		transcodeFile(Opts.File)
@@ -71,44 +67,19 @@ func main() {
 // Function definitions
 
 //==========================================================================
-// Directory & Episodes handling
+// Directory & files handling
 
-// Transcodes all episodes in the episode list
-func transcodeEpisodes(episodeList *[]Episode) {
-	files := len(*episodeList)
-	for index, ep := range *episodeList {
-		ep.transcodeEpisode(index+1, files)
+func visit(path string, f os.FileInfo, err error) error {
+	if f.IsDir() {
+		return nil
 	}
+
+	appendVideo(path)
+	return nil
 }
 
-// Recurse through each subdirectory and adds each episode to the episode list
-func scanEpisodes(directoryList []os.FileInfo, directory string) *[]Episode {
-	list := []Episode{}
-	for _, file := range directoryList {
-		if file.IsDir() {
-			recurseDirectory(&directory, file.Name())
-		} else {
-			appendEpisode(&list, file, &directory)
-		}
-	}
-	return &list
-}
-
-// Returns a list of files in the current directory
-func scanDirectory(path string) []os.FileInfo {
-	directory, _ := ioutil.ReadDir(path)
-	return directory
-}
-
-// If the file is a directory, recurse through the directory.
-func recurseDirectory(directory *string, filename string) {
-	subdirectory := sprintf("%s/%s", *directory, filename)
-	scanEpisodes(scanDirectory(subdirectory), subdirectory)
-}
-
-// Append the current episode to the episode list, unless it's encoded already
-func appendEpisode(list *[]Episode, file os.FileInfo, directory *string) {
-	fname := file.Name()
+// Append the video file to the list, unless it's encoded already
+func appendVideo(fname string) {
 	if fname[len(fname)-5:] == "_.mkv" {
 		return
 	}
@@ -122,20 +93,19 @@ func appendEpisode(list *[]Episode, file os.FileInfo, directory *string) {
 		return
 	}
 
-	*list = append(*list, Episode{
-		name:      fname,
-		directory: *directory,
-	})
+	videos = append(videos, fname)
 }
 
 //==========================================================================
 // Transcode handling
 
-// Transcode the current episode
-func (ep Episode) transcodeEpisode(index, files int) {
-	inputName := sprintf("%s/%s", ep.directory, ep.name)
-	fmt.Printf("\n== Transcoding [%d/%d]: %s\n", index, files, ep.name)
-	transcodeFile(inputName)
+// Transcode videos in the global videos array
+func transcodeVideos() {
+	for i, inputName := range videos {
+		fmt.Printf("\n== Transcoding [%d/%d]: '%s'\n   under %s\n",
+			i+1, len(videos), filepath.Base(inputName), filepath.Dir(inputName))
+		transcodeFile(inputName)
+	}
 }
 
 func transcodeFile(inputName string) {
