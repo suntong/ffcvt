@@ -31,6 +31,8 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
+const encodedExt = "_.mkv"
+
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
@@ -80,7 +82,7 @@ func visit(path string, f os.FileInfo, err error) error {
 
 // Append the video file to the list, unless it's encoded already
 func appendVideo(fname string) {
-	if fname[len(fname)-5:] == "_.mkv" {
+	if fname[len(fname)-5:] == encodedExt {
 		return
 	}
 
@@ -231,8 +233,11 @@ func getOutputName(input string) string {
 	if index > 0 {
 		input = input[:index]
 	}
-	return input + Opts.Suffix + "_.mkv"
+	return input + Opts.Suffix + encodedExt
 }
+
+//==========================================================================
+// Support functions
 
 func debug(input string, threshold int) {
 	if !(Opts.Debug >= threshold) {
