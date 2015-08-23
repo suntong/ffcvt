@@ -37,8 +37,9 @@ const encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	sprintf = fmt.Sprintf
-	videos  []string
+	sprintf              = fmt.Sprintf
+	videos               []string
+	total_org, total_new int64
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -63,6 +64,10 @@ func main() {
 		transcodeFile(Opts.File)
 	}
 	fmt.Printf("\nTranscoding completed in %s\n", time.Since(startTime))
+	fmt.Printf("Org Size: %d MB\n", total_org/1024)
+	fmt.Printf("New Size: %d MB\n", total_new/1024)
+	fmt.Printf("Saved:    %d%%\n",
+		(total_org-total_new)*100/total_org)
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -137,7 +142,7 @@ func transcodeFile(inputName string) {
 			log.Printf("%s: Exec error - %s", progname, err.Error())
 		}
 		fmt.Printf("%s\n", out.String())
-		time := time.Since(startTime)
+		timeTake := time.Since(startTime)
 
 		if err != nil {
 			fmt.Println("Failed.")
@@ -146,12 +151,16 @@ func transcodeFile(inputName string) {
 			transcodedSize := fileSize(outputName)
 			sizeDifference := originalSize - transcodedSize
 
+			total_org += originalSize
+			total_new += transcodedSize
+
 			fmt.Println("Done.")
 			fmt.Printf("Org Size: %d KB\n", originalSize)
 			fmt.Printf("New Size: %d KB\n", transcodedSize)
 			fmt.Printf("Saved:    %d%% with %d KB\n",
 				sizeDifference*100/originalSize, sizeDifference)
-			fmt.Printf("Time: %v\n\n", time)
+			fmt.Printf("Time: %v at %v\n\n", timeTake,
+				time.Now().Format("2006-01-02 15:04:05"))
 		}
 	}
 
