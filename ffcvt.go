@@ -115,15 +115,18 @@ func visit(path string, f os.FileInfo, err error) error {
 // Append the video file to the list, unless it's encoded already
 func appendVideo(fname string) {
 	if fname[len(fname)-5:] == _encodedExt {
+		debug("Already-encoded file ignored: "+fname, 1)
 		return
 	}
 
 	fext := strings.ToUpper(fname[len(fname)-4:])
 	if strings.Index(Opts.Exts, fext) < 0 {
+		debug("None-video file ignored: "+fname, 2)
 		return
 	}
 
 	if Opts.NoClobber && fileExist(getOutputName(fname)) {
+		debug("Encoded file exist for: "+fname, 1)
 		return
 	}
 
@@ -144,7 +147,7 @@ func transcodeVideos(startTime time.Time) {
 		fmt.Printf("Time taken so far %s\n", time.Since(startTime))
 		fmt.Printf("Finishing the remaining %d%% in %s\n",
 			(videosTotal-videoNdx)*100/videosTotal,
-			time.Duration(int(float32(time.Since(startTime))*
+			time.Duration(int64(float32(time.Since(startTime))*
 				float32(videosTotal-videoNdx)/float32(videoNdx))))
 	}
 }
