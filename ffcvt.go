@@ -163,7 +163,7 @@ func createPar2s(workDirs []string) {
 		cmd := []string{"par2create", "-u", dirName + ".par2", "*" + encodedExt}
 		debug(strings.Join(cmd, " "), 1)
 
-		out, err := exec.Command(cmd[0], cmd[1:]...).Output()
+		out, err := exec.Command(cmd[0], cmd[1:]...).CombinedOutput()
 		if err != nil {
 			log.Printf("%s: Exec error - %s", progname, err.Error())
 		}
