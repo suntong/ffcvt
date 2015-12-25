@@ -23,6 +23,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
 	"strings"
 	"time"
@@ -31,15 +32,17 @@ import (
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
 
-const encodedExt = "_.mkv"
+const _encodedExt = "_.mkv"
 
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
 var (
-	sprintf              = fmt.Sprintf
-	videos               []string
-	total_org, total_new int64
+	sprintf           = fmt.Sprintf
+	encodedExt string = _encodedExt
+	total_org  int64  = 1
+	total_new  int64  = 1
+	videos     []string
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -55,10 +58,34 @@ func main() {
 	}
 	getDefault()
 
+	// Sanity check
+	if Opts.WDirectory != "" {
+		// To error on the safe side -- when -d is not given but -f is,
+		// path.Clean(Opts.Directory) will return ".", thus forcing
+		// the work directory cannot be the same as pwd
+		// because the encodedExt might be conflicting with the source file
+		encodedExt = encodedExt[1:] // now ".mkv"
+		Opts.Directory = path.Clean(Opts.Directory)
+		Opts.WDirectory = path.Clean(Opts.WDirectory)
+		absd, _ := filepath.Abs(Opts.Directory)
+		absw, _ := filepath.Abs(Opts.WDirectory)
+		if absd == absw {
+			log.Fatalf("[%s] Error: work directory (%s) cannot be the same\n\t\tas the source directory (%s).", progname, absw, absd)
+		}
+
+		// The basename of the source directory will be created under the work
+		//directory, which will become the new work directory
+		Opts.WDirectory += string(os.PathSeparator) + filepath.Base(absd)
+		os.Mkdir(Opts.WDirectory, os.ModePerm)
+		//debug(Opts.WDirectory, 2)
+	} else {
+		Opts.Par2C = false
+	}
+
 	startTime := time.Now()
 	if Opts.Directory != "" {
 		filepath.Walk(Opts.Directory, visit)
-		transcodeVideos()
+		transcodeVideos(startTime)
 	} else if Opts.File != "" {
 		fmt.Printf("\n== Transcoding: %s\n", Opts.File)
 		transcodeFile(Opts.File)
@@ -81,13 +108,13 @@ func visit(path string, f os.FileInfo, err error) error {
 		return nil
 	}
 
-	appendVideo(path)
+	appendVideo(Opts.Directory + string(os.PathSeparator) + path)
 	return nil
 }
 
 // Append the video file to the list, unless it's encoded already
 func appendVideo(fname string) {
-	if fname[len(fname)-5:] == encodedExt {
+	if fname[len(fname)-5:] == _encodedExt {
 		return
 	}
 
@@ -107,11 +134,18 @@ func appendVideo(fname string) {
 // Transcode handling
 
 // Transcode videos in the global videos array
-func transcodeVideos() {
+func transcodeVideos(startTime time.Time) {
+	videosTotal := len(videos)
 	for i, inputName := range videos {
+		videoNdx := i + 1
 		fmt.Printf("\n== Transcoding [%d/%d]: '%s'\n   under %s\n",
-			i+1, len(videos), filepath.Base(inputName), filepath.Dir(inputName))
+			videoNdx, videosTotal, filepath.Base(inputName), filepath.Dir(inputName))
 		transcodeFile(inputName)
+		fmt.Printf("Time taken so far %s\n", time.Since(startTime))
+		fmt.Printf("Finishing the remaining %d%% in %s\n",
+			(videosTotal-videoNdx)*100/videosTotal,
+			time.Duration(int(float32(time.Since(startTime))*
+				float32(videosTotal-videoNdx)/float32(videoNdx))))
 	}
 }
 
@@ -236,13 +270,18 @@ func fileSize(fname string) int64 {
 	return stat.Size() / 1024
 }
 
-// Replaces the file extension from the input string with _.mkv, and optionally Opts.Suffix
+// Replaces the file extension from the input string with _.mkv, and optionally
+// Opts.Suffix as well. If "-w" is defined, use it for output name.
 func getOutputName(input string) string {
 	index := strings.LastIndex(input, ".")
 	if index > 0 {
 		input = input[:index]
 	}
-	return input + Opts.Suffix + encodedExt
+	r := input + Opts.Suffix + encodedExt
+	if Opts.WDirectory != "" {
+		r = strings.Replace(r, Opts.Directory, Opts.WDirectory, 1)
+	}
+	return r
 }
 
 //==========================================================================

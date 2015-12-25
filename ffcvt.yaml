@@ -1,6 +1,6 @@
 # easygen data driven file for ffcvt commandline handling
 #
-# easygen -tf $GOPATH/src/github.com/suntong001/easygen/Test/commandlineFlag ffcvt | sed '/\tAES\t\tstring/{ N; N; N; N; N; s|^.*$|\tEncoding\t// anonymous field to hold encoding values|; }' | gofmt > config.go
+# easygen -tf $GOPATH/src/github.com/suntong/easygen/test/commandlineFlag ffcvt | sed '/\tAES\t\tstring/{ N; N; N; N; N; s|^.*$|\tEncoding\t// anonymous field to hold encoding values|; }' | gofmt > config.go
 #
 # Ref:
 # ... | sed -n '/ The Options struct /{N; N; N; N; N; N; N; p; q; }' | tee -a structEnc.go
@@ -88,6 +88,12 @@ Options:
     Value: '""'
     Usage: "input file name (either -d or -f must be specified)"
     
+#  - Name: File
+#    Type: string
+#    Flag: fs
+#    Value: '""'
+#    Usage: "file supplements, more files to encode (in form of: -i f2 -i f3...)"
+
   - Name: Exts
     Type: string
     Flag: ext
@@ -99,6 +105,12 @@ Options:
     Flag: suf
     Value: '""'
     Usage: "suffix to the output file names"
+
+  - Name: WDirectory
+    Type: string
+    Flag: w
+    Value: '""'
+    Usage: "work directory that hold output files"
 
   - Name: SEPARATOR
 
@@ -151,6 +163,12 @@ Options:
     Usage: "video video encode to x265, using -crf"
 
   - Name: SEPARATOR
+
+  - Name: Par2C
+    Type: bool
+    Flag: "p"
+    Value: false
+    Usage: "par2create, create par2 files (in work directory)"
 
   - Name: NoClobber
     Type: bool
