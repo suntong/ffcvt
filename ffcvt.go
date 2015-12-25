@@ -40,9 +40,10 @@ const _encodedExt = "_.mkv"
 var (
 	sprintf           = fmt.Sprintf
 	encodedExt string = _encodedExt
-	total_org  int64  = 1
-	total_new  int64  = 1
+	totalOrg   int64  = 1
+	totalNew   int64  = 1
 	videos     []string
+	workDirs   []string
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -83,6 +84,7 @@ func main() {
 	}
 
 	startTime := time.Now()
+	// transcoding
 	if Opts.Directory != "" {
 		filepath.Walk(Opts.Directory, visit)
 		transcodeVideos(startTime)
@@ -90,11 +92,17 @@ func main() {
 		fmt.Printf("\n== Transcoding: %s\n", Opts.File)
 		transcodeFile(Opts.File)
 	}
+	// par2 creating
+	if Opts.Par2C {
+		filepath.Walk(Opts.WDirectory, visitWDir)
+		createPar2s(workDirs)
+	}
+	// reporting
 	fmt.Printf("\nTranscoding completed in %s\n", time.Since(startTime))
-	fmt.Printf("Org Size: %d MB\n", total_org/1024)
-	fmt.Printf("New Size: %d MB\n", total_new/1024)
+	fmt.Printf("Org Size: %d MB\n", totalOrg/1024)
+	fmt.Printf("New Size: %d MB\n", totalNew/1024)
 	fmt.Printf("Saved:    %d%%\n",
-		(total_org-total_new)*100/total_org)
+		(totalOrg-totalNew)*100/totalOrg)
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -133,6 +141,36 @@ func appendVideo(fname string) {
 	videos = append(videos, fname)
 }
 
+func visitWDir(path string, f os.FileInfo, err error) error {
+	if !f.IsDir() {
+		return nil
+	}
+
+	workDirs = append(workDirs, path)
+	return nil
+}
+
+func createPar2s(workDirs []string) {
+	fmt.Printf("\n== Creating par2 files\n\n")
+	for ii, dir := range workDirs {
+		if ii == 0 {
+			// skip the root folder and deal with sub folders only
+			continue
+		}
+		os.Chdir(dir)
+		dirName := filepath.Base(dir)
+
+		cmd := []string{"par2create", "-u", dirName + ".par2", "*" + encodedExt}
+		debug(strings.Join(cmd, " "), 1)
+
+		out, err := exec.Command(cmd[0], cmd[1:]...).Output()
+		if err != nil {
+			log.Printf("%s: Exec error - %s", progname, err.Error())
+		}
+		fmt.Printf("%s\n", out)
+	}
+}
+
 //==========================================================================
 // Transcode handling
 
@@ -155,6 +193,7 @@ func transcodeVideos(startTime time.Time) {
 func transcodeFile(inputName string) {
 	startTime := time.Now()
 	outputName := getOutputName(inputName)
+	os.Mkdir(filepath.Dir(outputName), os.ModePerm)
 
 	args := encodeParametersV(encodeParametersA(
 		[]string{"-i", inputName}))
@@ -188,8 +227,8 @@ func transcodeFile(inputName string) {
 			transcodedSize := fileSize(outputName)
 			sizeDifference := originalSize - transcodedSize
 
-			total_org += originalSize
-			total_new += transcodedSize
+			totalOrg += originalSize
+			totalNew += transcodedSize
 
 			fmt.Println("Done.")
 			fmt.Printf("Org Size: %d KB\n", originalSize)
