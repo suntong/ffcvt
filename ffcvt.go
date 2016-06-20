@@ -69,14 +69,15 @@ func main() {
 		Opts.Directory = path.Clean(Opts.Directory)
 		Opts.WDirectory = path.Clean(Opts.WDirectory)
 		absd, _ := filepath.Abs(Opts.Directory)
-		absw, _ := filepath.Abs(Opts.WDirectory)
-		if absd == absw {
-			log.Fatalf("[%s] Error: work directory (%s) cannot be the same\n\t\tas the source directory (%s).", progname, absw, absd)
-		}
 
 		// The basename of the source directory will be created under the work
 		//directory, which will become the new work directory
 		Opts.WDirectory += string(os.PathSeparator) + filepath.Base(absd)
+		absw, _ := filepath.Abs(Opts.WDirectory)
+		if absd == absw {
+			log.Fatalf("[%s] Error: work directory\n\t\t  (%s)\n\t\t is the same as the source directory\n\t\t  (%s).", progname, absw, absd)
+		}
+
 		os.Mkdir(Opts.WDirectory, os.ModePerm)
 		//debug(Opts.WDirectory, 2)
 	} else {
