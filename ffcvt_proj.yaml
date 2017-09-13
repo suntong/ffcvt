@@ -1,0 +1,8 @@
+Wireframe:
+  Proj: ffcvt
+  Desc: ffmpeg convert wrapper tool
+  Lang: Go
+  Vendor: suntong
+  Author: Tong Sun <suntong@cpan.org>
+  License: MIT
+  

@@ -1,0 +1,42 @@
+# -*- yaml -*-
+
+language: go
+
+env:
+  global:
+    # http://pkg-go.alioth.debian.org/packaging.html
+    - VERSION="${TRAVIS_TAG:=0.0_git$(date +%Y%m%d)-1}"
+    - PKG_URL="https://github.com/suntong/ffcvt"
+    - PKG_CAT=utils
+    - PKG_ARCH=amd64
+    - PKG_DESC="ffmpeg convert wrapper tool"
+    - PKG_VEND="suntong"
+    - PKG_MAINT="Tong Sun <suntong@cpan.org>"
+    - PKG_LICNS="MIT"
+
+script:
+  - go get -t -v ./...
+  - go get github.com/mitchellh/gox
+  - gox -osarch="linux/386 linux/amd64 darwin/amd64 windows/amd64" -output="out/{{.Dir}}-{{.OS}}-{{.Arch}}"
+# linux/386 linux/amd64 linux/arm darwin/amd64 darwin/386 windows/amd64 windows/386
+
+before_deploy:
+  - gem install fpm --no-document
+  - make pkg
+  - sed -i -e "s/\$VERSION/$VERSION/" bintray-pkg.json
+  - sed -i -e "s/\$DATE/$(date +%Y-%m-%d)/" bintray-pkg.json
+
+deploy:
+  - provider: bintray
+    user: suntong
+    key: ${BINTRAY_API_KEY}
+    file: bintray-bin.json
+    skip_cleanup: true
+
+  - provider: bintray
+    user: suntong
+    key: $BINTRAY_API_KEY
+    file: bintray-pkg.json
+    skip_cleanup: true
+    on:
+#      tags: true

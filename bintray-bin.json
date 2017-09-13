@@ -1,0 +1,27 @@
+{
+    "package": {
+        "name": "ffcvt",
+        "repo": "bin",
+        "subject": "suntong",
+        "desc": "ffmpeg convert wrapper tool",
+        "website_url": "https://github.com/suntong/ffcvt",
+        "issue_tracker_url": "https://github.com/suntong/ffcvt/issues",
+        "vcs_url": "https://github.com/suntong/ffcvt.git",
+        "licenses": ["MIT"],
+        "public_download_numbers": false
+    },
+
+    "version": {
+        "name": "latest",
+        "gpgSign": false
+    },
+
+    "files": [{
+	"includePattern": "out/(.*)", "uploadPattern": "ffcvt/$1",
+        "matrixParams": {
+            "override": 1
+        }
+    }],
+
+    "publish": true
+}
