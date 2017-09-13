@@ -5,7 +5,7 @@ language: go
 env:
   global:
     # http://pkg-go.alioth.debian.org/packaging.html
-    - VERSION="${TRAVIS_TAG:=0.0_git$(date +%Y%m%d)-1}"
+    - VERSION="${TRAVIS_TAG:=0.0~git$(date +%Y%m%d)-1}"
     - PKG_URL="https://github.com/suntong/ffcvt"
     - PKG_CAT=utils
     - PKG_ARCH=amd64
