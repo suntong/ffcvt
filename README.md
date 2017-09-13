@@ -1,14 +1,28 @@
 
-# {{.Name}}
+# ffcvt
 
-{{render "license/shields" . "License" "MIT"}}
-{{template "badge/godoc" .}}
-{{template "badge/goreport" .}}
-{{template "badge/travis" .}}
+[![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GoDoc](https://godoc.org/github.com/suntong/ffcvt?status.svg)](http://godoc.org/github.com/suntong/ffcvt)
+[![Go Report Card](https://goreportcard.com/badge/github.com/suntong/ffcvt)](https://goreportcard.com/report/github.com/suntong/ffcvt)
+[![travis Status](https://travis-ci.org/suntong/ffcvt.svg?branch=master)](https://travis-ci.org/suntong/ffcvt)
 
-## {{toc 5}}
+## TOC
+- [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
+- [Introduction](#introduction)
+- [Quick Usage](#quick-usage)
+- [Preset Method Comparison](#preset-method-comparison)
+- [The CRF Comparison](#the-crf-comparison)
+- [Environment Variables](#environment-variables)
+- [Download/Install](#downloadinstall)
+  - [Download binaries](#download-binaries)
+  - [Debian package](#debian-package)
+  - [Install Source](#install-source)
+- [Example: YouTube Encoding](#example:-youtube-encoding)
+- [Example 2: Talk Encoding](#example-2:-talk-encoding)
+- [Tools Choices](#tools-choices)
+- [Author(s)](#author(s))
 
-## {{.Name}} - ffmpeg convert wrapper tool
+## ffcvt - ffmpeg convert wrapper tool
 
 ## Introduction
 
@@ -163,11 +177,11 @@ For each `ffcvt` command line parameter, there is a environment variable corresp
 ### Download binaries
 
 - The latest binary executables are available under  
-https://bintray.com/suntong/bin/{{.Name}}/latest  
+https://bintray.com/suntong/bin/ffcvt/latest  
 as the result of the Continuous-Integration process.
 - I.e., they are built right from the source code during _every_ git commit _automatically_ by [travis-ci](https://travis-ci.org/).
-- Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `{{.Name}}-linux-amd64` file. If your OS and its architecture is not available in the download list, please let me know and I'll add it.
-- You may want to rename it to a shorter name instead, e.g., `{{.Name}}`, after downloading it.
+- Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `ffcvt-linux-amd64` file. If your OS and its architecture is not available in the download list, please let me know and I'll add it.
+- You may want to rename it to a shorter name instead, e.g., `ffcvt`, after downloading it.
 
 
 ### Debian package
@@ -180,9 +194,9 @@ echo "deb [trusted=yes] https://dl.bintray.com/suntong/deb all main" | sudo tee 
 sudo apt-get update
 
 sudo chmod 644 /etc/apt/sources.list.d/suntong-debs.list
-apt-cache policy {{.Name}}
+apt-cache policy ffcvt
 
-sudo apt-get install -y {{.Name}}
+sudo apt-get install -y ffcvt
 ```
 
 ### Install Source
