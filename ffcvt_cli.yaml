@@ -1,8 +1,8 @@
 # easygen data driven file for ffcvt commandline handling
 #
-# easygen -tf $GOPATH/src/github.com/suntong/easygen/test/commandlineFlag ffcvt | sed '/\tAES\t\tstring/{ N; N; N; N; N; s|^.*$|\tEncoding\t// anonymous field to hold encoding values|; }' | gofmt > config.go
+# easygen -tf $GOPATH/src/github.com/suntong/easygen/test/commandlineFlag ffcvt_cli | sed '/\tAES\t\tstring/{ N; N; N; N; N; s|^.*$|\tEncoding\t// anonymous field to hold encoding values|; }' | gofmt > config.go
 #
-# Ref:
+# Ref, old code log:
 # ... | sed -n '/ The Options struct /{N; N; N; N; N; N; N; p; q; }' | tee -a structEnc.go
 
 # program name, name for the executable
@@ -88,6 +88,12 @@ Options:
     Value: '""'
     Usage: "input file name (either -d or -f must be specified)"
     
+  - Name: Links
+    Type: bool
+    Flag: sym
+    Value: false
+    Usage: symlinks will be processed as well
+
 #  - Name: File
 #    Type: string
 #    Flag: fs

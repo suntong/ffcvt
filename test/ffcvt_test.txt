@@ -1,0 +1,27 @@
+] Skip symlink file: ./test2.avi
+
+== Transcoding [1/1]: 'test1.avi'
+   under .
+] -i ./test1.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test1_.mkv
+ffcvt: to execute -
+  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test1_.mkv
+
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding [1/2]: 'test1.avi'
+   under .
+] -i ./test1.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test1_.mkv
+ffcvt: to execute -
+  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test1_.mkv
+
+== Transcoding [2/2]: 'test2.avi'
+   under .
+] -i ./test2.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test2_.mkv
+ffcvt: to execute -
+  ffmpeg -i ./test2.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test2_.mkv
+
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%

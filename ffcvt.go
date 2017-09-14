@@ -134,6 +134,11 @@ func appendVideo(fname string) {
 		return
 	}
 
+	if !Opts.Links && isSymlink(fname) {
+		debug("Skip symlink file: "+fname, 1)
+		return
+	}
+
 	if Opts.NoClobber && fileExist(getOutputName(fname)) {
 		debug("Encoded file exist for: "+fname, 1)
 		return
@@ -298,6 +303,13 @@ func encodeParametersV(args []string) []string {
 
 //==========================================================================
 // Dealing with Files
+
+// Returns true if the file is symbolic link
+func isSymlink(fname string) bool {
+	fi, err := os.Lstat(fname)
+	checkError(err)
+	return fi.Mode()&os.ModeSymlink != 0
+}
 
 // Returns true if the file exist
 func fileExist(fname string) bool {
