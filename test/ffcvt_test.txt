@@ -25,3 +25,30 @@ ffcvt: to execute -
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
+] Skip symlink file: ./test2.avi
+
+== Transcoding [1/1]: 'test1.avi'
+   under .
+] -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
+ffcvt: to execute -
+  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
+
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding [1/2]: 'test1.avi'
+   under .
+] -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
+ffcvt: to execute -
+  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
+
+== Transcoding [2/2]: 'test2.avi'
+   under .
+] -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test2_.webm
+ffcvt: to execute -
+  ffmpeg -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test2_.webm
+
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
