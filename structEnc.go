@@ -69,7 +69,10 @@ func getDefault() {
 	abr, crf := Opts.ABR, Opts.CRF
 
 	if encDefault, ok := Defaults[Opts.Target]; ok {
+		// debug(encDefault.Ext, 2)
 		Opts.Encoding = encDefault
+		// debug(Opts.Encoding.Ext, 2)
+		// debug(Opts.Ext, 2)
 	} else {
 		log.Fatal(progname + " Error: Wrong target option passed to -t.")
 	}

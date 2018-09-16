@@ -59,7 +59,6 @@ func main() {
 	}
 	getDefault()
 
-	debug(Opts.Ext, 2)
 	encodedExt = Opts.Ext
 	// Sanity check
 	if Opts.WDirectory != "" {

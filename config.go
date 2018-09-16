@@ -24,7 +24,6 @@ type Options struct {
 	Links      bool   // symlinks will be processed as well
 	Exts       string // extension list for all the files to be queued
 	Suffix     string // suffix to the output file names
-	Ext        string // extension for the output file
 	WDirectory string // work directory that hold output files
 	AC         bool   // copy audio codec
 	VC         bool   // copy video codec

@@ -1,6 +1,6 @@
 # easygen data driven file for ffcvt commandline handling
 #
-# easygen -tf $GOPATH/src/github.com/go-easygen/easygen/test/commandlineFlag ffcvt_cli | sed '/\tAES\t\tstring/{ N; N; N; N; N; s|^.*$|\tEncoding\t// anonymous field to hold encoding values|; }' | gofmt > config.go
+# easygen -tf $GOPATH/src/github.com/go-easygen/easygen/test/commandlineFlag ffcvt_cli | sed '/\tAES\t\tstring/{ N; N; N; N; N; s|^.*$|\tEncoding\t// anonymous field to hold encoding values|; }; /\tExt\t\tstring/d; ' | gofmt > config.go
 #
 # Ref, old code log:
 # ... | sed -n '/ The Options struct /{N; N; N; N; N; N; N; p; q; }' | tee -a structEnc.go
