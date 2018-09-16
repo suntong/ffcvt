@@ -17,13 +17,14 @@ const progname = "ffcvt" // os.Args[0]
 
 // The Options struct defines the structure to hold the commandline values
 type Options struct {
+	Target     string // target type: webm/x265-opus/x264-mp3/youtube
 	Encoding          // anonymous field to hold encoding values
-	Target     string // target type: x265-opus/x264-mp3/youtube
 	Directory  string // directory that hold input files
 	File       string // input file name (either -d or -f must be specified)
 	Links      bool   // symlinks will be processed as well
 	Exts       string // extension list for all the files to be queued
 	Suffix     string // suffix to the output file names
+	Ext        string // extension for the output file
 	WDirectory string // work directory that hold output files
 	AC         bool   // copy audio codec
 	VC         bool   // copy video codec
@@ -53,6 +54,8 @@ var Opts Options
 func init() {
 
 	// set default values for command line parameters
+	flag.StringVar(&Opts.Target, "t", "webm",
+		"target type: webm/x265-opus/x264-mp3/youtube")
 	flag.StringVar(&Opts.AES, "aes", "",
 		"audio encoding method set")
 	flag.StringVar(&Opts.VES, "ves", "",
@@ -66,18 +69,18 @@ func init() {
 	flag.StringVar(&Opts.CRF, "crf", "",
 		"the CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264)")
 
-	flag.StringVar(&Opts.Target, "t", "x265-opus",
-		"target type: x265-opus/x264-mp3/youtube")
 	flag.StringVar(&Opts.Directory, "d", "",
 		"directory that hold input files")
 	flag.StringVar(&Opts.File, "f", "",
 		"input file name (either -d or -f must be specified)")
 	flag.BoolVar(&Opts.Links, "sym", false,
 		"symlinks will be processed as well")
-	flag.StringVar(&Opts.Exts, "ext", ".3GP.3G2.ASF.AVI.DAT.DIVX.FLV.M2TS.M4V.MKV.MOV.MPEG.MP4.MPG.RMVB.RM.TS.VOB.WEBM.WMV",
+	flag.StringVar(&Opts.Exts, "exts", ".3GP.3G2.ASF.AVI.DAT.DIVX.FLV.M2TS.M4V.MKV.MOV.MPEG.MP4.MPG.RMVB.RM.TS.VOB.WEBM.WMV",
 		"extension list for all the files to be queued")
 	flag.StringVar(&Opts.Suffix, "suf", "",
 		"suffix to the output file names")
+	flag.StringVar(&Opts.Ext, "ext", "",
+		"extension for the output file")
 	flag.StringVar(&Opts.WDirectory, "w", "",
 		"work directory that hold output files")
 
@@ -107,12 +110,16 @@ func init() {
 
 	flag.BoolVar(&Opts.Force, "force", false,
 		"overwrite any existing none-empty file")
-	flag.IntVar(&Opts.Debug, "debug", 0,
+	flag.IntVar(&Opts.Debug, "debug", 1,
 		"debugging level")
 	flag.StringVar(&Opts.FFMpeg, "ffmpeg", "ffmpeg",
 		"ffmpeg program executable name")
 
 	// Now override those default values from environment variables
+	if len(Opts.Target) == 0 ||
+		len(os.Getenv("FFCVT_T")) != 0 {
+		Opts.Target = os.Getenv("FFCVT_T")
+	}
 	if len(Opts.AES) == 0 ||
 		len(os.Getenv("FFCVT_AES")) != 0 {
 		Opts.AES = os.Getenv("FFCVT_AES")
@@ -138,10 +145,6 @@ func init() {
 		Opts.CRF = os.Getenv("FFCVT_CRF")
 	}
 
-	if len(Opts.Target) == 0 ||
-		len(os.Getenv("FFCVT_T")) != 0 {
-		Opts.Target = os.Getenv("FFCVT_T")
-	}
 	if len(Opts.Directory) == 0 ||
 		len(os.Getenv("FFCVT_D")) != 0 {
 		Opts.Directory = os.Getenv("FFCVT_D")
@@ -151,12 +154,16 @@ func init() {
 		Opts.File = os.Getenv("FFCVT_F")
 	}
 	if len(Opts.Exts) == 0 ||
-		len(os.Getenv("FFCVT_EXT")) != 0 {
-		Opts.Exts = os.Getenv("FFCVT_EXT")
+		len(os.Getenv("FFCVT_EXTS")) != 0 {
+		Opts.Exts = os.Getenv("FFCVT_EXTS")
 	}
 	if len(Opts.Suffix) == 0 ||
 		len(os.Getenv("FFCVT_SUF")) != 0 {
 		Opts.Suffix = os.Getenv("FFCVT_SUF")
+	}
+	if len(Opts.Ext) == 0 ||
+		len(os.Getenv("FFCVT_EXT")) != 0 {
+		Opts.Ext = os.Getenv("FFCVT_EXT")
 	}
 	if len(Opts.WDirectory) == 0 ||
 		len(os.Getenv("FFCVT_W")) != 0 {
@@ -175,7 +182,7 @@ func init() {
 
 }
 
-const USAGE_SUMMARY = "  -aes\taudio encoding method set (FFCVT_AES)\n  -ves\tvideo encoding method set (FFCVT_VES)\n  -aea\taudio encoding method append (FFCVT_AEA)\n  -vea\tvideo encoding method append (FFCVT_VEA)\n  -abr\taudio bitrate (64k for opus, 256k for mp3) (FFCVT_ABR)\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264) (FFCVT_CRF)\n\n  -t\ttarget type: x265-opus/x264-mp3/youtube (FFCVT_T)\n  -d\tdirectory that hold input files (FFCVT_D)\n  -f\tinput file name (either -d or -f must be specified) (FFCVT_F)\n  -sym\tsymlinks will be processed as well (FFCVT_SYM)\n  -ext\textension list for all the files to be queued (FFCVT_EXT)\n  -suf\tsuffix to the output file names (FFCVT_SUF)\n  -w\twork directory that hold output files (FFCVT_W)\n\n  -ac\tcopy audio codec (FFCVT_AC)\n  -vc\tcopy video codec (FFCVT_VC)\n  -an\tno audio, output video only (FFCVT_AN)\n  -vn\tno video, output audio only (FFCVT_VN)\n  -vss\tvideo: same size (FFCVT_VSS)\n  -o\tmore options that will pass to ffmpeg program (FFCVT_O)\n  -ato-opus\taudio encode to opus, using -abr (FFCVT_ATO_OPUS)\n  -vto-x265\tvideo video encode to x265, using -crf (FFCVT_VTO_X265)\n\n  -p\tpar2create, create par2 files (in work directory) (FFCVT_P)\n  -nc\tno clobber, do not queue those already been converted (FFCVT_NC)\n  -n\tno exec, dry run (FFCVT_N)\n\n  -force\toverwrite any existing none-empty file (FFCVT_FORCE)\n  -debug\tdebugging level (FFCVT_DEBUG)\n  -ffmpeg\tffmpeg program executable name (FFCVT_FFMPEG)\n\nDetails:\n\n"
+const USAGE_SUMMARY = "  -t\ttarget type: webm/x265-opus/x264-mp3/youtube (FFCVT_T)\n  -aes\taudio encoding method set (FFCVT_AES)\n  -ves\tvideo encoding method set (FFCVT_VES)\n  -aea\taudio encoding method append (FFCVT_AEA)\n  -vea\tvideo encoding method append (FFCVT_VEA)\n  -abr\taudio bitrate (64k for opus, 256k for mp3) (FFCVT_ABR)\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264) (FFCVT_CRF)\n\n  -d\tdirectory that hold input files (FFCVT_D)\n  -f\tinput file name (either -d or -f must be specified) (FFCVT_F)\n  -sym\tsymlinks will be processed as well (FFCVT_SYM)\n  -exts\textension list for all the files to be queued (FFCVT_EXTS)\n  -suf\tsuffix to the output file names (FFCVT_SUF)\n  -ext\textension for the output file (FFCVT_EXT)\n  -w\twork directory that hold output files (FFCVT_W)\n\n  -ac\tcopy audio codec (FFCVT_AC)\n  -vc\tcopy video codec (FFCVT_VC)\n  -an\tno audio, output video only (FFCVT_AN)\n  -vn\tno video, output audio only (FFCVT_VN)\n  -vss\tvideo: same size (FFCVT_VSS)\n  -o\tmore options that will pass to ffmpeg program (FFCVT_O)\n  -ato-opus\taudio encode to opus, using -abr (FFCVT_ATO_OPUS)\n  -vto-x265\tvideo video encode to x265, using -crf (FFCVT_VTO_X265)\n\n  -p\tpar2create, create par2 files (in work directory) (FFCVT_P)\n  -nc\tno clobber, do not queue those already been converted (FFCVT_NC)\n  -n\tno exec, dry run (FFCVT_N)\n\n  -force\toverwrite any existing none-empty file (FFCVT_FORCE)\n  -debug\tdebugging level (FFCVT_DEBUG)\n  -ffmpeg\tffmpeg program executable name (FFCVT_FFMPEG)\n\nDetails:\n\n"
 
 // Usage function shows help on commandline usage
 func Usage() {
@@ -185,6 +192,6 @@ func Usage() {
 	fmt.Fprintf(os.Stderr, USAGE_SUMMARY)
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr,
-		"\nThe `ffcvt -f testf.mp4 -debug 1 -force` will invoke\n\n  ffmpeg -i testf.mp4 -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 -y testf_.mkv\n\nTo use `preset`, do the following or set it in env var FFCVT_O\n\n  cm=medium\n  ffcvt -f testf.mp4 -debug 1 -force -suf $cm -- -preset $cm\n\nWhich will invoke\n\n  ffmpeg -i testf.mp4 -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 -y -preset medium testf_medium_.mkv\n\nHere are the final sizes and the conversion time (in seconds):\n\n  2916841  testf.mp4\n  1807513  testf_.mkv\n  1743701  testf_veryfast_.mkv   41\n  2111667  testf_faster_.mkv     44\n  1793216  testf_fast_.mkv       85\n  1807513  testf_medium_.mkv    120\n  1628502  testf_slow_.mkv      366\n  1521889  testf_slower_.mkv    964\n  1531154  testf_veryslow_.mkv 1413\n\nI.e., if `preset` is not used, the default is `medium`.\n\nHere is another set of results, sizes and the conversion time (in minutes):\n\n 171019470  testf.avi\n  55114663  testf_veryfast_.mkv  39.2\n  57287586  testf_faster_.mkv    51.07\n  52950504  testf_fast_.mkv     147.11\n  55641838  testf_medium_.mkv   174.25\n\nSame source file, using the fixed `-preset fast`, altering the crf:\n\n  52950504  testf_28_.mkv       147.11\n  43480573  testf_30_.mkv       146.5\n  36609186  testf_32_.mkv       144.5\n  31427912  testf_34_.mkv       143.9\n  27397348  testf_36_.mkv       139.33\n\nSo it confirms that `-preset` determines the conversion time,\nwhile `crf` controls the final file size, not conversion time.\n")
+		"\nTo reduce output, use `-debug 0`, e.g., `ffcvt -force -debug 0 -f testf.mp4 ...`\n")
 	os.Exit(0)
 }

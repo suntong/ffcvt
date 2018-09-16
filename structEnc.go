@@ -13,6 +13,7 @@ type Encoding struct {
 	VEA string // video encoding method append
 	ABR string // audio bitrate
 	CRF string // the CRF value: 0-51. Higher CRF gives lower quality
+	Ext string // extension for the output file
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -26,11 +27,19 @@ var Defaults map[string]Encoding
 func init() {
 
 	Defaults = map[string]Encoding{
+		"webm": {
+			AES: "libopus",
+			VES: "libvpx-vp9",
+			ABR: "64k",
+			CRF: "37",
+			Ext: "_.webm",
+		},
 		"x265-opus": {
 			AES: "libopus",
 			VES: "libx265",
 			ABR: "64k",
 			CRF: "28",
+			Ext: _encodedExt,
 		},
 		"x264-mp3": {
 			AES: "libmp3lame",
@@ -38,6 +47,7 @@ func init() {
 			VES: "libx264",
 			ABR: "256k",
 			CRF: "23",
+			Ext: _encodedExt,
 		},
 		"youtube": {
 			// https://trac.ffmpeg.org/wiki/Encode/YouTube
@@ -48,6 +58,7 @@ func init() {
 			VEA: "-pix_fmt yuv420p",
 			ABR: "",
 			CRF: "20",
+			Ext: "_.avi",
 		},
 	}
 

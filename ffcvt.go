@@ -59,6 +59,8 @@ func main() {
 	}
 	getDefault()
 
+	debug(Opts.Ext, 2)
+	encodedExt = Opts.Ext
 	// Sanity check
 	if Opts.WDirectory != "" {
 		// To error on the safe side -- when -d is not given but -f is,
@@ -123,7 +125,7 @@ func visit(path string, f os.FileInfo, err error) error {
 
 // Append the video file to the list, unless it's encoded already
 func appendVideo(fname string) {
-	if fname[len(fname)-5:] == _encodedExt {
+	if fname[len(fname)-5:] == encodedExt {
 		debug("Already-encoded file ignored: "+fname, 1)
 		return
 	}
@@ -291,6 +293,10 @@ func encodeParametersV(args []string) []string {
 		args = append(args, "-c:v", Opts.VES)
 	}
 	if Opts.CRF != "" {
+		if Opts.VES == "libvpx-vp9" {
+			// -b:v 0 -crf 37
+			args = append(args, "-b:v", "0", "-crf", Opts.CRF)
+		}
 		if Opts.VES[:6] == "libx26" {
 			args = append(args, "-"+Opts.VES[3:]+"-params", "crf="+Opts.CRF)
 		}
