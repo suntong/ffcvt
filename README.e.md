@@ -37,7 +37,7 @@ The detailed guide to choose/provide proper parameters to `ffcvt` have been move
 - [HEVC vs VP9](https://github.com/suntong/ffcvt/wiki/WebM-(VP9)-Encoding#hevc-vs-vp9)
 - [Preset Method Comparison](https://github.com/suntong/ffcvt/wiki/HEVC-(x265)-Encoding#preset-method-comparison)
 - [The CRF Comparison](https://github.com/suntong/ffcvt/wiki/HEVC-(x265)-Encoding#the-crf-comparison)
-- [Example: YouTube Encoding](https://github.com/suntong/ffcvt/wiki/Example:-YouTube-Encoding)
+- [Example 1: YouTube Encoding](https://github.com/suntong/ffcvt/wiki/Example-1:-YouTube-Encoding)
 - [Example 2: Talk Encoding](https://github.com/suntong/ffcvt/wiki/Example-2:-Talk-Encoding)
 
 Please check them out in the [wiki](https://github.com/suntong/ffcvt/wiki/).
