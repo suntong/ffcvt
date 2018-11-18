@@ -214,6 +214,13 @@ Options:
     Value: '"ffmpeg"'
     Usage: "ffmpeg program executable name"
 
+  - Name: PrintV
+    Type: bool
+    Flag: "version"
+    Value: false
+    Usage: "print version then exit"
+
+
 # Use the USAGE_SUMMARY in Usage help
 UsageSummary: "TRUE"
 

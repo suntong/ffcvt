@@ -1,0 +1,1 @@
+easygen -tf $GOPATH/src/github.com/go-easygen/easygen/test/commandlineFlag ffcvt_cli | sed '/\tAES\t\tstring/{ N; N; N; N; N; s|^.*$|\tEncoding\t// anonymous field to hold encoding values|; }; /\tExt\t\tstring/d; ' | gofmt > config.go

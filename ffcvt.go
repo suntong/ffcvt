@@ -11,6 +11,8 @@ using ffmpeg.
 
 */
 
+//go:generate sh -v ffcvt_cli.sh
+
 ////////////////////////////////////////////////////////////////////////////
 // Program start
 
@@ -38,6 +40,9 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
+	version = "1.3.1"
+	date    = "2018-11-18"
+
 	sprintf           = fmt.Sprintf
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1
@@ -52,6 +57,11 @@ var (
 func main() {
 	flag.Usage = Usage
 	flag.Parse()
+
+	if Opts.PrintV {
+		fmt.Fprintf(os.Stderr, "%s\nVersion %s built on %s\n", progname, version, date)
+		os.Exit(0)
+	}
 
 	// One mandatory arguments, either -d or -f
 	if len(Opts.Directory)+len(Opts.File) < 1 {
