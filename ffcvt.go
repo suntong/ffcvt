@@ -80,7 +80,7 @@ func main() {
 		}
 
 		os.Mkdir(Opts.WDirectory, os.ModePerm)
-		//debug(Opts.WDirectory, 2)
+		debug("Transcoding to "+Opts.WDirectory, 2)
 	} else {
 		Opts.Par2C = false
 	}
@@ -124,7 +124,7 @@ func visit(path string, f os.FileInfo, err error) error {
 
 // Append the video file to the list, unless it's encoded already
 func appendVideo(fname string) {
-	if fname[len(fname)-5:] == encodedExt {
+	if Opts.WDirectory == "" && fname[len(fname)-5:] == encodedExt {
 		debug("Already-encoded file ignored: "+fname, 1)
 		return
 	}
@@ -210,7 +210,7 @@ func transcodeFile(inputName string) {
 	args = append(args, strings.Fields(Opts.OptExtra)...)
 	args = append(args, flag.Args()...)
 	args = append(args, outputName)
-	debug(Opts.FFMpeg, 2)
+	debug(Opts.FFMpeg, 3)
 	debug(strings.Join(args, " "), 1)
 
 	if Opts.NoExec {

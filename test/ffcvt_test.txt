@@ -1,4 +1,5 @@
 ] Skip symlink file: ./test2.avi
+] Skip symlink file: ./test3.webm
 
 == Transcoding [1/1]: 'test1.avi'
    under .
@@ -10,22 +11,29 @@ Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
 
-== Transcoding [1/2]: 'test1.avi'
+== Transcoding [1/3]: 'test1.avi'
    under .
 ] -i ./test1.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test1_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test1_.mkv
 
-== Transcoding [2/2]: 'test2.avi'
+== Transcoding [2/3]: 'test2.avi'
    under .
 ] -i ./test2.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test2_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test2_.mkv
 
+== Transcoding [3/3]: 'test3.webm'
+   under .
+] -i ./test3.webm -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test3_.mkv
+ffcvt: to execute -
+  ffmpeg -i ./test3.webm -c:a libopus -b:a 64k -c:v libx265 -x265-params crf=28 ./test3_.mkv
+
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
 ] Skip symlink file: ./test2.avi
+] Skip symlink file: ./test3.webm
 
 == Transcoding [1/1]: 'test1.avi'
    under .
@@ -37,17 +45,48 @@ Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
 
-== Transcoding [1/2]: 'test1.avi'
+== Transcoding [1/3]: 'test1.avi'
    under .
 ] -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
 
-== Transcoding [2/2]: 'test2.avi'
+== Transcoding [2/3]: 'test2.avi'
    under .
 ] -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test2_.webm
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test2_.webm
+
+== Transcoding [3/3]: 'test3.webm'
+   under .
+] -i ./test3.webm -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test3_.webm
+ffcvt: to execute -
+  ffmpeg -i ./test3.webm -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test3_.webm
+
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+] Transcoding to /tmp/test
+] None-video file ignored: ./ffcvt_test.txt
+] None-video file ignored: ./test-sym.sh
+
+== Transcoding [1/3]: 'test1.avi'
+   under .
+] -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test1.webm
+ffcvt: to execute -
+  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test1.webm
+
+== Transcoding [2/3]: 'test2.avi'
+   under .
+] -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test2.webm
+ffcvt: to execute -
+  ffmpeg -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test2.webm
+
+== Transcoding [3/3]: 'test3.webm'
+   under .
+] -i ./test3.webm -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test3.webm
+ffcvt: to execute -
+  ffmpeg -i ./test3.webm -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test3.webm
 
 Org Size: 0 MB
 New Size: 0 MB
