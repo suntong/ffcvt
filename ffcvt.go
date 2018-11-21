@@ -89,8 +89,9 @@ func main() {
 			log.Fatalf("[%s] Error: work directory\n\t\t  (%s)\n\t\t is the same as the source directory\n\t\t  (%s).", progname, absw, absd)
 		}
 
-		os.Mkdir(Opts.WDirectory, os.ModePerm)
 		debug("Transcoding to "+Opts.WDirectory, 2)
+		err := os.MkdirAll(Opts.WDirectory, os.ModePerm)
+		checkError(err)
 	} else {
 		Opts.Par2C = false
 	}
@@ -210,7 +211,8 @@ func transcodeVideos(startTime time.Time) {
 func transcodeFile(inputName string) {
 	startTime := time.Now()
 	outputName := getOutputName(inputName)
-	os.Mkdir(filepath.Dir(outputName), os.ModePerm)
+	debug(outputName, 3)
+	os.MkdirAll(filepath.Dir(outputName), os.ModePerm)
 
 	args := encodeParametersV(encodeParametersA(
 		[]string{"-i", inputName}))
