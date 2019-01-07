@@ -29,10 +29,11 @@ func init() {
 	Defaults = map[string]Encoding{
 		"webm": {
 			AES: "libopus",
+			AEA: "-c:s copy",
 			VES: "libvpx-vp9",
 			ABR: "64k",
 			CRF: "37",
-			Ext: "_.webm",
+			Ext: "_.mkv",
 		},
 		"x265-opus": {
 			AES: "libopus",

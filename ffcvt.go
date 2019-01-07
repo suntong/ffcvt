@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////
 // Porgram: FfCvt
 // Purpose: ffmpeg convert wrapper tool
-// Authors: Tong Sun (c) 2015, All rights reserved
+// Authors: Tong Sun (c) 2015-2019, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -40,8 +40,8 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.3.1"
-	date    = "2018-11-18"
+	version = "1.3.2"
+	date    = "2019-01-06"
 
 	sprintf           = fmt.Sprintf
 	encodedExt string = _encodedExt
