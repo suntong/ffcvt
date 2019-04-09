@@ -40,8 +40,8 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.3.2"
-	date    = "2019-01-06"
+	version = "1.3.3"
+	date    = "2019-04-09"
 
 	sprintf           = fmt.Sprintf
 	encodedExt string = _encodedExt
@@ -164,6 +164,7 @@ func visitWDir(path string, f os.FileInfo, err error) error {
 		return nil
 	}
 
+	debug(path, 2)
 	workDirs = append(workDirs, path)
 	return nil
 }
@@ -171,14 +172,14 @@ func visitWDir(path string, f os.FileInfo, err error) error {
 func createPar2s(workDirs []string) {
 	fmt.Printf("\n== Creating par2 files\n\n")
 	for ii, dir := range workDirs {
-		if ii == 0 {
-			// skip the root folder and deal with sub folders only
+		if ii == 0 && len(workDirs) > 1 {
+			// skip the root folder, if there are sub folders
 			continue
 		}
 		os.Chdir(dir)
 		dirName := filepath.Base(dir)
 
-		cmd := []string{"par2create", "-u", dirName + ".par2", "*" + encodedExt}
+		cmd := []string{"par2create", "-u", "zz_" + dirName + ".par2", "*" + encodedExt}
 		debug(strings.Join(cmd, " "), 1)
 
 		out, err := exec.Command(cmd[0], cmd[1:]...).CombinedOutput()

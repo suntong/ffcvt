@@ -37,9 +37,9 @@ Saved:    0%
 
 == Transcoding [1/1]: 'test1.avi'
    under .
-] -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
+] -i ./test1.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.mkv
 ffcvt: to execute -
-  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
+  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.mkv
 
 Org Size: 0 MB
 New Size: 0 MB
@@ -47,21 +47,21 @@ Saved:    0%
 
 == Transcoding [1/3]: 'test1.avi'
    under .
-] -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
+] -i ./test1.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.mkv
 ffcvt: to execute -
-  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.webm
+  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 ./test1_.mkv
 
 == Transcoding [2/3]: 'test2.avi'
    under .
-] -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test2_.webm
+] -i ./test2.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 ./test2_.mkv
 ffcvt: to execute -
-  ffmpeg -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test2_.webm
+  ffmpeg -i ./test2.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 ./test2_.mkv
 
 == Transcoding [3/3]: 'test3.webm'
    under .
-] -i ./test3.webm -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test3_.webm
+] -i ./test3.webm -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 ./test3_.mkv
 ffcvt: to execute -
-  ffmpeg -i ./test3.webm -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 ./test3_.webm
+  ffmpeg -i ./test3.webm -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 ./test3_.mkv
 
 Org Size: 0 MB
 New Size: 0 MB
@@ -72,21 +72,21 @@ Saved:    0%
 
 == Transcoding [1/3]: 'test1.avi'
    under .
-] -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test1.webm
+] -i ./test1.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test1.mkv
 ffcvt: to execute -
-  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test1.webm
+  ffmpeg -i ./test1.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test1.mkv
 
 == Transcoding [2/3]: 'test2.avi'
    under .
-] -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test2.webm
+] -i ./test2.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test2.mkv
 ffcvt: to execute -
-  ffmpeg -i ./test2.avi -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test2.webm
+  ffmpeg -i ./test2.avi -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test2.mkv
 
 == Transcoding [3/3]: 'test3.webm'
    under .
-] -i ./test3.webm -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test3.webm
+] -i ./test3.webm -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test3.mkv
 ffcvt: to execute -
-  ffmpeg -i ./test3.webm -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test3.webm
+  ffmpeg -i ./test3.webm -c:a libopus -b:a 64k -c:s copy -c:v libvpx-vp9 -b:v 0 -crf 37 /tmp/test/test3.mkv
 
 Org Size: 0 MB
 New Size: 0 MB
