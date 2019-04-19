@@ -44,6 +44,12 @@ Please check them out in the [wiki](https://github.com/suntong/ffcvt/wiki/).
 
 ## Download/Install
 
+### Using `apt`
+
+The `ffcvt` is now officially in Debian repository, so the installation is now as simple as a `apt install`/`apt-get install`:
+
+    apt install ffcvt
+
 ### Download binaries
 
 - The latest binary executables are available under  

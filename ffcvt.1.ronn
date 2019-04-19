@@ -1,0 +1,41 @@
+# ffcvt -- ffmpeg convert wrapper tool
+
+## SYNOPSIS
+
+   ffcvt [flags] [video_filename]
+
+
+## OPTIONS
+
+For `flags`, run `ffcvt` without parameters to see the comprehensive list and explanation. 
+
+
+## DESCRIPTION
+
+Command `ffcvt` is an easy to use video converter that takes the burden of such daunting task from normal Joe, to harness the fantastic high efficiency audio/video codec/encoding capability long been available in `ffmpeg`, by simplifying the convoluted `ffmpeg` command line parameters.
+
+To encode a video, all you need to do is to give one parameter to `ffcvt`, i.e., the path and file name of the video to be encoded, and `ffcvt` will take care of the rest, using the recommended values for both audio/video encoding to properly encode it for you.
+
+It can't be more simpler than that. However, beneath the simple surface, `ffcvt` is versatile and powerful enough to allow you to touch every corner of audio/video encoding. There is a huge list of environment variables (or command-line parameters) which will allow you tweak the encoding methods and parameters to exactly what you prefer instead.
+
+Moreover, to encode a directory full of video files, including under its sub-directories, you need just to give `ffcvt` one single parameter, the directory location, and `ffcvt` will go ahead and encode all video files under that directory, including all its sub-directories as well. 
+
+
+## EXAMPLES
+
+`ffcvt` comes with comprehensive online documents. For further details,
+please go to:
+
+https://github.com/suntong/ffcvt#encoding-help
+
+https://github.com/suntong/ffcvt/wiki
+
+
+## SEE ALSO
+
+`ffmpeg(1)`
+
+
+## AUTHORS
+
+Tong Sun <suntong@cpan.org>

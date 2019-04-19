@@ -41,7 +41,7 @@ const _encodedExt = "_.mkv"
 
 var (
 	version = "1.3.3"
-	date    = "2019-04-09"
+	date    = "2019-04-19"
 
 	sprintf           = fmt.Sprintf
 	encodedExt string = _encodedExt

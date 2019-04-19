@@ -14,6 +14,7 @@
 - [Environment Variables](#environment-variables)
 - [Encoding Help](#encoding-help)
 - [Download/Install](#downloadinstall)
+  - [Using `apt`](#using-`apt`)
   - [Download binaries](#download-binaries)
   - [Debian package](#debian-package)
   - [Install Source](#install-source)
@@ -75,6 +76,7 @@ Flags:
   -force	overwrite any existing none-empty file (FFCVT_FORCE)
   -debug	debugging level (FFCVT_DEBUG)
   -ffmpeg	ffmpeg program executable name (FFCVT_FFMPEG)
+  -version	print version then exit (FFCVT_VERSION)
 
 Details:
 
@@ -123,6 +125,8 @@ Details:
     	copy video codec
   -vea string
     	video encoding method append
+  -version
+    	print version then exit
   -ves string
     	video encoding method set
   -vn
@@ -155,6 +159,12 @@ The detailed guide to choose/provide proper parameters to `ffcvt` have been move
 Please check them out in the [wiki](https://github.com/suntong/ffcvt/wiki/).
 
 ## Download/Install
+
+### Using `apt`
+
+The `ffcvt` is now officially in Debian repository, so the installation is now as simple as a `apt install`/`apt-get install`:
+
+    apt install ffcvt
 
 ### Download binaries
 
