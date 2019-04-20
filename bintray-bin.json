@@ -12,12 +12,14 @@
     },
 
     "version": {
-        "name": "latest",
+        "name": "$VERSION",
+        "desc": "Release $VERSION",
+        "released": "$DATE",
         "gpgSign": false
     },
 
     "files": [{
-	"includePattern": "out/(.*)", "uploadPattern": "ffcvt/$1",
+	"includePattern": "out/(.*)", "uploadPattern": "$VERSION/$1",
         "matrixParams": {
             "override": 1
         }
