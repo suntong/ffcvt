@@ -9,6 +9,7 @@ import "log"
 type Encoding struct {
 	AES string // audio encoding method set
 	VES string // video encoding method set
+	SES string // subtitle encoding method set
 	AEA string // audio encoding method append
 	VEA string // video encoding method append
 	ABR string // audio bitrate
@@ -29,10 +30,10 @@ func init() {
 	Defaults = map[string]Encoding{
 		"webm": {
 			AES: "libopus",
-			AEA: "-c:s copy",
 			VES: "libvpx-vp9",
+			SES: "-c:s copy",
 			ABR: "64k",
-			CRF: "37",
+			CRF: "42",
 			Ext: "_.mkv",
 		},
 		"x265-opus": {

@@ -48,6 +48,12 @@ Options:
     Value: '""'
     Usage: "video encoding method set"
 
+  - Name: SES
+    Type: string
+    Flag: ses
+    Value: '""'
+    Usage: "subtitle encoding method set"
+
   - Name: AEA
     Type: string
     Flag: aea

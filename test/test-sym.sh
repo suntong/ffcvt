@@ -1,5 +1,7 @@
 #! /bin/sh
 
+../ffcvt -version
+
 # Test -sym control
 ../ffcvt -t x265-opus -n -d . > /tmp/ffcvt_test.txt 2>&1
 ../ffcvt -t x265-opus -n -d . -sym  >> /tmp/ffcvt_test.txt 2>&1

@@ -40,8 +40,8 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.3.3"
-	date    = "2019-04-19"
+	version = "1.4.0"
+	date    = "2019-11-10"
 
 	sprintf           = fmt.Sprintf
 	encodedExt string = _encodedExt
@@ -315,6 +315,10 @@ func encodeParametersV(args []string) []string {
 	}
 	if Opts.VEA != "" {
 		args = append(args, strings.Fields(Opts.VEA)...)
+	}
+	// put subtitle option here as well
+	if Opts.SES != "" {
+		args = append(args, strings.Fields(Opts.SES)...)
 	}
 	return args
 }
