@@ -1,3 +1,11 @@
+
+== Transcoding: StreamSample.mkv
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -map 0:3 -c:a libopus -b:a 64k -c:v libvpx-vp9 -b:v 0 -crf 42 -c:s copy /tmp/StreamSample.mkv
+
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
 ] Skip symlink file: ./test1.avi
 ] Skip symlink file: ./test2.avi
 ] Skip symlink file: ./test3.webm

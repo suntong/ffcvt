@@ -84,7 +84,9 @@ func main() {
 
 		// The basename of the source directory will be created under the work
 		//directory, which will become the new work directory
-		Opts.WDirectory += string(os.PathSeparator) + filepath.Base(absd)
+		if Opts.File == "" {
+			Opts.WDirectory += string(os.PathSeparator) + filepath.Base(absd)
+		}
 		absw, _ := filepath.Abs(Opts.WDirectory)
 		if absd == absw {
 			log.Fatalf("[%s] Error: work directory\n\t\t  (%s)\n\t\t is the same as the source directory\n\t\t  (%s).", progname, absw, absd)
@@ -99,12 +101,12 @@ func main() {
 
 	startTime := time.Now()
 	// transcoding
-	if Opts.Directory != "" {
-		filepath.Walk(Opts.Directory, visit)
-		transcodeVideos(startTime)
-	} else if Opts.File != "" {
+	if Opts.File != "" {
 		fmt.Printf("\n== Transcoding: %s\n", Opts.File)
 		transcodeFile(Opts.File)
+	} else if Opts.Directory != "" {
+		filepath.Walk(Opts.Directory, visit)
+		transcodeVideos(startTime)
 	}
 	// par2 creating
 	if Opts.Par2C {
@@ -392,8 +394,14 @@ func getOutputName(input string) string {
 		input = input[:index]
 	}
 	r := input + Opts.Suffix + encodedExt
+	//fmt.Printf("] (r, od, owd) %+v, %+v, %+v\n", r, Opts.Directory, Opts.WDirectory)
 	if Opts.WDirectory != "" {
-		r = strings.Replace(r, Opts.Directory, Opts.WDirectory, 1)
+		// transcoding single file
+		if Opts.File != "" {
+			r = Opts.WDirectory + "/" + filepath.Base(input) + Opts.Suffix + encodedExt
+		} else {
+			r = strings.Replace(r, Opts.Directory, Opts.WDirectory, 1)
+		}
 	}
 	return r
 }
