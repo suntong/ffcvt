@@ -218,27 +218,29 @@ func transcodeFile(inputName string) {
 	debug(outputName, 4)
 	os.MkdirAll(filepath.Dir(outputName), os.ModePerm)
 
-	// probe the file stream info first
-	fsinfo, err := probeFile(inputName)
-	if err != nil {
-		log.Printf("%s: Probe error - %s", progname, err.Error())
-		return
-	}
-	debug(fsinfo, 4)
-	// if there are more than one audio stream
-	if len(regexp.MustCompile(`Stream #0:.*: Audio: `).
-		FindAllStringSubmatch(fsinfo, -1)) >= 3 {
-		// then find the designated audio stream language
-		audioStreams := regexp.
-			MustCompile(`Stream #(.*)\(` + Opts.Lang + `\): Audio: `).
-			FindStringSubmatch(fsinfo)
-		if len(audioStreams) >= 2 {
-			// and use the 1st audio stream of the designated language
-			debug(audioStreams[1], 3)
-			Opts.AEP += "-map " + audioStreams[1]
+	if !Opts.NoExec {
+		// probe the file stream info first, only when not using -n
+		fsinfo, err := probeFile(inputName)
+		if err != nil {
+			log.Printf("%s: Probe error - %s", progname, err.Error())
+			return
 		}
-	} else {
-		debug(inputName+" has single audio stream", 2)
+		debug(fsinfo, 4)
+		// if there are more than one audio stream
+		if len(regexp.MustCompile(`Stream #0:.*: Audio: `).
+			FindAllStringSubmatch(fsinfo, -1)) >= 3 {
+			// then find the designated audio stream language
+			audioStreams := regexp.
+				MustCompile(`Stream #(.*)\(` + Opts.Lang + `\): Audio: `).
+				FindStringSubmatch(fsinfo)
+			if len(audioStreams) >= 2 {
+				// and use the 1st audio stream of the designated language
+				debug(audioStreams[1], 3)
+				Opts.AEP += "-map " + audioStreams[1]
+			}
+		} else {
+			debug(inputName+" has single audio stream", 2)
+		}
 	}
 
 	args := encodeParametersV(encodeParametersA(
