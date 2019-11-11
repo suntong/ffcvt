@@ -28,7 +28,7 @@ script:
   - go build -v -ldflags="-X main.date=$DATE_BUILD"
   - ffcvt
   - go test -v ./...
-  - ( cd test; ./test-sym.sh; )
+  - ( cd test; ./test-all.sh; )
 
   - go get github.com/mitchellh/gox
   - gox -ldflags="-X main.date=$DATE_BUILD" -osarch="linux/386 linux/amd64 darwin/amd64 windows/amd64" -output="out/{{.Dir}}-{{.OS}}-{{.Arch}}"
