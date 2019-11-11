@@ -27,6 +27,7 @@ import (
 	"os/exec"
 	"path"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -142,7 +143,7 @@ func appendVideo(fname string) {
 
 	fext := strings.ToUpper(fname[len(fname)-4:])
 	if strings.Index(Opts.Exts, fext) < 0 {
-		debug("None-video file ignored: "+fname, 2)
+		debug("None-video file ignored: "+fname, 3)
 		return
 	}
 
@@ -212,8 +213,31 @@ func transcodeVideos(startTime time.Time) {
 func transcodeFile(inputName string) {
 	startTime := time.Now()
 	outputName := getOutputName(inputName)
-	debug(outputName, 3)
+	debug(outputName, 4)
 	os.MkdirAll(filepath.Dir(outputName), os.ModePerm)
+
+	// probe the file stream info first
+	fsinfo, err := probeFile(inputName)
+	if err != nil {
+		log.Printf("%s: Probe error - %s", progname, err.Error())
+		return
+	}
+	debug(fsinfo, 4)
+	// if there are more than one audio stream
+	if len(regexp.MustCompile(`Stream #0:.*: Audio: `).
+		FindAllStringSubmatch(fsinfo, -1)) >= 3 {
+		// then find the designated audio stream language
+		audioStreams := regexp.
+			MustCompile(`Stream #(.*)\(` + Opts.Lang + `\): Audio: `).
+			FindStringSubmatch(fsinfo)
+		if len(audioStreams) >= 2 {
+			// and use the 1st audio stream of the designated language
+			debug(audioStreams[1], 3)
+			Opts.AEP += "-map " + audioStreams[1]
+		}
+	} else {
+		debug(inputName+" has single audio stream", 2)
+	}
 
 	args := encodeParametersV(encodeParametersA(
 		[]string{"-i", inputName}))
@@ -223,8 +247,7 @@ func transcodeFile(inputName string) {
 	args = append(args, strings.Fields(Opts.OptExtra)...)
 	args = append(args, flag.Args()...)
 	args = append(args, outputName)
-	debug(Opts.FFMpeg, 3)
-	debug(strings.Join(args, " "), 1)
+	debug(Opts.FFMpeg+" "+strings.Join(args, " "), 1)
 
 	if Opts.NoExec {
 		fmt.Printf("%s: to execute -\n  %s %s\n",
@@ -263,8 +286,22 @@ func transcodeFile(inputName string) {
 	return
 }
 
+func probeFile(inputName string) (string, error) {
+	out := &bytes.Buffer{}
+
+	cmd := exec.Command("sh", "-c", Opts.FFProbe+" "+inputName+
+		" 2>&1 | grep 'Stream #'")
+	cmd.Stdout = out
+	cmd.Stderr = out
+	err := cmd.Run()
+	return string(out.Bytes()), err
+}
+
 // Returns the encode parameters for Audio
 func encodeParametersA(args []string) []string {
+	if Opts.AEP != "" {
+		args = append(args, strings.Fields(Opts.AEP)...)
+	}
 	if Opts.AC {
 		args = append(args, "-c:a", "copy")
 		return args
