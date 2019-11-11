@@ -54,6 +54,18 @@ Options:
     Value: '""'
     Usage: "subtitle encoding method set"
 
+  - Name: VEP
+    Type: string
+    Flag: vep
+    Value: '""'
+    Usage: "video encoding method prepend"
+
+  - Name: AEP
+    Type: string
+    Flag: aep
+    Value: '""'
+    Usage: "audio encoding method prepend"
+
   - Name: AEA
     Type: string
     Flag: aea
@@ -162,6 +174,12 @@ Options:
     Value: true
     Usage: "video: same size"
 
+  - Name: Lang
+    Type: string
+    Flag: lang
+    Value: '"eng"'
+    Usage: "language selection for audio stream extraction"
+
   - Name: OptExtra
     Type: string
     Flag: o
@@ -219,6 +237,12 @@ Options:
     Flag: ffmpeg
     Value: '"ffmpeg"'
     Usage: "ffmpeg program executable name"
+
+  - Name: FFProbe
+    Type: string
+    Flag: ffprobe
+    Value: '"ffprobe -print_format flat"'
+    Usage: "ffprobe program execution"
 
   - Name: PrintV
     Type: bool

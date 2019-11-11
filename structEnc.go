@@ -10,6 +10,8 @@ type Encoding struct {
 	AES string // audio encoding method set
 	VES string // video encoding method set
 	SES string // subtitle encoding method set
+	VEP string // video encoding method prepend
+	AEP string // audio encoding method prepend
 	AEA string // audio encoding method append
 	VEA string // video encoding method append
 	ABR string // audio bitrate
