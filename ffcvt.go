@@ -41,7 +41,7 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.5.01"
+	version = "1.5.02"
 	date    = "2019-11-10"
 
 	sprintf           = fmt.Sprintf
@@ -227,16 +227,18 @@ func transcodeFile(inputName string) {
 		}
 		debug(fsinfo, 4)
 		// if there are more than one audio stream
-		if len(regexp.MustCompile(`Stream #0:.+: Audio: `).
-			FindAllStringSubmatch(fsinfo, -1)) > 1 {
+		allAudioStreams := regexp.MustCompile(`Stream #0:.+: Audio: (.+)`).
+			FindAllStringSubmatch(fsinfo, -1)
+		if len(allAudioStreams) > 1 {
 			// then find the designated audio stream language
 			audioStreams := regexp.
-				MustCompile(`Stream #(.*)\(` + Opts.Lang + `\): Audio: `).
+				MustCompile(`Stream #(.+)\(` + Opts.Lang + `\): Audio: (.+)`).
 				FindStringSubmatch(fsinfo)
 			if len(audioStreams) >= 1 {
 				// and use the 1st audio stream of the designated language
 				debug(audioStreams[1], 3)
 				Opts.AEP += "-map " + audioStreams[1]
+				dealSurroundSound(audioStreams[2])
 				// when `-map` is used (for audio), then all else need mapping as well
 				videoStreams := regexp.MustCompile(`Stream #(.+): Video: `).
 					FindStringSubmatch(fsinfo)
@@ -248,8 +250,10 @@ func transcodeFile(inputName string) {
 					Opts.SEP += "-map " + subtitleStream[1]
 				}
 			}
+			// else: designated audio language not found, use `default` instead
 		} else {
 			debug(inputName+" has single audio stream", 2)
+			dealSurroundSound(allAudioStreams[0][1])
 		}
 	}
 
@@ -267,12 +271,15 @@ func transcodeFile(inputName string) {
 		fmt.Printf("%s: to execute -\n  %s %s\n",
 			progname, Opts.FFMpeg, strings.Join(args, " "))
 	} else {
+		//fmt.Printf("] %#v\n", args)
 		cmd := exec.Command(Opts.FFMpeg, args...)
-		var out bytes.Buffer
+		var out, errOut bytes.Buffer
 		cmd.Stdout = &out
+		cmd.Stderr = &errOut
 		err := cmd.Run()
 		if err != nil {
-			log.Printf("%s: Exec error - %s", progname, err.Error())
+			log.Printf("%s: Exec error - %s\n\n%s", progname, err.Error(),
+				string(errOut.Bytes()))
 		}
 		fmt.Printf("%s\n", out.String())
 		timeTake := time.Since(startTime)
@@ -298,6 +305,14 @@ func transcodeFile(inputName string) {
 	}
 
 	return
+}
+
+// dealSurroundSound will append to Opts.AEP proper setting to encode
+// 5.1 surround sound channels
+func dealSurroundSound(channelFeatures string) {
+	if regexp.MustCompile(`, 5.1\(side\), `).MatchString(channelFeatures) {
+		Opts.AEP += " -mapping_family 1 -af channelmap=channel_layout=5.1"
+	}
 }
 
 func probeFile(inputName string) (string, error) {
