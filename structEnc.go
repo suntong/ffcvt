@@ -7,13 +7,14 @@ import "log"
 
 // The Encoding struct defines the structure to hold encoding values
 type Encoding struct {
-	AES string // audio encoding method set
 	VES string // video encoding method set
+	AES string // audio encoding method set
 	SES string // subtitle encoding method set
 	VEP string // video encoding method prepend
 	AEP string // audio encoding method prepend
-	AEA string // audio encoding method append
+	SEP string // subtitle encoding method prepend
 	VEA string // video encoding method append
+	AEA string // audio encoding method append
 	ABR string // audio bitrate
 	CRF string // the CRF value: 0-51. Higher CRF gives lower quality
 	Ext string // extension for the output file

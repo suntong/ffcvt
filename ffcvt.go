@@ -41,7 +41,7 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.5.0"
+	version = "1.5.01"
 	date    = "2019-11-10"
 
 	sprintf           = fmt.Sprintf
@@ -227,24 +227,34 @@ func transcodeFile(inputName string) {
 		}
 		debug(fsinfo, 4)
 		// if there are more than one audio stream
-		if len(regexp.MustCompile(`Stream #0:.*: Audio: `).
-			FindAllStringSubmatch(fsinfo, -1)) >= 3 {
+		if len(regexp.MustCompile(`Stream #0:.+: Audio: `).
+			FindAllStringSubmatch(fsinfo, -1)) > 1 {
 			// then find the designated audio stream language
 			audioStreams := regexp.
 				MustCompile(`Stream #(.*)\(` + Opts.Lang + `\): Audio: `).
 				FindStringSubmatch(fsinfo)
-			if len(audioStreams) >= 2 {
+			if len(audioStreams) >= 1 {
 				// and use the 1st audio stream of the designated language
 				debug(audioStreams[1], 3)
 				Opts.AEP += "-map " + audioStreams[1]
+				// when `-map` is used (for audio), then all else need mapping as well
+				videoStreams := regexp.MustCompile(`Stream #(.+): Video: `).
+					FindStringSubmatch(fsinfo)
+				Opts.VEP += "-map " + videoStreams[1]
+				subtitleStreams := regexp.MustCompile(`Stream #(.+)\(.+\): Subtitle: `).
+					FindAllStringSubmatch(fsinfo, -1)
+				// keep all subtitle streams
+				for _, subtitleStream := range subtitleStreams {
+					Opts.SEP += "-map " + subtitleStream[1]
+				}
 			}
 		} else {
 			debug(inputName+" has single audio stream", 2)
 		}
 	}
 
-	args := encodeParametersV(encodeParametersA(
-		[]string{"-i", inputName}))
+	args := encodeParametersS(encodeParametersA(encodeParametersV(
+		[]string{"-i", inputName})))
 	if Opts.Force {
 		args = append(args, "-y")
 	}
@@ -301,6 +311,17 @@ func probeFile(inputName string) (string, error) {
 	return string(out.Bytes()), err
 }
 
+// Returns the encode parameters for Subtitle
+func encodeParametersS(args []string) []string {
+	if Opts.SEP != "" {
+		args = append(args, strings.Fields(Opts.SEP)...)
+	}
+	if Opts.SES != "" {
+		args = append(args, strings.Fields(Opts.SES)...)
+	}
+	return args
+}
+
 // Returns the encode parameters for Audio
 func encodeParametersA(args []string) []string {
 	if Opts.AEP != "" {
@@ -331,6 +352,9 @@ func encodeParametersA(args []string) []string {
 
 // Returns the encode parameters for Video
 func encodeParametersV(args []string) []string {
+	if Opts.VEP != "" {
+		args = append(args, strings.Fields(Opts.VEP)...)
+	}
 	if Opts.VC {
 		args = append(args, "-c:v", "copy")
 		return args
@@ -356,10 +380,6 @@ func encodeParametersV(args []string) []string {
 	}
 	if Opts.VEA != "" {
 		args = append(args, strings.Fields(Opts.VEA)...)
-	}
-	// put subtitle option here as well
-	if Opts.SES != "" {
-		args = append(args, strings.Fields(Opts.SES)...)
 	}
 	return args
 }

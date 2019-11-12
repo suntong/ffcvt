@@ -36,17 +36,17 @@ Options:
     Value: '"webm"'
     Usage: "target type: webm/x265-opus/x264-mp3/youtube"
 
-  - Name: AES
-    Type: string
-    Flag: aes
-    Value: '""'
-    Usage: "audio encoding method set"
-
   - Name: VES
     Type: string
     Flag: ves
     Value: '""'
     Usage: "video encoding method set"
+
+  - Name: AES
+    Type: string
+    Flag: aes
+    Value: '""'
+    Usage: "audio encoding method set"
 
   - Name: SES
     Type: string
@@ -66,17 +66,23 @@ Options:
     Value: '""'
     Usage: "audio encoding method prepend"
 
-  - Name: AEA
+  - Name: SEP
     Type: string
-    Flag: aea
+    Flag: sep
     Value: '""'
-    Usage: "audio encoding method append"
+    Usage: "subtitle encoding method prepend"
 
   - Name: VEA
     Type: string
     Flag: vea
     Value: '""'
     Usage: "video encoding method append"
+
+  - Name: AEA
+    Type: string
+    Flag: aea
+    Value: '""'
+    Usage: "audio encoding method append"
 
   - Name: ABR
     Type: string
