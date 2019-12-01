@@ -217,6 +217,8 @@ func transcodeFile(inputName string) {
 	outputName := getOutputName(inputName)
 	debug(outputName, 4)
 	os.MkdirAll(filepath.Dir(outputName), os.ModePerm)
+	var oldAEP, oldVEP, oldSEP string
+	oldEPUsed := false
 
 	if !Opts.NoExec {
 		// probe the file stream info first, only when not using -n
@@ -236,18 +238,22 @@ func transcodeFile(inputName string) {
 				FindStringSubmatch(fsinfo)
 			if len(audioStreams) >= 1 {
 				// and use the 1st audio stream of the designated language
+				// via *temporarily* tweaking AEP/VEP/SEP setting
+				oldAEP, oldVEP, oldSEP = Opts.AEP, Opts.VEP, Opts.SEP
+				oldEPUsed = true
 				debug(audioStreams[1], 3)
-				Opts.AEP += "-map " + audioStreams[1]
+
+				Opts.AEP += " -map " + audioStreams[1]
 				dealSurroundSound(audioStreams[2])
 				// when `-map` is used (for audio), then all else need mapping as well
-				videoStreams := regexp.MustCompile(`Stream #(.+): Video: `).
+				videoStreams := regexp.MustCompile(`Stream #(.+?)(\(.+\))*: Video: `).
 					FindStringSubmatch(fsinfo)
-				Opts.VEP += "-map " + videoStreams[1]
+				Opts.VEP += " -map " + videoStreams[1]
 				subtitleStreams := regexp.MustCompile(`Stream #(.+)\(.+\): Subtitle: `).
 					FindAllStringSubmatch(fsinfo, -1)
 				// keep all subtitle streams
 				for _, subtitleStream := range subtitleStreams {
-					Opts.SEP += "-map " + subtitleStream[1]
+					Opts.SEP += " -map " + subtitleStream[1]
 				}
 			}
 			// else: designated audio language not found, use `default` instead
@@ -301,6 +307,11 @@ func transcodeFile(inputName string) {
 				sizeDifference*100/originalSize, sizeDifference)
 			fmt.Printf("Time: %v at %v\n\n", timeTake,
 				time.Now().Format("2006-01-02 15:04:05"))
+		}
+
+		if oldEPUsed {
+			// restored *temporarily* tweaked AEP/VEP/SEP setting
+			Opts.AEP, Opts.VEP, Opts.SEP = oldAEP, oldVEP, oldSEP
 		}
 	}
 
