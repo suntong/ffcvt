@@ -311,7 +311,7 @@ func transcodeFile(inputName string) {
 // 5.1 surround sound channels
 func dealSurroundSound(channelFeatures string) {
 	if regexp.MustCompile(`, 5.1\(side\), `).MatchString(channelFeatures) {
-		Opts.AEP += " -mapping_family 1 -af channelmap=channel_layout=5.1"
+		Opts.AEP += " -ac 2"
 	}
 }
 
