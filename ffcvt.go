@@ -292,6 +292,22 @@ func transcodeFile(inputName string) {
 
 		if err != nil {
 			fmt.Println("Failed.")
+
+			// == remove zero-sized output file
+			file, err := os.Open(outputName)
+			checkError(err)
+
+			// get the file size
+			stat, err := file.Stat()
+			file.Close()
+			checkError(err)
+			//fmt.Println("File size is ", stat.Size())
+			if stat.Size() == 0 {
+				err := os.Remove(outputName)
+				checkError(err)
+			}
+			debug("Zero-sized output file '"+outputName+"' removed.", 1)
+
 		} else {
 			originalSize := fileSize(inputName)
 			transcodedSize := fileSize(outputName)
