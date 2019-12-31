@@ -11,7 +11,7 @@ using ffmpeg.
 
 */
 
-//go:generate sh -v ffcvt_cli.sh
+//go:generate sh -x ffcvt_cli.sh
 
 ////////////////////////////////////////////////////////////////////////////
 // Program start
