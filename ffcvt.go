@@ -41,8 +41,8 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.5.03"
-	date    = "2019-12-29"
+	version = "1.5.05"
+	date    = "2020-01-01"
 
 	sprintf           = fmt.Sprintf
 	encodedExt string = _encodedExt
