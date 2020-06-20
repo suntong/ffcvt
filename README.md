@@ -44,10 +44,14 @@ Usage:
 Flags:
 
   -t	target type: webm/x265-opus/x264-mp3/youtube (FFCVT_T)
-  -aes	audio encoding method set (FFCVT_AES)
   -ves	video encoding method set (FFCVT_VES)
-  -aea	audio encoding method append (FFCVT_AEA)
+  -aes	audio encoding method set (FFCVT_AES)
+  -ses	subtitle encoding method set (FFCVT_SES)
+  -vep	video encoding method prepend (FFCVT_VEP)
+  -aep	audio encoding method prepend (FFCVT_AEP)
+  -sep	subtitle encoding method prepend (FFCVT_SEP)
   -vea	video encoding method append (FFCVT_VEA)
+  -aea	audio encoding method append (FFCVT_AEA)
   -abr	audio bitrate (64k for opus, 256k for mp3) (FFCVT_ABR)
   -crf	the CRF value: 0-51. Higher CRF gives lower quality
 	 (28 for x265, ~ 23 for x264) (FFCVT_CRF)
@@ -65,6 +69,7 @@ Flags:
   -an	no audio, output video only (FFCVT_AN)
   -vn	no video, output audio only (FFCVT_VN)
   -vss	video: same size (FFCVT_VSS)
+  -lang	language selection for audio stream extraction (FFCVT_LANG)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
   -ato-opus	audio encode to opus, using -abr (FFCVT_ATO_OPUS)
   -vto-x265	video video encode to x265, using -crf (FFCVT_VTO_X265)
@@ -76,6 +81,7 @@ Flags:
   -force	overwrite any existing none-empty file (FFCVT_FORCE)
   -debug	debugging level (FFCVT_DEBUG)
   -ffmpeg	ffmpeg program executable name (FFCVT_FFMPEG)
+  -ffprobe	ffprobe program execution (FFCVT_FFPROBE)
   -version	print version then exit (FFCVT_VERSION)
 
 Details:
@@ -86,6 +92,8 @@ Details:
     	copy audio codec
   -aea string
     	audio encoding method append
+  -aep string
+    	audio encoding method prepend
   -aes string
     	audio encoding method set
   -an
@@ -107,14 +115,22 @@ Details:
     	input file name (either -d or -f must be specified)
   -ffmpeg string
     	ffmpeg program executable name (default "ffmpeg")
+  -ffprobe string
+    	ffprobe program execution (default "ffprobe -print_format flat")
   -force
     	overwrite any existing none-empty file
+  -lang string
+    	language selection for audio stream extraction (default "eng")
   -n	no exec, dry run
   -nc
     	no clobber, do not queue those already been converted
   -o string
     	more options that will pass to ffmpeg program
   -p	par2create, create par2 files (in work directory)
+  -sep string
+    	subtitle encoding method prepend
+  -ses string
+    	subtitle encoding method set
   -suf string
     	suffix to the output file names
   -sym
@@ -125,6 +141,8 @@ Details:
     	copy video codec
   -vea string
     	video encoding method append
+  -vep string
+    	video encoding method prepend
   -version
     	print version then exit
   -ves string
@@ -150,13 +168,13 @@ For each `ffcvt` command line parameter, there is a environment variable corresp
 
 The detailed guide to choose/provide proper parameters to `ffcvt` have been moved to [wiki](https://github.com/suntong/ffcvt/wiki/). For example,
 
-- [HEVC vs VP9](https://github.com/suntong/ffcvt/wiki/WebM-(VP9)-Encoding#hevc-vs-vp9)
-- [Preset Method Comparison](https://github.com/suntong/ffcvt/wiki/HEVC-(x265)-Encoding#preset-method-comparison)
-- [The CRF Comparison](https://github.com/suntong/ffcvt/wiki/HEVC-(x265)-Encoding#the-crf-comparison)
-- [Example 1: YouTube Encoding](https://github.com/suntong/ffcvt/wiki/Example-1:-YouTube-Encoding)
-- [Example 2: Talk Encoding](https://github.com/suntong/ffcvt/wiki/Example-2:-Talk-Encoding)
+- [HEVC vs VP9](https://github.com/suntong/ffcvt/wiki/KB:-WebM-(VP9)-Encoding#hevc-vs-vp9)
+- [HEVC Preset Method Comparison](https://github.com/suntong/ffcvt/wiki/KB:-HEVC-(x265)-Encoding#preset-method-comparison)
+- [The HEVC CRF Comparison](https://github.com/suntong/ffcvt/wiki/KB:-HEVC-(x265)-Encoding#the-crf-comparison)
+- [Example 1: YouTube Encoding](https://github.com/suntong/ffcvt/wiki/Example:-YouTube-Encoding)
+- [Example 2: Talk Encoding](https://github.com/suntong/ffcvt/wiki/Example:-Talk-Encoding)
 
-Please check them out in the [wiki](https://github.com/suntong/ffcvt/wiki/).
+Please check them out in the [wiki](https://github.com/suntong/ffcvt/wiki/), and for other documents like "Most used ffmpeg options", "How to crop a video", etc.
 
 ## Download/Install
 

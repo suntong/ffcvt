@@ -34,13 +34,13 @@ For each `ffcvt` command line parameter, there is a environment variable corresp
 
 The detailed guide to choose/provide proper parameters to `ffcvt` have been moved to [wiki](https://github.com/suntong/ffcvt/wiki/). For example,
 
-- [HEVC vs VP9](https://github.com/suntong/ffcvt/wiki/WebM-(VP9)-Encoding#hevc-vs-vp9)
-- [Preset Method Comparison](https://github.com/suntong/ffcvt/wiki/HEVC-(x265)-Encoding#preset-method-comparison)
-- [The CRF Comparison](https://github.com/suntong/ffcvt/wiki/HEVC-(x265)-Encoding#the-crf-comparison)
-- [Example 1: YouTube Encoding](https://github.com/suntong/ffcvt/wiki/Example-1:-YouTube-Encoding)
-- [Example 2: Talk Encoding](https://github.com/suntong/ffcvt/wiki/Example-2:-Talk-Encoding)
+- [HEVC vs VP9](https://github.com/suntong/ffcvt/wiki/KB:-WebM-(VP9)-Encoding#hevc-vs-vp9)
+- [HEVC Preset Method Comparison](https://github.com/suntong/ffcvt/wiki/KB:-HEVC-(x265)-Encoding#preset-method-comparison)
+- [The HEVC CRF Comparison](https://github.com/suntong/ffcvt/wiki/KB:-HEVC-(x265)-Encoding#the-crf-comparison)
+- [Example 1: YouTube Encoding](https://github.com/suntong/ffcvt/wiki/Example:-YouTube-Encoding)
+- [Example 2: Talk Encoding](https://github.com/suntong/ffcvt/wiki/Example:-Talk-Encoding)
 
-Please check them out in the [wiki](https://github.com/suntong/ffcvt/wiki/).
+Please check them out in the [wiki](https://github.com/suntong/ffcvt/wiki/), and for other documents like "Most used ffmpeg options", "How to crop a video", etc.
 
 ## Download/Install
 
