@@ -301,12 +301,12 @@ func transcodeFile(inputName string) {
 			stat, err := file.Stat()
 			file.Close()
 			checkError(err)
-			//fmt.Println("File size is ", stat.Size())
-			if stat.Size() == 0 {
+			// fmt.Printf("Size of file '%s' is %d\n", outputName, stat.Size())
+			if stat.Size() <= 500 {
 				err := os.Remove(outputName)
 				checkError(err)
 			}
-			debug("Zero-sized output file '"+outputName+"' removed.", 1)
+			debug("Failed output file '"+outputName+"' removed.", 1)
 
 		} else {
 			originalSize := fileSize(inputName)
