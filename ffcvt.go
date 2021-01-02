@@ -263,12 +263,12 @@ func transcodeFile(inputName string) {
 		}
 	}
 
-	args := encodeParametersS(encodeParametersA(encodeParametersV(
-		[]string{"-i", inputName})))
+	args := []string{"-i", inputName}
+	args = append(args, strings.Fields(Opts.OptExtra)...)
+	args = encodeParametersS(encodeParametersA(encodeParametersV(args)))
 	if Opts.Force {
 		args = append(args, "-y")
 	}
-	args = append(args, strings.Fields(Opts.OptExtra)...)
 	args = append(args, flag.Args()...)
 	args = append(args, outputName)
 	debug(Opts.FFMpeg+" "+strings.Join(args, " "), 1)
