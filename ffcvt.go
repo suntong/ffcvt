@@ -345,8 +345,9 @@ func dealSurroundSound(channelFeatures string) {
 func probeFile(inputName string) (string, error) {
 	out := &bytes.Buffer{}
 
-	cmd := exec.Command("sh", "-c", Opts.FFProbe+" "+inputName+
-		" 2>&1 | grep 'Stream #'")
+	cmdFFProbe := Opts.FFProbe + " " + Quote(inputName) + " 2>&1 | grep 'Stream #'"
+	debug("Probing with "+cmdFFProbe, 2)
+	cmd := exec.Command("sh", "-c", cmdFFProbe)
 	cmd.Stdout = out
 	cmd.Stderr = out
 	err := cmd.Run()
