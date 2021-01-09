@@ -1,6 +1,10 @@
 # -*- yaml -*-
 
 language: go
+
+go:
+  - "1.12.x"
+
 arch:
   - amd64
   - ppc64le
