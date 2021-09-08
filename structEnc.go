@@ -37,7 +37,7 @@ func init() {
 			SES: "-c:s copy",
 			ABR: "64k",
 			CRF: "42",
-			Ext: "_.mkv",
+			Ext: _encodedExt,
 		},
 		"x265-opus": {
 			AES: "libopus",
@@ -52,7 +52,7 @@ func init() {
 			VES: "libx264",
 			ABR: "256k",
 			CRF: "23",
-			Ext: _encodedExt,
+			Ext: "_.mp4",
 		},
 		"youtube": {
 			// https://trac.ffmpeg.org/wiki/Encode/YouTube
