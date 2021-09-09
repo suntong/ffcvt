@@ -10,6 +10,18 @@
 
 ## {{.Name}} - ffmpeg convert wrapper tool
 
+### Latest Update(s)
+
+#### Release v1.7.0
+
+add `wx` type for weixin.
+
+Convert to video that is recognizable and playable by weixin/wechat, by using the `-t wx` option as the convertion type. Here is a converted sample:
+
+https://user-images.githubusercontent.com/422244/132617136-e1371ef3-6a21-4f12-8324-6db003c12468.mp4
+
+(credit [here](https://www.youtube.com/watch?v=2-UzBitLmf8))
+
 ## Introduction
 
 - The next-generation codec like [High Efficiency Video codec (HEVC), H.265](https://goo.gl/IZrDH2) or [VP9](https://developers.google.com/media/vp9/) can produce videos visually comparable to H.264's result, but in [about half the file size](https://trac.ffmpeg.org/wiki/Encode/H.265).
