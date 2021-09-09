@@ -8,20 +8,34 @@
 
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
-- [Introduction](#introduction)
-- [Quick Usage](#quick-usage)
-  - [$ ffcvt](#-ffcvt)
-- [Environment Variables](#environment-variables)
-- [Encoding Help](#encoding-help)
-- [Download/Install](#downloadinstall)
-  - [Using `apt`](#using-`apt`)
-  - [Download binaries](#download-binaries)
-  - [Debian package](#debian-package)
-  - [Install Source](#install-source)
-- [Tools Choices](#tools-choices)
-- [Author(s)](#author(s))
+  - [Latest Update(s)](#latest-update(s))
+    - [Release v1.7.0](#release-v170)
+  - [Introduction](#introduction)
+  - [Quick Usage](#quick-usage)
+    - [$ ffcvt](#-ffcvt)
+  - [Environment Variables](#environment-variables)
+  - [Encoding Help](#encoding-help)
+  - [Download/Install](#downloadinstall)
+    - [Using `apt`](#using-`apt`)
+    - [Download binaries](#download-binaries)
+    - [Debian package](#debian-package)
+    - [Install Source](#install-source)
+  - [Tools Choices](#tools-choices)
+  - [Author(s)](#author(s))
 
 ## ffcvt - ffmpeg convert wrapper tool
+
+### Latest Update(s)
+
+#### Release v1.7.0
+
+add `wx` type for weixin.
+
+Convert to video that is recognizable and playable by weixin/wechat, by using the `-t wx` option as the convertion type. Here is a converted sample:
+
+https://user-images.githubusercontent.com/422244/132617136-e1371ef3-6a21-4f12-8324-6db003c12468.mp4
+
+(credit [here](https://www.youtube.com/watch?v=2-UzBitLmf8))
 
 ## Introduction
 
