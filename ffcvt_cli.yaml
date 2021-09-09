@@ -34,7 +34,7 @@ Options:
     Type: string
     Flag: t
     Value: '"webm"'
-    Usage: "target type: webm/x265-opus/x264-mp3/youtube"
+    Usage: "target type: webm/x265-opus/x264-mp3/wx/youtube"
 
   - Name: VES
     Type: string

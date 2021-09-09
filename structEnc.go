@@ -46,6 +46,14 @@ func init() {
 			CRF: "28",
 			Ext: _encodedExt,
 		},
+		"wx": {
+			AES: "aac",
+			AEA: "-q:a 3",
+			VES: "libx264",
+			ABR: "48k",
+			CRF: "33",
+			Ext: "_.mp4",
+		},
 		"x264-mp3": {
 			AES: "libmp3lame",
 			AEA: "-q:a 3",

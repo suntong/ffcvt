@@ -43,7 +43,7 @@ Usage:
 
 Flags:
 
-  -t	target type: webm/x265-opus/x264-mp3/youtube (FFCVT_T)
+  -t	target type: webm/x265-opus/x264-mp3/wx/youtube (FFCVT_T)
   -ves	video encoding method set (FFCVT_VES)
   -aes	audio encoding method set (FFCVT_AES)
   -ses	subtitle encoding method set (FFCVT_SES)
@@ -136,7 +136,7 @@ Details:
   -sym
     	symlinks will be processed as well
   -t string
-    	target type: webm/x265-opus/x264-mp3/youtube (default "webm")
+    	target type: webm/x265-opus/x264-mp3/wx/youtube (default "webm")
   -vc
     	copy video codec
   -vea string
