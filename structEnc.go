@@ -52,7 +52,7 @@ func init() {
 			VES: "libx264",
 			ABR: "48k",
 			CRF: "33",
-			Ext: "_.mp4",
+			Ext: "_.m4v",
 		},
 		"x264-mp3": {
 			AES: "libmp3lame",
