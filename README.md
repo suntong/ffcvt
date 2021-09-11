@@ -9,6 +9,7 @@
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
   - [Latest Update(s)](#latest-update(s))
+    - [Release v1.7.1](#release-v171)
     - [Release v1.7.0](#release-v170)
   - [Introduction](#introduction)
   - [Quick Usage](#quick-usage)
@@ -27,15 +28,31 @@
 
 ### Latest Update(s)
 
+#### Release v1.7.1
+
+Added option `-C` which allows cutting multiple segments.
+
+For further details, check out the wiki https://git.io/JuK0c,
+in which the source file of
+
+https://user-images.githubusercontent.com/422244/132961501-a2344db0-c48c-4a57-90fa-c3746bf3025f.mp4
+
+is cut-short into
+
+https://user-images.githubusercontent.com/422244/132961530-ea65cd03-19f8-4e7c-a871-40218f7289cc.mp4
+
+
 #### Release v1.7.0
 
-add `wx` type for weixin.
+Added `wx` type for weixin.
 
 Convert to video that is recognizable and playable by weixin/wechat, by using the `-t wx` option as the convertion type. Here is a converted sample:
 
 https://user-images.githubusercontent.com/422244/132617136-e1371ef3-6a21-4f12-8324-6db003c12468.mp4
 
 (credit [here](https://www.youtube.com/watch?v=2-UzBitLmf8))
+
+For further details, check out the wiki https://git.io/JuK0q
 
 ## Introduction
 
@@ -83,6 +100,8 @@ Flags:
   -an	no audio, output video only (FFCVT_AN)
   -vn	no video, output audio only (FFCVT_VN)
   -vss	video: same size (FFCVT_VSS)
+  -C	Cut segment(s) out to keep. Specify in the form of start-[end],
+	strictly in the format of hh:mm:ss, and may repeat (FFCVT_C)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
   -ato-opus	audio encode to opus, using -abr (FFCVT_ATO_OPUS)
@@ -100,6 +119,9 @@ Flags:
 
 Details:
 
+  -C value
+    	Cut segment(s) out to keep. Specify in the form of start-[end],
+    		strictly in the format of hh:mm:ss, and may repeat
   -abr string
     	audio bitrate (64k for opus, 256k for mp3)
   -ac

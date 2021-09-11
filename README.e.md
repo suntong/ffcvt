@@ -12,15 +12,31 @@
 
 ### Latest Update(s)
 
+#### Release v1.7.1
+
+Added option `-C` which allows cutting multiple segments.
+
+For further details, check out the wiki https://git.io/JuK0c,
+in which the source file of
+
+https://user-images.githubusercontent.com/422244/132961501-a2344db0-c48c-4a57-90fa-c3746bf3025f.mp4
+
+is cut-short into
+
+https://user-images.githubusercontent.com/422244/132961530-ea65cd03-19f8-4e7c-a871-40218f7289cc.mp4
+
+
 #### Release v1.7.0
 
-add `wx` type for weixin.
+Added `wx` type for weixin.
 
 Convert to video that is recognizable and playable by weixin/wechat, by using the `-t wx` option as the convertion type. Here is a converted sample:
 
 https://user-images.githubusercontent.com/422244/132617136-e1371ef3-6a21-4f12-8324-6db003c12468.mp4
 
 (credit [here](https://www.youtube.com/watch?v=2-UzBitLmf8))
+
+For further details, check out the wiki https://git.io/JuK0q
 
 ## Introduction
 
