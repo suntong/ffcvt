@@ -41,15 +41,15 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.6.1"
-	date    = "2020-01-08"
+	version = "1.7.1"
+	date    = "2021-09-12"
 
-	sprintf           = fmt.Sprintf
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1
 	totalNew   int64  = 1
 	videos     []string
 	workDirs   []string
+	cutOps     string = ""
 )
 
 ////////////////////////////////////////////////////////////////////////////
@@ -63,6 +63,56 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%s\nVersion %s built on %s\n", progname, version, date)
 		os.Exit(0)
 	}
+
+	if len(Opts.Cut) > 0 {
+		var b, vc strings.Builder
+		var ci int
+		var cv string
+		d0, _ := time.Parse("15:04:05", "00:00:00")
+		for ii, val := range Opts.Cut {
+			ci = ii
+			cv = val
+			cRange := regexp.MustCompile(`\s*(.*?)\s*-\s*(\S*)\s*$`).
+				FindStringSubmatch(val)
+			if len(cRange) != 3 {
+				fmt.Fprintf(os.Stderr, "pair - ")
+				goto range_error
+			}
+			//fmt.Println("Cut range:", cRange[1], cRange[2])
+			timeBgn, err := time.Parse("15:04:05", cRange[1])
+			if err != nil {
+				//fmt.Fprintf(os.Stderr, err.Error())
+				fmt.Fprintf(os.Stderr, "start - ")
+				goto range_error
+			}
+			endStr := ""
+			if len(cRange[2]) > 0 {
+				timeEnd, err := time.Parse("15:04:05", cRange[2])
+				if err != nil {
+					//fmt.Fprintf(os.Stderr, err.Error())
+					fmt.Fprintf(os.Stderr, "end - ")
+					goto range_error
+				}
+				endStr = fmt.Sprintf(":end=%d", int(timeEnd.Sub(d0).Seconds()))
+			}
+			secBgn := int(timeBgn.Sub(d0).Seconds())
+			fmt.Fprintf(&b, "[0:v]trim=start=%d%s,setpts=PTS-STARTPTS[v%d];"+
+				"[0:a]atrim=start=%d%s,asetpts=PTS-STARTPTS[a%d];",
+				secBgn, endStr, ii, secBgn, endStr, ii)
+			fmt.Fprintf(&vc, "[v%d][a%d]", ii, ii)
+		}
+
+		//fmt.Println("Cut(s):", len(Opts.Cut), Opts.Cut)
+		//fmt.Println(vc.String())
+		fmt.Fprintf(&b, "%sconcat=n=%d:v=1:a=1[vo][ao]", vc.String(), len(Opts.Cut))
+		//fmt.Println(b.String())
+		cutOps = b.String()
+		goto cut_ok
+	range_error:
+		fmt.Fprintf(os.Stderr, "Cut range %d format error for '%s'\n", ci, cv)
+		os.Exit(1)
+	}
+cut_ok:
 
 	// One mandatory arguments, either -d or -f
 	if len(Opts.Directory)+len(Opts.File) < 1 {
@@ -268,6 +318,14 @@ func transcodeFile(inputName string) {
 	args = encodeParametersS(encodeParametersA(encodeParametersV(args)))
 	if Opts.Force {
 		args = append(args, "-y")
+	}
+	if len(cutOps) != 0 {
+		args = append(args, "-filter_complex")
+		args = append(args, cutOps)
+		args = append(args, "-map")
+		args = append(args, "[vo]")
+		args = append(args, "-map")
+		args = append(args, "[ao]")
 	}
 	args = append(args, flag.Args()...)
 	args = append(args, outputName)

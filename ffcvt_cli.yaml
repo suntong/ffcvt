@@ -180,6 +180,12 @@ Options:
     Value: true
     Usage: "video: same size"
 
+  - Name: Cut
+    Type: mFlags
+    Flag: C
+    Value: '""'
+    Usage: "Cut segment(s) out to keep. Specify in the form of start-[end],\\n\\tstrictly in the format of hh:mm:ss, and may repeat"
+
   - Name: Lang
     Type: string
     Flag: lang
