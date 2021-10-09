@@ -282,31 +282,13 @@ func transcodeFile(inputName string) {
 		allAudioStreams := regexp.MustCompile(`Stream #0:.+: Audio: (.+)`).
 			FindAllStringSubmatch(fsinfo, -1)
 		if len(allAudioStreams) > 1 {
-			// then find the designated audio stream language
-			audioStreams := regexp.
-				MustCompile(`Stream #(.+)\(` + Opts.Lang + `\): Audio: (.+)`).
-				FindStringSubmatch(fsinfo)
-			if len(audioStreams) >= 1 {
-				// and use the 1st audio stream of the designated language
-				// via *temporarily* tweaking AEP/VEP/SEP setting
-				oldAEP, oldVEP, oldSEP = Opts.AEP, Opts.VEP, Opts.SEP
-				oldEPUsed = true
-				debug(audioStreams[1], 3)
-
-				Opts.AEP += " -map " + audioStreams[1]
-				dealSurroundSound(audioStreams[2])
-				// when `-map` is used (for audio), then all else need mapping as well
-				videoStreams := regexp.MustCompile(`Stream #(.+?)(\(.+\))*: Video: `).
-					FindStringSubmatch(fsinfo)
-				Opts.VEP += " -map " + videoStreams[1]
-				subtitleStreams := regexp.MustCompile(`Stream #(.+)\(.+\): Subtitle: `).
-					FindAllStringSubmatch(fsinfo, -1)
-				// keep all subtitle streams
-				for _, subtitleStream := range subtitleStreams {
-					Opts.SEP += " -map " + subtitleStream[1]
-				}
-			}
-			// else: designated audio language not found, use `default` instead
+			// then use the designated audio stream language
+			// via *temporarily* using the AEP/VEP/SEP setting
+			oldAEP, oldVEP, oldSEP = Opts.AEP, Opts.VEP, Opts.SEP
+			oldEPUsed = true
+			Opts.VEP += " -map 0:v"
+			Opts.AEP += " -map 0:a:m:language:" + Opts.Lang
+			Opts.SEP += " -map 0:s"
 		} else {
 			debug(inputName+" has single audio stream", 2)
 			dealSurroundSound(allAudioStreams[0][1])
