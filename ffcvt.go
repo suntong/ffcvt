@@ -278,10 +278,12 @@ func transcodeFile(inputName string) {
 			return
 		}
 		debug(fsinfo, 4)
-		// if there are more than one audio stream
+		// if there are more than one audio or subtitle stream
 		allAudioStreams := regexp.MustCompile(`Stream #0:.+: Audio: (.+)`).
 			FindAllStringSubmatch(fsinfo, -1)
-		if len(allAudioStreams) > 1 {
+		if len(allAudioStreams) > 1 ||
+			len(regexp.MustCompile(`Stream #0:.+: Subtitle: (.+)`).
+				FindAllStringSubmatch(fsinfo, -1)) > 1 {
 			// then use the designated audio stream language
 			// via *temporarily* using the AEP/VEP/SEP setting
 			oldAEP, oldVEP, oldSEP = Opts.AEP, Opts.VEP, Opts.SEP
