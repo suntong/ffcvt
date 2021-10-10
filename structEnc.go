@@ -10,6 +10,7 @@ type Encoding struct {
 	VES string // video encoding method set
 	AES string // audio encoding method set
 	SES string // subtitle encoding method set
+	SEL string // subtitle encoding language (language picked for reencoded video)
 	VEP string // video encoding method prepend
 	AEP string // audio encoding method prepend
 	SEP string // subtitle encoding method prepend

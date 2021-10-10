@@ -54,6 +54,12 @@ Options:
     Value: '""'
     Usage: "subtitle encoding method set"
 
+  - Name: SEL
+    Type: string
+    Flag: sel
+    Value: '""'
+    Usage: "subtitle encoding language (language picked for reencoded video)"
+
   - Name: VEP
     Type: string
     Flag: vep
