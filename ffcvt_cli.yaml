@@ -182,9 +182,15 @@ Options:
 
   - Name: Cut
     Type: mFlags
-    Flag: C
+    Flag: C,Cut
     Value: '""'
     Usage: "Cut segment(s) out to keep. Specify in the form of start-[end],\\n\\tstrictly in the format of hh:mm:ss, and may repeat"
+
+  - Name: Seg
+    Type: string
+    Flag: S,Seg
+    Value: '""'
+    Usage: "Split video into multiple segments (strictly in format: hh:mm:ss)"
 
   - Name: Lang
     Type: string
