@@ -55,7 +55,7 @@ Options:
     Usage: "subtitle encoding method set"
 
   - Name: SEL
-    Type: string
+    Type: mFlags
     Flag: sel
     Value: '""'
     Usage: "subtitle encoding language (language picked for reencoded video)"

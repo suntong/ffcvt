@@ -65,7 +65,7 @@ func init() {
 		"audio encoding method set")
 	flag.StringVar(&Opts.SES, "ses", "",
 		"subtitle encoding method set")
-	flag.StringVar(&Opts.SEL, "sel", "",
+	flag.Var(&Opts.SEL, "sel",
 		"subtitle encoding language (language picked for reencoded video)")
 	flag.StringVar(&Opts.VEP, "vep", "",
 		"video encoding method prepend")
@@ -153,10 +153,6 @@ func init() {
 	if len(Opts.SES) == 0 ||
 		len(os.Getenv("FFCVT_SES")) != 0 {
 		Opts.SES = os.Getenv("FFCVT_SES")
-	}
-	if len(Opts.SEL) == 0 ||
-		len(os.Getenv("FFCVT_SEL")) != 0 {
-		Opts.SEL = os.Getenv("FFCVT_SEL")
 	}
 	if len(Opts.VEP) == 0 ||
 		len(os.Getenv("FFCVT_VEP")) != 0 {
