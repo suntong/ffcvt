@@ -12,6 +12,10 @@
 
 ### Latest Update(s)
 
+#### Release v1.7.3
+
+* Now able to split video into multiple segments. Details in [\#16](https://github.com/suntong/ffcvt/issues/16)
+
 #### Release v1.7.2
 
 * Able to [choose streams by language, instead of streams index. ](https://github.com/suntong/ffcvt/commit/f649609356ef06d22d17d6dbe3f89b945cf18643)Details in [\#9](https://github.com/suntong/ffcvt/issues/9)

@@ -9,6 +9,7 @@
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
   - [Latest Update(s)](#latest-update(s))
+    - [Release v1.7.3](#release-v173)
     - [Release v1.7.2](#release-v172)
     - [Release v1.7.1](#release-v171)
     - [Release v1.7.0](#release-v170)
@@ -28,6 +29,10 @@
 ## ffcvt - ffmpeg convert wrapper tool
 
 ### Latest Update(s)
+
+#### Release v1.7.3
+
+* Now able to split video into multiple segments. Details in [\#16](https://github.com/suntong/ffcvt/issues/16)
 
 #### Release v1.7.2
 
@@ -107,8 +112,9 @@ Flags:
   -an	no audio, output video only (FFCVT_AN)
   -vn	no video, output audio only (FFCVT_VN)
   -vss	video: same size (FFCVT_VSS)
-  -C	Cut segment(s) out to keep. Specify in the form of start-[end],
-	strictly in the format of hh:mm:ss, and may repeat (FFCVT_C)
+  -C,Cut	Cut segment(s) out to keep. Specify in the form of start-[end],
+	strictly in the format of hh:mm:ss, and may repeat (FFCVT_C,CUT)
+  -S,Seg	Split video into multiple segments (strictly in format: hh:mm:ss) (FFCVT_S,SEG)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
   -sel	subtitle encoding language (language picked for reencoded video) (FFCVT_SEL)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
@@ -130,6 +136,13 @@ Details:
   -C value
     	Cut segment(s) out to keep. Specify in the form of start-[end],
     		strictly in the format of hh:mm:ss, and may repeat
+  -Cut value
+    	Cut segment(s) out to keep. Specify in the form of start-[end],
+    		strictly in the format of hh:mm:ss, and may repeat
+  -S string
+    	Split video into multiple segments (strictly in format: hh:mm:ss)
+  -Seg string
+    	Split video into multiple segments (strictly in format: hh:mm:ss)
   -abr string
     	audio bitrate (64k for opus, 256k for mp3)
   -ac
