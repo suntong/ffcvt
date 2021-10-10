@@ -278,7 +278,16 @@ func transcodeFile(inputName string) {
 			return
 		}
 		debug(fsinfo, 4)
-		// if there are more than one audio or subtitle stream
+		/*
+
+		   Cases when `-map`s are necessary
+
+		   - more than one audio stream, and we pick eng stream only
+		   - more than one subtitle stream, and
+		     * output all subtitle streams (default, no -sel), or
+		     * pick specific subtitle stream(s) via -sel
+
+		*/
 		allAudioStreams := regexp.MustCompile(`Stream #0:.+: Audio: (.+)`).
 			FindAllStringSubmatch(fsinfo, -1)
 		if len(allAudioStreams) > 1 ||
@@ -290,7 +299,14 @@ func transcodeFile(inputName string) {
 			oldEPUsed = true
 			Opts.VEP += " -map 0:v"
 			Opts.AEP += " -map 0:a:m:language:" + Opts.Lang
-			Opts.SEP += " -map 0:s"
+			//log.Printf("%s: Opts.SEL - %#v", progname, Opts.SEL)
+			if len(Opts.SEL) == 0 {
+				Opts.SEP += " -map 0:s"
+			} else {
+				for _, val := range Opts.SEL {
+					Opts.SEP += " -map 0:s:m:language:" + val
+				}
+			}
 		} else {
 			debug(inputName+" has single audio stream", 2)
 			dealSurroundSound(allAudioStreams[0][1])
