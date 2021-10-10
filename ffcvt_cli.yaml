@@ -192,6 +192,12 @@ Options:
     Value: '"eng"'
     Usage: "language selection for audio stream extraction"
 
+  - Name: SEL
+    Type: mFlags
+    Flag: sel
+    Value: '""'
+    Usage: "subtitle encoding language (language picked for reencoded video)"
+
   - Name: OptExtra
     Type: string
     Flag: o
