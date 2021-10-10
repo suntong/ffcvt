@@ -9,6 +9,7 @@
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
   - [Latest Update(s)](#latest-update(s))
+    - [Release v1.7.2](#release-v172)
     - [Release v1.7.1](#release-v171)
     - [Release v1.7.0](#release-v170)
   - [Introduction](#introduction)
@@ -27,6 +28,12 @@
 ## ffcvt - ffmpeg convert wrapper tool
 
 ### Latest Update(s)
+
+#### Release v1.7.2
+
+* Able to [choose streams by language, instead of streams index. ](https://github.com/suntong/ffcvt/commit/f649609356ef06d22d17d6dbe3f89b945cf18643)Details in [\#9](https://github.com/suntong/ffcvt/issues/9)
+* Fixed [\#8](https://github.com/suntong/ffcvt/issues/8). Now [force copy all subtitle streams. ](https://github.com/suntong/ffcvt/commit/46ce6725f9b036d373c6836d3bd66b429d5c4b2f)Details in [\#8](https://github.com/suntong/ffcvt/issues/8)
+* [Added option -sel](https://github.com/suntong/ffcvt/commit/defc5df5168216e279b944590f1d92523ecadc60), so now able to pick subtitle language(s). Details in [\#12](https://github.com/suntong/ffcvt/issues/12)
 
 #### Release v1.7.1
 
@@ -103,6 +110,7 @@ Flags:
   -C	Cut segment(s) out to keep. Specify in the form of start-[end],
 	strictly in the format of hh:mm:ss, and may repeat (FFCVT_C)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
+  -sel	subtitle encoding language (language picked for reencoded video) (FFCVT_SEL)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
   -ato-opus	audio encode to opus, using -abr (FFCVT_ATO_OPUS)
   -vto-x265	video video encode to x265, using -crf (FFCVT_VTO_X265)
@@ -163,6 +171,8 @@ Details:
   -o string
     	more options that will pass to ffmpeg program
   -p	par2create, create par2 files (in work directory)
+  -sel value
+    	subtitle encoding language (language picked for reencoded video)
   -sep string
     	subtitle encoding method prepend
   -ses string

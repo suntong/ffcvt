@@ -12,6 +12,12 @@
 
 ### Latest Update(s)
 
+#### Release v1.7.2
+
+* Able to [choose streams by language, instead of streams index. ](https://github.com/suntong/ffcvt/commit/f649609356ef06d22d17d6dbe3f89b945cf18643)Details in [\#9](https://github.com/suntong/ffcvt/issues/9)
+* Fixed [\#8](https://github.com/suntong/ffcvt/issues/8). Now [force copy all subtitle streams. ](https://github.com/suntong/ffcvt/commit/46ce6725f9b036d373c6836d3bd66b429d5c4b2f)Details in [\#8](https://github.com/suntong/ffcvt/issues/8)
+* [Added option -sel](https://github.com/suntong/ffcvt/commit/defc5df5168216e279b944590f1d92523ecadc60), so now able to pick subtitle language(s). Details in [\#12](https://github.com/suntong/ffcvt/issues/12)
+
 #### Release v1.7.1
 
 Added option `-C` which allows cutting multiple segments.
