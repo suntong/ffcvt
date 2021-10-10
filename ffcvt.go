@@ -64,6 +64,15 @@ func main() {
 		os.Exit(0)
 	}
 
+	if len(Opts.Seg) > 0 {
+		// sanity check
+		_, err := time.Parse("15:04:05", Opts.Seg)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Seg format error: '%s'\n", Opts.Seg)
+			os.Exit(1)
+		}
+	}
+
 	if len(Opts.Cut) > 0 {
 		var b, vc strings.Builder
 		var ci int
@@ -264,7 +273,10 @@ func transcodeVideos(startTime time.Time) {
 
 func transcodeFile(inputName string) {
 	startTime := time.Now()
-	outputName := getOutputName(inputName)
+	outputName, outputGrpName := getOutputName(inputName), ""
+	if len(Opts.Seg) > 0 {
+		outputName, outputGrpName = getOutputNameSeg(inputName)
+	}
 	debug(outputName, 4)
 	os.MkdirAll(filepath.Dir(outputName), os.ModePerm)
 	var oldAEP, oldVEP, oldSEP string
@@ -319,6 +331,14 @@ func transcodeFile(inputName string) {
 	if Opts.Force {
 		args = append(args, "-y")
 	}
+	if len(Opts.Seg) > 0 {
+		args = append(args, "-f")
+		args = append(args, "segment")
+		args = append(args, "-segment_time")
+		args = append(args, Opts.Seg)
+		args = append(args, "-reset_timestamps")
+		args = append(args, "1")
+	}
 	if len(cutOps) != 0 {
 		args = append(args, "-filter_complex")
 		args = append(args, cutOps)
@@ -328,7 +348,11 @@ func transcodeFile(inputName string) {
 		args = append(args, "[ao]")
 	}
 	args = append(args, flag.Args()...)
-	args = append(args, outputName)
+	if len(Opts.Seg) > 0 {
+		args = append(args, outputGrpName)
+	} else {
+		args = append(args, outputName)
+	}
 	debug(Opts.FFMpeg+" "+strings.Join(args, " "), 1)
 
 	if Opts.NoExec {
@@ -527,6 +551,16 @@ func getOutputName(input string) string {
 		}
 	}
 	return r
+}
+
+// getOutputNameSeg will do getOutputName() but tailored toward video segmenting.
+// The first return will be the first video segment file name, 00_.mkv, while
+// the second return will be the segment group file name, %02d_.mkv
+func getOutputNameSeg(input string) (string, string) {
+	r := getOutputName(input)
+	fileFirst := strings.Replace(r, encodedExt, "00"+encodedExt, 1)
+	fileGroup := strings.Replace(r, encodedExt, "%02d"+encodedExt, 1)
+	return fileFirst, fileGroup
 }
 
 //==========================================================================
