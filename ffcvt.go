@@ -41,7 +41,7 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.7.2"
+	version = "1.7.3"
 	date    = "2021-10-10"
 
 	encodedExt string = _encodedExt
