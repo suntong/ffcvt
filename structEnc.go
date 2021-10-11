@@ -29,6 +29,13 @@ type Encoding struct {
 var Defaults map[string]Encoding
 
 func init() {
+	initVars()
+	debug(Opts.CRF, 3)
+	initDefaults()
+	debug(Opts.CRF, 3)
+}
+
+func initDefaults() {
 
 	Defaults = map[string]Encoding{
 		"webm": {
@@ -78,9 +85,6 @@ func init() {
 }
 
 func getDefault() {
-	// preserve command line values
-	abr, crf := Opts.ABR, Opts.CRF
-
 	if encDefault, ok := Defaults[Opts.Target]; ok {
 		// debug(encDefault.Ext, 2)
 		Opts.Encoding = encDefault
@@ -90,13 +94,8 @@ func getDefault() {
 		log.Fatal(progname + " Error: Wrong target option passed to -t.")
 	}
 
-	// restore command line values
-	if abr != "" {
-		Opts.ABR = abr
-	}
-	if crf != "" {
-		Opts.CRF = crf
-	}
+	initVals()
+	debug(Opts.CRF, 3)
 
 	if Opts.Suffix != "" {
 		Opts.Suffix = "_" + Opts.Suffix
