@@ -56,7 +56,7 @@ var Opts Options
 ////////////////////////////////////////////////////////////////////////////
 // Commandline definitions
 
-func init() {
+func initVars() {
 
 	// set default values for command line parameters
 	flag.StringVar(&Opts.Target, "t", "webm",
@@ -143,7 +143,9 @@ func init() {
 		"ffprobe program execution")
 	flag.BoolVar(&Opts.PrintV, "version", false,
 		"print version then exit")
+}
 
+func initVals() {
 	exists := false
 	// Now override those default values from environment variables
 	if len(Opts.Target) == 0 ||
