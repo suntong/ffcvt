@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////
+// Porgram: flag_array
+// Purpose: a user-defined Go flag type that allows multiple occurrence
+// Authors: Tong Sun (c) 2021, All rights reserved
+// License: MIT
+////////////////////////////////////////////////////////////////////////////
 // Refs https://github.com/suntong/lang/blob/master/lang/Go/src/sys/CommandLineFlagArray.go
 
 package main
