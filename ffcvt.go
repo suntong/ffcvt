@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////
 // Porgram: FfCvt
 // Purpose: ffmpeg convert wrapper tool
-// Authors: Tong Sun (c) 2015-2019, All rights reserved
+// Authors: Tong Sun (c) 2015-2022, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -41,8 +41,8 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.7.3"
-	date    = "2021-10-10"
+	version = "1.7.4"
+	date    = "2022-01-02"
 
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1
