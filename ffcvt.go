@@ -499,7 +499,7 @@ func encodeParametersV(args []string) []string {
 			// -b:v 0 -crf 37
 			args = append(args, "-b:v", "0", "-crf", Opts.CRF)
 		}
-		if Opts.VES[:6] == "libx26" {
+		if len(Opts.VES) > 6 && Opts.VES[:6] == "libx26" {
 			args = append(args, "-"+Opts.VES[3:]+"-params", "crf="+Opts.CRF)
 		}
 	}

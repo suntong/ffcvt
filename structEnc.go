@@ -38,6 +38,14 @@ func init() {
 func initDefaults() {
 
 	Defaults = map[string]Encoding{
+		"copy": {
+			AES: "copy",
+			VES: "copy",
+			SES: "-c:s copy",
+			ABR: "64k",
+			CRF: "42",
+			Ext: _encodedExt,
+		},
 		"webm": {
 			AES: "libopus",
 			VES: "libvpx-vp9",
