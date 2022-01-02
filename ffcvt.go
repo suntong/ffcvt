@@ -339,6 +339,15 @@ func transcodeFile(inputName string) {
 		args = append(args, "-reset_timestamps")
 		args = append(args, "1")
 	}
+	if len(Opts.Speed) > 0 {
+		args = append(args, "-filter_complex")
+		args = append(args, fmt.Sprintf("[0:v]setpts=PTS/%s[v];[0:a]atempo=%s[a]",
+			Opts.Speed, Opts.Speed))
+		args = append(args, "-map")
+		args = append(args, "[v]")
+		args = append(args, "-map")
+		args = append(args, "[a]")
+	}
 	if len(cutOps) != 0 {
 		args = append(args, "-filter_complex")
 		args = append(args, cutOps)
