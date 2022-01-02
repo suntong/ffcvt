@@ -192,6 +192,12 @@ Options:
     Value: '""'
     Usage: "Split video into multiple segments (strictly in format: hh:mm:ss)"
 
+  - Name: Speed
+    Type: string
+    Flag: Speed
+    Value: '""'
+    Usage: "Speed up/down video playback speed (e.g. 1.25, 1.3 etc)"
+
   - Name: Lang
     Type: string
     Flag: lang
