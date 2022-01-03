@@ -30,11 +30,20 @@
         "maintenance",
         "infra"
       ]
+    },
+    {
+      "login": "sanjaymsh",
+      "name": "sanjaymsh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66668807?v=4",
+      "profile": "https://github.com/sanjaymsh",
+      "contributions": [
+        "platform"
+      ]
     }
   ],
   "contributorsPerLine": 7,
-  "projectName": "cc2py2",
-  "projectOwner": "go-cc",
+  "projectName": "ffcvt",
+  "projectOwner": "suntong",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true
