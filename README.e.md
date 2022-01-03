@@ -1,11 +1,3 @@
-
-# {{.Name}}
-
-{{render "license/shields" . "License" "MIT"}}
-{{template "badge/godoc" .}}
-{{template "badge/goreport" .}}
-{{template "badge/travis" .}}
-
 ## {{toc 5}}
 
 ## {{.Name}} - ffmpeg convert wrapper tool
@@ -80,59 +72,11 @@ The detailed guide to choose/provide proper parameters to `ffcvt` have been move
 
 Please check them out in the [wiki](https://github.com/suntong/ffcvt/wiki/), and for other documents like "Most used ffmpeg options", "How to crop a video", etc.
 
-## Download/Install
-
-### Using `apt`
-
-The `ffcvt` is now officially in Debian repository, so the installation is now as simple as a `apt install`/`apt-get install`:
-
-    apt install ffcvt
-
-### Download binaries
-
-- The latest binary executables are available under  
-https://bintray.com/suntong/bin/{{.Name}}/latest  
-as the result of the Continuous-Integration process.
-- I.e., they are built right from the source code during _every_ git commit _automatically_ by [travis-ci](https://travis-ci.org/).
-- Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `{{.Name}}-linux-amd64` file. If your OS and its architecture is not available in the download list, please let me know and I'll add it.
-- You may want to rename it to a shorter name instead, e.g., `{{.Name}}`, after downloading it.
-
-
-### Debian package
-
-Debian package _repo_ is available at https://dl.bintray.com/suntong/deb.
-The _browse-able_ repo view is at https://bintray.com/suntong/deb.
-
-```
-echo "deb [trusted=yes] https://dl.bintray.com/suntong/deb all main" | sudo tee /etc/apt/sources.list.d/suntong-debs.list
-sudo apt-get update
-
-sudo chmod 644 /etc/apt/sources.list.d/suntong-debs.list
-apt-cache policy {{.Name}}
-
-sudo apt-get install -y {{.Name}}
-```
-
-### Install Source
-
-If you prefer to compile and install `ffcvt` from source, although a manual process, it's pretty straightforward and simple.
-
-0. Get the source via `git clone` or [`go get`](https://golang.org/cmd/go/#hdr-Download_and_install_packages_and_dependencies).
-0. Do `cd ffcvt`, then issue [`go build`](https://golang.org/cmd/go/#hdr-Compile_packages_and_dependencies) without any other parameters.
-0. Copy the generated executable somewhere in the PATH
-
-That's it, it's ready to roll. 
-
-
 ## Tools Choices
 
 As suggested before, don't use `avconv`, use `ffmpeg` instead (the `avconv` fork was more for political reasons. I personally believe `ffmpeg` is technically superior although might not be politically).
 
 As for video/movie play back, use [mpv](http://mpv.io/). It is a fork of mplayer2 and MPlayer, and is a true *modern* *all-in-one* movie player that can play ANYTHING, and one of the few movie players being actively developed all the time. Download link is in [mpv.io](http://mpv.io/), from which Ubuntu repo I get my Ubuntu `ffmpeg` package as well. If you are unsatisfied with mpv's simple user interface, check out https://wiki.archlinux.org/index.php/Mpv#Front_ends.
 
-## Author(s)
+### Debian package
 
-Tong SUN  
-![suntong from cpan.org](https://img.shields.io/badge/suntong-%40cpan.org-lightgrey.svg "suntong from cpan.org")
-
-All patches welcome. 
