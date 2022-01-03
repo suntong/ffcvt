@@ -196,7 +196,7 @@ Options:
     Type: string
     Flag: Speed
     Value: '""'
-    Usage: "Speed up/down video playback speed (e.g. 1.25, 1.3 etc)"
+    Usage: "Speed up/down video playback speed (e.g. 1.28)"
 
   - Name: Lang
     Type: string
