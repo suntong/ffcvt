@@ -39,6 +39,16 @@
       "contributions": [
         "platform"
       ]
+    },
+    {
+      "login": "bjwest",
+      "name": "Billy West",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1934590?v=4",
+      "profile": "https://github.com/bjwest",
+      "contributions": [
+        "bug",
+        "userTesting"
+      ]
     }
   ],
   "contributorsPerLine": 7,
