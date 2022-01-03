@@ -1,4 +1,12 @@
 ## {{toc 5}}
+- [Install Debian/Ubuntu package](#install-debianubuntu-package)
+- [Download/install binaries](#downloadinstall-binaries)
+  - [The binary executables](#the-binary-executables)
+  - [Distro package](#distro-package)
+  - [Debian package](#debian-package)
+- [Install Source](#install-source)
+- [Author](#author)
+- [Contributors](#contributors-)
 
 ## {{.Name}} - ffmpeg convert wrapper tool
 
@@ -78,5 +86,6 @@ As suggested before, don't use `avconv`, use `ffmpeg` instead (the `avconv` fork
 
 As for video/movie play back, use [mpv](http://mpv.io/). It is a fork of mplayer2 and MPlayer, and is a true *modern* *all-in-one* movie player that can play ANYTHING, and one of the few movie players being actively developed all the time. Download link is in [mpv.io](http://mpv.io/), from which Ubuntu repo I get my Ubuntu `ffmpeg` package as well. If you are unsatisfied with mpv's simple user interface, check out https://wiki.archlinux.org/index.php/Mpv#Front_ends.
 
-### Debian package
+### Install Debian/Ubuntu package
 
+    apt install {{.Name}}
