@@ -59,6 +59,16 @@
         "bug",
         "userTesting"
       ]
+    },
+    {
+      "login": "brainstorm",
+      "name": "Roman Valls Guimera",
+      "avatar_url": "https://avatars.githubusercontent.com/u/175587?v=4",
+      "profile": "http://blogs.nopcode.org/brainstorm",
+      "contributions": [
+        "bug",
+        "userTesting"
+      ]
     }
   ],
   "contributorsPerLine": 7,

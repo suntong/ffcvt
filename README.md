@@ -1,6 +1,6 @@
 # ffcvt
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -345,6 +345,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/sanjaymsh"><img src="https://avatars.githubusercontent.com/u/66668807?v=4?s=100" width="100px;" alt=""/><br /><sub><b>sanjaymsh</b></sub></a><br /><a href="#platform-sanjaymsh" title="Packaging/porting to new platform">📦</a></td>
     <td align="center"><a href="https://github.com/bjwest"><img src="https://avatars.githubusercontent.com/u/1934590?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Billy West</b></sub></a><br /><a href="https://github.com/suntong/ffcvt/issues?q=author%3Abjwest" title="Bug reports">🐛</a> <a href="#userTesting-bjwest" title="User Testing">📓</a></td>
     <td align="center"><a href="https://github.com/bdaroz"><img src="https://avatars.githubusercontent.com/u/9668896?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Brian Rozmierski</b></sub></a><br /><a href="https://github.com/suntong/ffcvt/issues?q=author%3Abdaroz" title="Bug reports">🐛</a> <a href="#userTesting-bdaroz" title="User Testing">📓</a></td>
+    <td align="center"><a href="http://blogs.nopcode.org/brainstorm"><img src="https://avatars.githubusercontent.com/u/175587?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Roman Valls Guimera</b></sub></a><br /><a href="https://github.com/suntong/ffcvt/issues?q=author%3Abrainstorm" title="Bug reports">🐛</a> <a href="#userTesting-brainstorm" title="User Testing">📓</a></td>
   </tr>
 </table>
 
