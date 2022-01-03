@@ -1,14 +1,19 @@
-
 # ffcvt
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GoDoc](https://godoc.org/github.com/suntong/ffcvt?status.svg)](http://godoc.org/github.com/suntong/ffcvt)
 [![Go Report Card](https://goreportcard.com/badge/github.com/suntong/ffcvt)](https://goreportcard.com/report/github.com/suntong/ffcvt)
-[![travis Status](https://travis-ci.org/suntong/ffcvt.svg?branch=master)](https://travis-ci.org/suntong/ffcvt)
+[![Build Status](https://github.com/suntong/ffcvt/actions/workflows/go-release-build.yml/badge.svg?branch=master)](https://github.com/suntong/ffcvt/actions/workflows/go-release-build.yml)
+[![PoweredBy WireFrame](https://github.com/go-easygen/wireframe/blob/master/PoweredBy-WireFrame-B.svg)](http://godoc.org/github.com/go-easygen/wireframe)
+
 
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
   - [Latest Update(s)](#latest-update(s))
+    - [Release v1.7.5](#release-v175)
     - [Release v1.7.3](#release-v173)
     - [Release v1.7.2](#release-v172)
     - [Release v1.7.1](#release-v171)
@@ -18,21 +23,29 @@
     - [$ ffcvt](#-ffcvt)
   - [Environment Variables](#environment-variables)
   - [Encoding Help](#encoding-help)
-  - [Download/Install](#downloadinstall)
-    - [Using `apt`](#using-`apt`)
-    - [Download binaries](#download-binaries)
-    - [Debian package](#debian-package)
-    - [Install Source](#install-source)
   - [Tools Choices](#tools-choices)
-  - [Author(s)](#author(s))
+    - [Install Debian/Ubuntu package](#install-debianubuntu-package)
+- [Install Debian/Ubuntu package](#install-debianubuntu-package)
+- [Download/install binaries](#downloadinstall-binaries)
+  - [The binary executables](#the-binary-executables)
+  - [Distro package](#distro-package)
+  - [Debian package](#debian-package)
+- [Install Source](#install-source)
+- [Author](#author)
+- [Contributors](#contributors-)
 
 ## ffcvt - ffmpeg convert wrapper tool
 
 ### Latest Update(s)
 
+#### Release v1.7.5
+
+* Now able to speed up playback speed (`-Speed`). Details in [\#22](https://github.com/suntong/ffcvt/issues/22)
+* Also have added a `copy` target type that can speed up the `Seg` (split video) operation (v1.7.4). Details in [\#21](https://github.com/suntong/ffcvt/issues/21)
+
 #### Release v1.7.3
 
-* Now able to split video into multiple segments. Details in [\#16](https://github.com/suntong/ffcvt/issues/16)
+* Now able to split video into multiple segments (`-S,Seg`) by the given time. Details in [\#16](https://github.com/suntong/ffcvt/issues/16)
 
 #### Release v1.7.2
 
@@ -42,7 +55,7 @@
 
 #### Release v1.7.1
 
-Added option `-C` which allows cutting multiple segments.
+Added option `-C,Cut` which allows cutting multiple segments.
 
 For further details, check out the wiki https://git.io/JuK0c,
 in which the source file of
@@ -86,7 +99,7 @@ Usage:
 
 Flags:
 
-  -t	target type: webm/x265-opus/x264-mp3/wx/youtube (FFCVT_T)
+  -t	target type: webm/x265-opus/x264-mp3/wx/youtube/copy (FFCVT_T)
   -ves	video encoding method set (FFCVT_VES)
   -aes	audio encoding method set (FFCVT_AES)
   -ses	subtitle encoding method set (FFCVT_SES)
@@ -115,6 +128,7 @@ Flags:
   -C,Cut	Cut segment(s) out to keep. Specify in the form of start-[end],
 	strictly in the format of hh:mm:ss, and may repeat (FFCVT_C,CUT)
   -S,Seg	Split video into multiple segments (strictly in format: hh:mm:ss) (FFCVT_S,SEG)
+  -Speed	Speed up/down video playback speed (e.g. 1.28) (FFCVT_SPEED)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
   -sel	subtitle encoding language (language picked for reencoded video) (FFCVT_SEL)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
@@ -143,6 +157,8 @@ Details:
     	Split video into multiple segments (strictly in format: hh:mm:ss)
   -Seg string
     	Split video into multiple segments (strictly in format: hh:mm:ss)
+  -Speed string
+    	Speed up/down video playback speed (e.g. 1.28)
   -abr string
     	audio bitrate (64k for opus, 256k for mp3)
   -ac
@@ -195,7 +211,7 @@ Details:
   -sym
     	symlinks will be processed as well
   -t string
-    	target type: webm/x265-opus/x264-mp3/wx/youtube (default "webm")
+    	target type: webm/x265-opus/x264-mp3/wx/youtube/copy (default "webm")
   -vc
     	copy video codec
   -vea string
@@ -235,59 +251,103 @@ The detailed guide to choose/provide proper parameters to `ffcvt` have been move
 
 Please check them out in the [wiki](https://github.com/suntong/ffcvt/wiki/), and for other documents like "Most used ffmpeg options", "How to crop a video", etc.
 
-## Download/Install
-
-### Using `apt`
-
-The `ffcvt` is now officially in Debian repository, so the installation is now as simple as a `apt install`/`apt-get install`:
-
-    apt install ffcvt
-
-### Download binaries
-
-- The latest binary executables are available under  
-https://bintray.com/suntong/bin/ffcvt/latest  
-as the result of the Continuous-Integration process.
-- I.e., they are built right from the source code during _every_ git commit _automatically_ by [travis-ci](https://travis-ci.org/).
-- Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `ffcvt-linux-amd64` file. If your OS and its architecture is not available in the download list, please let me know and I'll add it.
-- You may want to rename it to a shorter name instead, e.g., `ffcvt`, after downloading it.
-
-
-### Debian package
-
-Debian package _repo_ is available at https://dl.bintray.com/suntong/deb.
-The _browse-able_ repo view is at https://bintray.com/suntong/deb.
-
-```
-echo "deb [trusted=yes] https://dl.bintray.com/suntong/deb all main" | sudo tee /etc/apt/sources.list.d/suntong-debs.list
-sudo apt-get update
-
-sudo chmod 644 /etc/apt/sources.list.d/suntong-debs.list
-apt-cache policy ffcvt
-
-sudo apt-get install -y ffcvt
-```
-
-### Install Source
-
-If you prefer to compile and install `ffcvt` from source, although a manual process, it's pretty straightforward and simple.
-
-0. Get the source via `git clone` or [`go get`](https://golang.org/cmd/go/#hdr-Download_and_install_packages_and_dependencies).
-0. Do `cd ffcvt`, then issue [`go build`](https://golang.org/cmd/go/#hdr-Compile_packages_and_dependencies) without any other parameters.
-0. Copy the generated executable somewhere in the PATH
-
-That's it, it's ready to roll. 
-
-
 ## Tools Choices
 
 As suggested before, don't use `avconv`, use `ffmpeg` instead (the `avconv` fork was more for political reasons. I personally believe `ffmpeg` is technically superior although might not be politically).
 
 As for video/movie play back, use [mpv](http://mpv.io/). It is a fork of mplayer2 and MPlayer, and is a true *modern* *all-in-one* movie player that can play ANYTHING, and one of the few movie players being actively developed all the time. Download link is in [mpv.io](http://mpv.io/), from which Ubuntu repo I get my Ubuntu `ffmpeg` package as well. If you are unsatisfied with mpv's simple user interface, check out https://wiki.archlinux.org/index.php/Mpv#Front_ends.
 
-## Author(s)
+### Install Debian/Ubuntu package
+
+    apt install ffcvt
+
+## Download/install binaries
+
+- The latest binary executables are available 
+as the result of the Continuous-Integration (CI) process.
+- I.e., they are built automatically right from the source code at every git release by [GitHub Actions](https://docs.github.com/en/actions).
+- There are two ways to get/install such binary executables
+  * Using the **binary executables** directly, or
+  * Using **packages** for your distro
+
+### The binary executables
+
+- The latest binary executables are directly available under  
+https://github.com/suntong/ffcvt/releases/latest 
+- Pick & choose the one that suits your OS and its architecture. E.g., for Linux, it would be the `ffcvt_verxx_linux_amd64.tar.gz` file. 
+- Available OS for binary executables are
+  * Linux
+  * Mac OS (darwin)
+  * Windows
+- If your OS and its architecture is not available in the download list, please let me know and I'll add it.
+- The manual installation is just to unpack it and move/copy the binary executable to somewhere in `PATH`. For example,
+
+``` sh
+tar -xvf ffcvt_*_linux_amd64.tar.gz
+sudo mv -v ffcvt_*_linux_amd64/ffcvt /usr/local/bin/
+rmdir -v ffcvt_*_linux_amd64
+```
+
+
+### Distro package
+
+- [Packages available for Linux distros](https://cloudsmith.io/~suntong/repos/repo/packages/) are
+  * [Alpine Linux](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-alpine)
+  * [Debian](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-deb)
+  * [RedHat](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-rpm)
+
+The repo setup instruction url has been given above.
+For example, for [Debian](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-deb) --
+
+### Debian package
+
+
+```sh
+curl -1sLf \
+  'https://dl.cloudsmith.io/public/suntong/repo/setup.deb.sh' \
+  | sudo -E bash
+
+# That's it. You then can do your normal operations, like
+
+sudo apt-get update
+apt-cache policy ffcvt
+
+sudo apt-get install -y ffcvt
+```
+
+## Install Source
+
+To install the source code instead:
+
+```
+go get -v -u github.com/suntong/ffcvt
+```
+
+## Author
 
 Tong SUN  
 ![suntong from cpan.org](https://img.shields.io/badge/suntong-%40cpan.org-lightgrey.svg "suntong from cpan.org")
 
-All patches welcome. 
+_Powered by_ [**WireFrame**](https://github.com/go-easygen/wireframe)  
+[![PoweredBy WireFrame](https://github.com/go-easygen/wireframe/blob/master/PoweredBy-WireFrame-Y.svg)](http://godoc.org/github.com/go-easygen/wireframe)  
+the _one-stop wire-framing solution_ for Go cli based projects, from _init_ to _deploy_.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/suntong"><img src="https://avatars.githubusercontent.com/u/422244?v=4?s=100" width="100px;" alt=""/><br /><sub><b>suntong</b></sub></a><br /><a href="https://github.com/go-cc/cc2py2/commits?author=suntong" title="Code">💻</a> <a href="#ideas-suntong" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-suntong" title="Design">🎨</a> <a href="#data-suntong" title="Data">🔣</a> <a href="https://github.com/go-cc/cc2py2/commits?author=suntong" title="Tests">⚠️</a> <a href="https://github.com/go-cc/cc2py2/issues?q=author%3Asuntong" title="Bug reports">🐛</a> <a href="https://github.com/go-cc/cc2py2/commits?author=suntong" title="Documentation">📖</a> <a href="#blog-suntong" title="Blogposts">📝</a> <a href="#example-suntong" title="Examples">💡</a> <a href="#tutorial-suntong" title="Tutorials">✅</a> <a href="#tool-suntong" title="Tools">🔧</a> <a href="#platform-suntong" title="Packaging/porting to new platform">📦</a> <a href="https://github.com/go-cc/cc2py2/pulls?q=is%3Apr+reviewed-by%3Asuntong" title="Reviewed Pull Requests">👀</a> <a href="#question-suntong" title="Answering Questions">💬</a> <a href="#maintenance-suntong" title="Maintenance">🚧</a> <a href="#infra-suntong" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

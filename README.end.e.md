@@ -29,7 +29,7 @@ rmdir -v {{.Name}}_*_linux_amd64
 
 ### Distro package
 
-- Packages available for Linux distros are
+- [Packages available for Linux distros](https://cloudsmith.io/~suntong/repos/repo/packages/) are
   * [Alpine Linux](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-alpine)
   * [Debian](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-deb)
   * [RedHat](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-rpm)
@@ -69,4 +69,3 @@ Tong SUN
 _Powered by_ [**WireFrame**](https://github.com/go-easygen/wireframe)  
 [![PoweredBy WireFrame](https://github.com/go-easygen/wireframe/blob/master/PoweredBy-WireFrame-Y.svg)](http://godoc.org/github.com/go-easygen/wireframe)  
 the _one-stop wire-framing solution_ for Go cli based projects, from _init_ to _deploy_.
-

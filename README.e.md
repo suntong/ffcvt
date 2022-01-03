@@ -12,9 +12,14 @@
 
 ### Latest Update(s)
 
+#### Release v1.7.5
+
+* Now able to speed up playback speed (`-Speed`). Details in [\#22](https://github.com/suntong/ffcvt/issues/22)
+* Also have added a `copy` target type that can speed up the `Seg` (split video) operation (v1.7.4). Details in [\#21](https://github.com/suntong/ffcvt/issues/21)
+
 #### Release v1.7.3
 
-* Now able to split video into multiple segments. Details in [\#16](https://github.com/suntong/ffcvt/issues/16)
+* Now able to split video into multiple segments (`-S,Seg`) by the given time. Details in [\#16](https://github.com/suntong/ffcvt/issues/16)
 
 #### Release v1.7.2
 
@@ -24,7 +29,7 @@
 
 #### Release v1.7.1
 
-Added option `-C` which allows cutting multiple segments.
+Added option `-C,Cut` which allows cutting multiple segments.
 
 For further details, check out the wiki https://git.io/JuK0c,
 in which the source file of
