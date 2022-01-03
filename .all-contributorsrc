@@ -49,6 +49,16 @@
         "bug",
         "userTesting"
       ]
+    },
+    {
+      "login": "bdaroz",
+      "name": "Brian Rozmierski",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9668896?v=4",
+      "profile": "https://github.com/bdaroz",
+      "contributions": [
+        "bug",
+        "userTesting"
+      ]
     }
   ],
   "contributorsPerLine": 7,
