@@ -39,6 +39,11 @@ jobs:
           # go mod tidy
           go get -v ./...
           go test -v ./...
+          go build -v .
+          #pwd
+          #ls -Al test/* test2/*
+          ( cd test; ./test-all.sh; )
+          ( cd test2; ./test-all.sh; )
 
       -
         name: Run GoReleaser
