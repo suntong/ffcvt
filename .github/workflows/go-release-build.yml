@@ -1,5 +1,9 @@
 name: build
 
+env:
+  TEST_DIRS: test test2
+  TEST_NAME: ./test-all.sh
+
 on:
   push:
     branches:
@@ -40,10 +44,9 @@ jobs:
           go get -v ./...
           go test -v ./...
           go build -v .
-          #pwd
-          #ls -Al test/* test2/*
-          ( cd test; ./test-all.sh; )
-          ( cd test2; ./test-all.sh; )
+          for d in ${TEST_DIRS}; do
+            echo Testing in folder \"$d\"; ( cd $d; $TEST_NAME; );
+          done
 
       -
         name: Run GoReleaser
