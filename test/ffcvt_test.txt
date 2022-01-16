@@ -4,7 +4,7 @@ Usage:
 
 Flags:
 
-  -t	target type: webm/x265-opus/x264-mp3/youtube (FFCVT_T)
+  -t	target type: webm/x265-opus/x264-mp3/wx/youtube/copy (FFCVT_T)
   -ves	video encoding method set (FFCVT_VES)
   -aes	audio encoding method set (FFCVT_AES)
   -ses	subtitle encoding method set (FFCVT_SES)
@@ -30,7 +30,12 @@ Flags:
   -an	no audio, output video only (FFCVT_AN)
   -vn	no video, output audio only (FFCVT_VN)
   -vss	video: same size (FFCVT_VSS)
+  -C,Cut	Cut segment(s) out to keep. Specify in the form of start-[end],
+	strictly in the format of hh:mm:ss, and may repeat (FFCVT_C,CUT)
+  -S,Seg	Split video into multiple segments (strictly in format: hh:mm:ss) (FFCVT_S,SEG)
+  -Speed	Speed up/down video playback speed (e.g. 1.28) (FFCVT_SPEED)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
+  -sel	subtitle encoding language (language picked for reencoded video) (FFCVT_SEL)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
   -ato-opus	audio encode to opus, using -abr (FFCVT_ATO_OPUS)
   -vto-x265	video video encode to x265, using -crf (FFCVT_VTO_X265)
@@ -47,6 +52,18 @@ Flags:
 
 Details:
 
+  -C value
+    	Cut segment(s) out to keep. Specify in the form of start-[end],
+    		strictly in the format of hh:mm:ss, and may repeat
+  -Cut value
+    	Cut segment(s) out to keep. Specify in the form of start-[end],
+    		strictly in the format of hh:mm:ss, and may repeat
+  -S string
+    	Split video into multiple segments (strictly in format: hh:mm:ss)
+  -Seg string
+    	Split video into multiple segments (strictly in format: hh:mm:ss)
+  -Speed string
+    	Speed up/down video playback speed (e.g. 1.28)
   -abr string
     	audio bitrate (64k for opus, 256k for mp3)
   -ac
@@ -88,6 +105,8 @@ Details:
   -o string
     	more options that will pass to ffmpeg program
   -p	par2create, create par2 files (in work directory)
+  -sel value
+    	subtitle encoding language (language picked for reencoded video)
   -sep string
     	subtitle encoding method prepend
   -ses string
@@ -97,7 +116,7 @@ Details:
   -sym
     	symlinks will be processed as well
   -t string
-    	target type: webm/x265-opus/x264-mp3/youtube (default "webm")
+    	target type: webm/x265-opus/x264-mp3/wx/youtube/copy (default "webm")
   -vc
     	copy video codec
   -vea string

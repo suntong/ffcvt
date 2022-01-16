@@ -1,1 +1,0 @@
-../test/test-sym.sh
