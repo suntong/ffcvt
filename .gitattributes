@@ -3,8 +3,14 @@
 .gitattributes export-ignore
 .gitignore export-ignore
 .github/ export-ignore
-# general text files
-*.e.md export-ignore
 # CI/CD
 .travis.yml export-ignore
 .gitlab-ci.yml export-ignore
+# general text files
+*.e.md export-ignore
+# my projects
+.all-contributorsrc export-ignore
+.goreleaser.yml export-ignore
+*_proj.yaml export-ignore
+# This repo
+*.png export-ignore
