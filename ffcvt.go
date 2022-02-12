@@ -1,9 +1,3 @@
-////////////////////////////////////////////////////////////////////////////
-// Porgram: FfCvt
-// Purpose: ffmpeg convert wrapper tool
-// Authors: Tong Sun (c) 2015-2022, All rights reserved
-////////////////////////////////////////////////////////////////////////////
-
 /*
 
 Transcodes all videos in the given directory and all of it's subdirectories
@@ -11,12 +5,18 @@ using ffmpeg.
 
 */
 
+package main
+
+////////////////////////////////////////////////////////////////////////////
+// Porgram: FfCvt
+// Purpose: ffmpeg convert wrapper tool
+// Authors: Tong Sun (c) 2015-2022, All rights reserved
+////////////////////////////////////////////////////////////////////////////
+
 //go:generate sh -x ffcvt_cli.sh
 
 ////////////////////////////////////////////////////////////////////////////
 // Program start
-
-package main
 
 import (
 	"bytes"
@@ -41,8 +41,8 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.7.5"
-	date    = "2022-01-02"
+	version = "1.8.0"
+	date    = "2022-02-12"
 
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1
