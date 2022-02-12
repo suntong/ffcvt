@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 )
 
@@ -50,6 +51,12 @@ func initDefaults() {
 }
 
 func getDefault() {
+	if Opts.Cfg != "" {
+		data, err := ioutil.ReadFile(Opts.Cfg)
+		checkError(err)
+		err = json.Unmarshal(data, &Defaults)
+		checkError(err)
+	}
 	if encDefault, ok := Defaults[Opts.Target]; ok {
 		// debug(encDefault.Ext, 2)
 		Opts.Encoding = encDefault
