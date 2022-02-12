@@ -1,0 +1,50 @@
+{
+  "copy": {
+    "AES": "copy",
+    "VES": "copy",
+    "SES": "-c:s copy",
+    "ABR": "64k",
+    "CRF": "42",
+    "Ext": "_.mkv"
+  },
+  "webm": {
+    "AES": "libopus",
+    "VES": "libvpx-vp9",
+    "SES": "-c:s copy",
+    "ABR": "64k",
+    "CRF": "42",
+    "Ext": "_.mkv"
+  },
+  "x265-opus": {
+    "AES": "libopus",
+    "VES": "libx265",
+    "ABR": "64k",
+    "CRF": "28",
+    "Ext": "_.mkv"
+  },
+  "wx": {
+    "AES": "aac",
+    "AEA": "-q:a 3",
+    "VES": "libx264",
+    "ABR": "48k",
+    "CRF": "33",
+    "Ext": "_.m4v"
+  },
+  "x264-mp3": {
+    "AES": "libmp3lame",
+    "AEA": "-q:a 3",
+    "VES": "libx264",
+    "ABR": "256k",
+    "CRF": "23",
+    "Ext": "_.mp4"
+  },
+  "youtube": {
+    "AES": "libvorbis",
+    "AEA": "-q:a 5",
+    "VES": "libx264",
+    "VEA": "-pix_fmt yuv420p",
+    "ABR": "",
+    "CRF": "20",
+    "Ext": "_.avi"
+  }
+}

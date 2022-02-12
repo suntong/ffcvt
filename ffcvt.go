@@ -128,6 +128,8 @@ cut_ok:
 		Usage()
 	}
 	getDefault()
+	//fmt.Fprintf(os.Stderr, "Defaults: '%+v'\n", Defaults)
+
 
 	encodedExt = Opts.Ext
 	// Sanity check

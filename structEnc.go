@@ -1,6 +1,10 @@
 package main
 
-import "log"
+import (
+	"embed"
+	"encoding/json"
+	"log"
+)
 
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
@@ -35,61 +39,14 @@ func init() {
 	debug(Opts.CRF, 3)
 }
 
+//go:embed ffcvt.json
+// see https://pkg.go.dev/embed
+var f embed.FS
+
 func initDefaults() {
-
-	Defaults = map[string]Encoding{
-		"copy": {
-			AES: "copy",
-			VES: "copy",
-			SES: "-c:s copy",
-			ABR: "64k",
-			CRF: "42",
-			Ext: _encodedExt,
-		},
-		"webm": {
-			AES: "libopus",
-			VES: "libvpx-vp9",
-			SES: "-c:s copy",
-			ABR: "64k",
-			CRF: "42",
-			Ext: _encodedExt,
-		},
-		"x265-opus": {
-			AES: "libopus",
-			VES: "libx265",
-			ABR: "64k",
-			CRF: "28",
-			Ext: _encodedExt,
-		},
-		"wx": {
-			AES: "aac",
-			AEA: "-q:a 3",
-			VES: "libx264",
-			ABR: "48k",
-			CRF: "33",
-			Ext: "_.m4v",
-		},
-		"x264-mp3": {
-			AES: "libmp3lame",
-			AEA: "-q:a 3",
-			VES: "libx264",
-			ABR: "256k",
-			CRF: "23",
-			Ext: "_.mp4",
-		},
-		"youtube": {
-			// https://trac.ffmpeg.org/wiki/Encode/YouTube
-			// https://trac.ffmpeg.org/wiki/Encode/HighQualityAudio
-			AES: "libvorbis",
-			AEA: "-q:a 5",
-			VES: "libx264",
-			VEA: "-pix_fmt yuv420p",
-			ABR: "",
-			CRF: "20",
-			Ext: "_.avi",
-		},
-	}
-
+	data, err := f.ReadFile("ffcvt.json")
+	checkError(err)
+	json.Unmarshal(data, &Defaults)
 }
 
 func getDefault() {
@@ -99,7 +56,7 @@ func getDefault() {
 		// debug(Opts.Encoding.Ext, 2)
 		// debug(Opts.Ext, 2)
 	} else {
-		log.Fatal(progname + " Error: Wrong target option passed to -t.")
+		log.Fatalf("[%s] Error: Wrong target option passed to -t.", progname)
 	}
 
 	initVals()
