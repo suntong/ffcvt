@@ -12,6 +12,14 @@
 
 ### Latest Update(s)
 
+#### Release v1.8.0
+
+* Now able to define your own defaults. Just make a copy of [ffcvt.json](ffcvt.json) and customize it to your heart's content, then use the `-cfg` option to point to it. Better yet, set `FFCVT_CFG` environment variable and forget all about it afterwards.
+  * This means that `ffcvt` is now not only limited to its own predefined transcoding sets, but you can also define your own transcoding rules and names and then fully enjoy its advanced addon assistants.
+  * BTW, If you have a good set, don't forget to send in a PR so that everybody can also benefit from it.
+* Now the subtitles, nfo, html or any files in the source directory will be duplicated into the output (work) directory, first by hard-link and if it fails due to cross storage devices, a copy will be used instead.
+* And when creating `par2` checksum/repair files, all files in the output (work) directory will be covered.
+
 #### Release v1.7.5
 
 * Now able to speed up playback speed (`-Speed`). Details in [\#22](https://github.com/suntong/ffcvt/issues/22)
@@ -65,6 +73,12 @@ For further details, check out the wiki https://git.io/JuK0q
 ## Quick Usage
 
 There is a quick usage help that comes with `ffcvt`, produced when it is invoked without any parameters:
+
+### $ ffcvt -version
+
+```sh
+$ {{shell "ffcvt -version"}}
+```
 
 ### $ {{exec "ffcvt" | color "sh"}}
 

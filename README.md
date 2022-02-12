@@ -10,9 +10,13 @@
 [![PoweredBy WireFrame](https://github.com/go-easygen/wireframe/blob/master/PoweredBy-WireFrame-B.svg)](http://godoc.org/github.com/go-easygen/wireframe)
 
 
+Transcodes all videos in the given directory and all of it's subdirectories
+using ffmpeg.
+
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
   - [Latest Update(s)](#latest-update(s))
+    - [Release v1.8.0](#release-v180)
     - [Release v1.7.5](#release-v175)
     - [Release v1.7.3](#release-v173)
     - [Release v1.7.2](#release-v172)
@@ -20,6 +24,7 @@
     - [Release v1.7.0](#release-v170)
   - [Introduction](#introduction)
   - [Quick Usage](#quick-usage)
+    - [$ ffcvt -version](#-ffcvt--version)
     - [$ ffcvt](#-ffcvt)
   - [Environment Variables](#environment-variables)
   - [Encoding Help](#encoding-help)
@@ -37,6 +42,14 @@
 ## ffcvt - ffmpeg convert wrapper tool
 
 ### Latest Update(s)
+
+#### Release v1.8.0
+
+* Now able to define your own defaults. Just make a copy of [ffcvt.json](ffcvt.json) and customize it to your heart's content, then use the `-cfg` option to point to it. Better yet, set `FFCVT_CFG` environment variable and forget all about it afterwards.
+  * This means that `ffcvt` is now not only limited to its own predefined transcoding sets, but you can also define your own transcoding rules and names and then fully enjoy its advanced addon assistants.
+  * BTW, If you have a good set, don't forget to send in a PR so that everybody can also benefit from it.
+* Now the subtitles, nfo, html or any files in the source directory will be duplicated into the output (work) directory, first by hard-link and if it fails due to cross storage devices, a copy will be used instead.
+* And when creating `par2` checksum/repair files, all files in the output (work) directory will be covered.
 
 #### Release v1.7.5
 
@@ -92,6 +105,14 @@ For further details, check out the wiki https://git.io/JuK0q
 
 There is a quick usage help that comes with `ffcvt`, produced when it is invoked without any parameters:
 
+### $ ffcvt -version
+
+```sh
+$ ffcvt -version
+ffcvt
+Version 1.8.0 built on 2022-02-12
+```
+
 ### $ ffcvt
 ```sh
 Usage:
@@ -99,6 +120,7 @@ Usage:
 
 Flags:
 
+  -cfg	cfg file to define your own targets: webm/wx/youtube etc (FFCVT_CFG)
   -t	target type: webm/x265-opus/x264-mp3/wx/youtube/copy (FFCVT_T)
   -ves	video encoding method set (FFCVT_VES)
   -aes	audio encoding method set (FFCVT_AES)
@@ -173,6 +195,8 @@ Details:
     	no audio, output video only
   -ato-opus
     	audio encode to opus, using -abr
+  -cfg string
+    	cfg file to define your own targets: webm/wx/youtube etc
   -crf string
     	the CRF value: 0-51. Higher CRF gives lower quality
     		 (28 for x265, ~ 23 for x264)

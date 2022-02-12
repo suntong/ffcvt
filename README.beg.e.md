@@ -10,4 +10,5 @@
 [![PoweredBy WireFrame](https://github.com/go-easygen/wireframe/blob/master/PoweredBy-WireFrame-B.svg)](http://godoc.org/github.com/go-easygen/wireframe)
 
 {{pkgdoc}}
+{{pkgdoc (printf "%s%s" .Name ".go")}}
 
