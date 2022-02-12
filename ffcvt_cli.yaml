@@ -29,7 +29,13 @@ StructVar: Opts
 Options:
 
   # Basic fields for encoding
-  
+
+  - Name: Cfg
+    Type: string
+    Flag: cfg
+    Value: '""'
+    Usage: "cfg file to define your own targets: webm/wx/youtube etc"
+
   - Name: Target
     Type: string
     Flag: t
