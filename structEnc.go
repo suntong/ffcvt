@@ -51,6 +51,9 @@ func initDefaults() {
 }
 
 func getDefault() {
+	initVals()
+	debug(Opts.CRF, 3)
+
 	if Opts.Cfg != "" {
 		data, err := ioutil.ReadFile(Opts.Cfg)
 		checkError(err)
@@ -65,9 +68,6 @@ func getDefault() {
 	} else {
 		log.Fatalf("[%s] Error: Wrong target option passed to -t.", progname)
 	}
-
-	initVals()
-	debug(Opts.CRF, 3)
 
 	if Opts.Suffix != "" {
 		Opts.Suffix = "_" + Opts.Suffix
