@@ -198,6 +198,7 @@ func visit(path string, f os.FileInfo, err error) error {
 }
 
 // Append the video file to the list, unless it's encoded already
+// and duplicate none-video files to dest dir as well
 func appendVideo(fname string) {
 	if Opts.WDirectory == "" && fname[len(fname)-5:] == encodedExt {
 		debug("Already-encoded file ignored: "+fname, 1)
@@ -206,7 +207,16 @@ func appendVideo(fname string) {
 
 	fext := strings.ToUpper(fname[len(fname)-4:])
 	if strings.Index(Opts.Exts, fext) < 0 {
-		debug("None-video file ignored: "+fname, 3)
+		// None-video files, dup to dest, hardlink 1st else copy
+		if Opts.WDirectory != "" {
+			src := Opts.Directory+ "/" + fname
+			dst := Opts.WDirectory+ "/" + fname
+			err := linkFile(src, dst)
+			if err != nil {
+				copyFile(src, dst)
+			}
+		}
+		debug("None-video file '"+fname+"' duplicated to dest dir.", 1)
 		return
 	}
 
@@ -243,7 +253,8 @@ func createPar2s(workDirs []string) {
 		os.Chdir(dir)
 		dirName := filepath.Base(dir)
 
-		cmd := []string{"par2create", "-u", "zz_" + dirName + ".par2", "*" + encodedExt}
+		// create par2s for all files within dest dir
+		cmd := []string{"par2create", "-u", "zz_" + dirName + ".par2", "*"}
 		debug(strings.Join(cmd, " "), 1)
 
 		out, err := exec.Command(cmd[0], cmd[1:]...).CombinedOutput()

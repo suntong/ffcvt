@@ -148,7 +148,9 @@ ffcvt: to execute -
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
+] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] Skip symlink file: ./subdir/test_s1.avi
+] None-video file './test-all.sh' duplicated to dest dir.
 ] Skip symlink file: ./test1.avi
 ] Skip symlink file: ./test2.avi
 ] Skip symlink file: ./test3.webm
@@ -156,6 +158,8 @@ Saved:    0%
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
+] None-video file './ffcvt_test.txt' duplicated to dest dir.
+] None-video file './test-all.sh' duplicated to dest dir.
 
 == Transcoding [1/4]: 'test_s1.avi'
    under subdir
@@ -184,7 +188,9 @@ ffcvt: to execute -
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
+] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] Skip symlink file: ./subdir/test_s1.avi
+] None-video file './test-all.sh' duplicated to dest dir.
 ] Skip symlink file: ./test1.avi
 ] Skip symlink file: ./test2.avi
 ] Skip symlink file: ./test3.webm
@@ -192,6 +198,8 @@ Saved:    0%
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
+] None-video file './ffcvt_test.txt' duplicated to dest dir.
+] None-video file './test-all.sh' duplicated to dest dir.
 
 == Transcoding [1/4]: 'test_s1.avi'
    under subdir
@@ -221,6 +229,8 @@ Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
 ] Transcoding to /tmp/test2
+] None-video file './ffcvt_test.txt' duplicated to dest dir.
+] None-video file './test-all.sh' duplicated to dest dir.
 
 == Transcoding [1/4]: 'test_s1.avi'
    under subdir
