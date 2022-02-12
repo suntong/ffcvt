@@ -3,6 +3,7 @@ name: build
 env:
   TEST_DIRS: test test2
   TEST_NAME: ./test-all.sh
+  GO111MODULE: off
 
 on:
   push:
@@ -19,7 +20,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.15
+          go-version: 1.16
 
       -
         name: Install Cloudsmith CLI
