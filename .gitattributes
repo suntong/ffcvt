@@ -7,6 +7,7 @@
 .travis.yml export-ignore
 .gitlab-ci.yml export-ignore
 # general text files
+.idea/ export-ignore
 *.e.md export-ignore
 # my projects
 .all-contributorsrc export-ignore
