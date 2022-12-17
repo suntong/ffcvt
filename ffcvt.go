@@ -41,8 +41,8 @@ const _encodedExt = "_.mkv"
 // Global variables definitions
 
 var (
-	version = "1.8.0"
-	date    = "2022-02-12"
+	version = "1.8.1"
+	date    = "2022-12-18"
 
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1
@@ -130,7 +130,6 @@ cut_ok:
 	getDefault()
 	//fmt.Fprintf(os.Stderr, "Defaults: '%+v'\n", Defaults)
 
-
 	encodedExt = Opts.Ext
 	// Sanity check
 	if Opts.WDirectory != "" {
@@ -209,8 +208,8 @@ func appendVideo(fname string) {
 	if strings.Index(Opts.Exts, fext) < 0 {
 		// None-video files, dup to dest, hardlink 1st else copy
 		if Opts.WDirectory != "" {
-			src := Opts.Directory+ "/" + fname
-			dst := Opts.WDirectory+ "/" + fname
+			src := Opts.Directory + "/" + fname
+			dst := Opts.WDirectory + "/" + fname
 			err := linkFile(src, dst)
 			if err != nil {
 				copyFile(src, dst)
@@ -273,6 +272,12 @@ func transcodeVideos(startTime time.Time) {
 	videosTotal := len(videos)
 	for i, inputName := range videos {
 		videoNdx := i + 1
+
+		if Opts.NoClobber && fileExist(getOutputName(inputName)) {
+			debug("Encoded file exist for: "+inputName, 1)
+			continue
+		}
+
 		fmt.Printf("\n== Transcoding [%d/%d]: '%s'\n   under %s\n",
 			videoNdx, videosTotal, filepath.Base(inputName), filepath.Dir(inputName))
 		transcodeFile(inputName)
