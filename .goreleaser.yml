@@ -18,7 +18,6 @@ builds:
       - darwin
     goarch:
       - amd64
-      - arm64
 
 nfpms:
 - maintainer: Tong Sun <suntong@cpan.org>
