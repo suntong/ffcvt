@@ -60,7 +60,21 @@ func main() {
 	flag.Parse()
 
 	if Opts.PrintV {
-		fmt.Fprintf(os.Stderr, "%s\nVersion %s built on %s\n", progname, version, date)
+		fmt.Printf("%s version %s built on %s\n\n", progname, version, date)
+
+		ver, err := getVersion(Opts.FFMpeg)
+		if err != nil {
+			log.Fatalf("%s: Version check error - %s\n", progname, err.Error())
+		}
+		fmt.Printf("%s\n\n", ver)
+
+		// ffprobe, only use the first word
+		ver, err = getVersion((strings.Fields(Opts.FFProbe))[0])
+		if err != nil {
+			log.Fatalf("%s: Version check error - %s\n", progname, err.Error())
+		}
+		fmt.Printf("%s\n", ver)
+
 		os.Exit(0)
 	}
 
@@ -461,6 +475,21 @@ func probeFile(inputName string) (string, error) {
 	cmd.Stderr = out
 	err := cmd.Run()
 	return string(out.Bytes()), err
+}
+
+func getVersion(execName string) (string, error) {
+	out := &bytes.Buffer{}
+
+	cmd := exec.Command(execName, "-version")
+	cmd.Stdout = out
+	cmd.Stderr = out
+	err := cmd.Run()
+	if err != nil {
+		return "", err
+	}
+	// OK, then only return the first two lines
+	lines := strings.Split(string(out.Bytes()), "\n")
+	return strings.Join(lines[:2], "\n"), nil
 }
 
 // Returns the encode parameters for Subtitle
