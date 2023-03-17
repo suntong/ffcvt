@@ -12,6 +12,14 @@
 
 ### Latest Update(s)
 
+
+#### Latest Releases
+
+- Release v1.9.0
+  * `ffcvt -version` now checks/outputs dependent program versions too
+  * now finished percentage are calculated from file size
+- Release v1.8.1, enable parallel execution
+
 #### Release v1.8.0
 
 * Now able to define your own defaults. Just make a copy of [ffcvt.json](ffcvt.json) and customize it to your heart's content, then use the `-cfg` option to point to it. Better yet, set `FFCVT_CFG` environment variable and forget all about it afterwards.

@@ -16,6 +16,7 @@ using ffmpeg.
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
   - [Latest Update(s)](#latest-update(s))
+    - [Latest Releases](#latest-releases)
     - [Release v1.8.0](#release-v180)
     - [Release v1.7.5](#release-v175)
     - [Release v1.7.3](#release-v173)
@@ -42,6 +43,14 @@ using ffmpeg.
 ## ffcvt - ffmpeg convert wrapper tool
 
 ### Latest Update(s)
+
+
+#### Latest Releases
+
+- Release v1.9.0
+  * `ffcvt -version` now checks/outputs dependent program versions too
+  * now finished percentage are calculated from file size
+- Release v1.8.1, enable parallel execution
 
 #### Release v1.8.0
 
@@ -109,8 +118,13 @@ There is a quick usage help that comes with `ffcvt`, produced when it is invoked
 
 ```sh
 $ ffcvt -version
-ffcvt
-Version 1.8.0 built on 2022-02-12
+ffcvt version 1.9.0 built on 2023-03-16
+
+ffmpeg version 4.3.3-0+deb11u1 Copyright (c) 2000-2021 the FFmpeg developers
+built with gcc 10 (Debian 10.2.1-6)
+
+ffprobe version 4.3.3-0+deb11u1 Copyright (c) 2007-2021 the FFmpeg developers
+built with gcc 10 (Debian 10.2.1-6)
 ```
 
 ### $ ffcvt
