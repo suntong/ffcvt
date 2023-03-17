@@ -196,9 +196,10 @@ cut_ok:
 		// calculate (finished) percentage for each video
 		n := len(vidCol.videos)
 		if n > 0 {
-			totalSize := vidCol.videos[n-1].sum
+			totalSize := vidCol.sum
 			for i, _ := range vidCol.videos {
-				vidCol.videos[i].pct = int(vidCol.videos[i].sum * 100 / totalSize)
+				vidCol.videos[i].pct =
+					int((vidCol.videos[i].sum*1000/totalSize + 5) / 10)
 			}
 		}
 		//fmt.Printf("%v", vidCol)

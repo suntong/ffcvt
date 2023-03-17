@@ -140,14 +140,78 @@ Details:
     	work directory that hold output files
 
 To reduce output, use `-debug 0`, e.g., `ffcvt -force -debug 0 -f testf.mp4 ...`
+- Test transcoding single file
 
 == Transcoding: StreamSample.mkv
 ffcvt: to execute -
   ffmpeg -i StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/StreamSample.mkv
 
+Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
+- Test transcoding different target types
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/StreamSample.mkv
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/StreamSample.mkv
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k /tmp/StreamSample.mkv
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k /tmp/StreamSample.mkv
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=23 -c:a libmp3lame -b:a 256k -q:a 3 /tmp/StreamSample.mp4
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=23 -c:a libmp3lame -b:a 256k -q:a 3 /tmp/StreamSample.mp4
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=33 -c:a aac -b:a 48k -q:a 3 /tmp/StreamSample.m4v
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=33 -c:a aac -b:a 48k -q:a 3 /tmp/StreamSample.m4v
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=20 -pix_fmt yuv420p -c:a libvorbis -q:a 5 /tmp/StreamSample.avi
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=20 -pix_fmt yuv420p -c:a libvorbis -q:a 5 /tmp/StreamSample.avi
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -c:v copy -c:a copy -b:a 64k -c:s copy /tmp/StreamSample.mkv
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -c:v copy -c:a copy -b:a 64k -c:s copy /tmp/StreamSample.mkv
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+- Test -sym control
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
 ] Skip symlink file: ./test1.avi
@@ -159,37 +223,49 @@ Saved:    0%
 ] ffmpeg -i ./StreamSample.mkv -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./StreamSample_.mkv
 ffcvt: to execute -
   ffmpeg -i ./StreamSample.mkv -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./StreamSample_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
+Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
 
-== Transcoding [1/4] (99%): 'StreamSample.mkv'
+== Transcoding [1/4] (100%): 'StreamSample.mkv'
    under .
 ] ffmpeg -i ./StreamSample.mkv -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./StreamSample_.mkv
 ffcvt: to execute -
   ffmpeg -i ./StreamSample.mkv -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./StreamSample_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
-== Transcoding [2/4] (99%): 'test1.avi'
+== Transcoding [2/4] (100%): 'test1.avi'
    under .
 ] ffmpeg -i ./test1.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test1_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test1_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
-== Transcoding [3/4] (99%): 'test2.avi'
+== Transcoding [3/4] (100%): 'test2.avi'
    under .
 ] ffmpeg -i ./test2.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test2_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test2_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
 == Transcoding [4/4] (100%): 'test3.webm'
    under .
 ] ffmpeg -i ./test3.webm -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test3_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test3.webm -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test3_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
+Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
@@ -204,37 +280,49 @@ Saved:    0%
 ] ffmpeg -i ./StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./StreamSample_.mkv
 ffcvt: to execute -
   ffmpeg -i ./StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./StreamSample_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
+Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
 
-== Transcoding [1/4] (99%): 'StreamSample.mkv'
+== Transcoding [1/4] (100%): 'StreamSample.mkv'
    under .
 ] ffmpeg -i ./StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./StreamSample_.mkv
 ffcvt: to execute -
   ffmpeg -i ./StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./StreamSample_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
-== Transcoding [2/4] (99%): 'test1.avi'
+== Transcoding [2/4] (100%): 'test1.avi'
    under .
 ] ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test1_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test1_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
-== Transcoding [3/4] (99%): 'test2.avi'
+== Transcoding [3/4] (100%): 'test2.avi'
    under .
 ] ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test2_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test2_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
 == Transcoding [4/4] (100%): 'test3.webm'
    under .
 ] ffmpeg -i ./test3.webm -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test3_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test3.webm -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test3_.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
+Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
@@ -242,30 +330,39 @@ Saved:    0%
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
 
-== Transcoding [1/4] (99%): 'StreamSample.mkv'
+== Transcoding [1/4] (100%): 'StreamSample.mkv'
    under .
 ] ffmpeg -i ./StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test/StreamSample.mkv
 ffcvt: to execute -
   ffmpeg -i ./StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test/StreamSample.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
-== Transcoding [2/4] (99%): 'test1.avi'
+== Transcoding [2/4] (100%): 'test1.avi'
    under .
 ] ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test/test1.mkv
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test/test1.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
-== Transcoding [3/4] (99%): 'test2.avi'
+== Transcoding [3/4] (100%): 'test2.avi'
    under .
 ] ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test/test2.mkv
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test/test2.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
 == Transcoding [4/4] (100%): 'test3.webm'
    under .
 ] ffmpeg -i ./test3.webm -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test/test3.mkv
 ffcvt: to execute -
   ffmpeg -i ./test3.webm -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test/test3.mkv
+Time taken so far xxx ms
+Finishing the remaining 0% in xxx ms
 
+Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
