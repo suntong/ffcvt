@@ -9,6 +9,7 @@ FFCVT=../ffcvt
 
 $FFCVT -version
 
+echo
 echo '- Test (config.go) cli help output'
 $FFCVT > /tmp/ffcvt_test.txt 2>&1
 
@@ -24,8 +25,8 @@ $FFCVT -n -d . -sym  >> /tmp/ffcvt_test.txt 2>&1
 
 $FFCVT -n -sym -debug 2 -d . -w /tmp >> /tmp/ffcvt_test.txt 2>&1
 
-echo - Compare test results
-sed -i '/ [0-9.]*[mµ]*s$/d' /tmp/ffcvt_test.txt
+echo - 'Compare test results (0 means AOK)'
+sed -i '/ [0-9.]*[nmµ]*s$/d' /tmp/ffcvt_test.txt
 diff -wU 1 ffcvt_test.txt /tmp/ffcvt_test.txt
 
 ret=$?

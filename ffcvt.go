@@ -10,7 +10,7 @@ package main
 ////////////////////////////////////////////////////////////////////////////
 // Porgram: FfCvt
 // Purpose: ffmpeg convert wrapper tool
-// Authors: Tong Sun (c) 2015-2022, All rights reserved
+// Authors: Tong Sun (c) 2015-2023, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 //go:generate sh -x ffcvt_cli.sh
@@ -37,17 +37,30 @@ import (
 
 const _encodedExt = "_.mkv"
 
+// video encompass data around a single video
+type video struct {
+	name      string
+	size, sum int64
+	pct       int
+}
+
+// videoCol is the collection for the given set of videos
+type videoCol struct {
+	videos []video
+	sum    int64
+}
+
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
 var (
-	version = "1.8.1"
-	date    = "2022-12-18"
+	version = "1.9.0"
+	date    = "2023-03-16"
 
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1
 	totalNew   int64  = 1
-	videos     []string
+	vidCol     videoCol
 	workDirs   []string
 	cutOps     string = ""
 )
@@ -180,6 +193,15 @@ cut_ok:
 		transcodeFile(Opts.File)
 	} else if Opts.Directory != "" {
 		filepath.Walk(Opts.Directory, visit)
+		// calculate (finished) percentage for each video
+		n := len(vidCol.videos)
+		if n > 0 {
+			totalSize := vidCol.videos[n-1].sum
+			for i, _ := range vidCol.videos {
+				vidCol.videos[i].pct = int(vidCol.videos[i].sum * 100 / totalSize)
+			}
+		}
+		//fmt.Printf("%v", vidCol)
 		transcodeVideos(startTime)
 	}
 	// par2 creating
@@ -196,23 +218,13 @@ cut_ok:
 }
 
 ////////////////////////////////////////////////////////////////////////////
-// Function definitions
-
-//==========================================================================
-// Directory & files handling
-
-func visit(path string, f os.FileInfo, err error) error {
-	if f.IsDir() {
-		return nil
-	}
-
-	appendVideo(Opts.Directory + string(os.PathSeparator) + path)
-	return nil
-}
+// Methods definitions
 
 // Append the video file to the list, unless it's encoded already
 // and duplicate none-video files to dest dir as well
-func appendVideo(fname string) {
+func (vidCol *videoCol) append(path string, size int64) {
+	fname := Opts.Directory + string(os.PathSeparator) + path
+
 	if Opts.WDirectory == "" && fname[len(fname)-5:] == encodedExt {
 		debug("Already-encoded file ignored: "+fname, 1)
 		return
@@ -243,9 +255,29 @@ func appendVideo(fname string) {
 		return
 	}
 
-	videos = append(videos, fname)
+	vidCol.sum += size
+	vidCol.videos = append(vidCol.videos,
+		video{name: fname, size: size, sum: vidCol.sum})
+
 }
 
+////////////////////////////////////////////////////////////////////////////
+// Function definitions
+
+//==========================================================================
+// Directory & files handling
+
+// visit will visit the source directory and queue videos found there to vidCol
+func visit(path string, f os.FileInfo, err error) error {
+	if f.IsDir() {
+		return nil
+	}
+
+	vidCol.append(path, f.Size())
+	return nil
+}
+
+// visitWDir will visit the work dir and add all directories there to workDirs
 func visitWDir(path string, f os.FileInfo, err error) error {
 	if !f.IsDir() {
 		return nil
@@ -256,6 +288,7 @@ func visitWDir(path string, f os.FileInfo, err error) error {
 	return nil
 }
 
+// createPar2s will create par2s files for each dir in workDirs
 func createPar2s(workDirs []string) {
 	fmt.Printf("\n== Creating par2 files\n\n")
 	for ii, dir := range workDirs {
@@ -283,8 +316,9 @@ func createPar2s(workDirs []string) {
 
 // Transcode videos in the global videos array
 func transcodeVideos(startTime time.Time) {
-	videosTotal := len(videos)
-	for i, inputName := range videos {
+	videosTotal := len(vidCol.videos)
+	for i, v := range vidCol.videos {
+		inputName := v.name
 		videoNdx := i + 1
 
 		if Opts.NoClobber && fileExist(getOutputName(inputName)) {
@@ -292,14 +326,14 @@ func transcodeVideos(startTime time.Time) {
 			continue
 		}
 
-		fmt.Printf("\n== Transcoding [%d/%d]: '%s'\n   under %s\n",
-			videoNdx, videosTotal, filepath.Base(inputName), filepath.Dir(inputName))
+		fmt.Printf("\n== Transcoding [%d/%d] (%d%%): '%s'\n   under %s\n",
+			videoNdx, videosTotal, v.pct, filepath.Base(inputName), filepath.Dir(inputName))
 		transcodeFile(inputName)
 		fmt.Printf("Time taken so far %s\n", time.Since(startTime))
 		fmt.Printf("Finishing the remaining %d%% in %s\n",
-			(videosTotal-videoNdx)*100/videosTotal,
+			100-v.pct,
 			time.Duration(int64(float32(time.Since(startTime))*
-				float32(videosTotal-videoNdx)/float32(videoNdx))))
+				float32(100-v.pct)/float32(v.pct))))
 	}
 }
 

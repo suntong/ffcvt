@@ -161,25 +161,25 @@ Saved:    0%
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
 
-== Transcoding [1/4]: 'test_s1.avi'
+== Transcoding [1/4] (35%): 'test_s1.avi'
    under subdir
 ] ffmpeg -i ./subdir/test_s1.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./subdir/test_s1_.mkv
 ffcvt: to execute -
   ffmpeg -i ./subdir/test_s1.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./subdir/test_s1_.mkv
 
-== Transcoding [2/4]: 'test1.avi'
+== Transcoding [2/4] (56%): 'test1.avi'
    under .
 ] ffmpeg -i ./test1.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test1_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test1_.mkv
 
-== Transcoding [3/4]: 'test2.avi'
+== Transcoding [3/4] (77%): 'test2.avi'
    under .
 ] ffmpeg -i ./test2.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test2_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test2_.mkv
 
-== Transcoding [4/4]: 'test3.webm'
+== Transcoding [4/4] (100%): 'test3.webm'
    under .
 ] ffmpeg -i ./test3.webm -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test3_.mkv
 ffcvt: to execute -
@@ -201,25 +201,25 @@ Saved:    0%
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
 
-== Transcoding [1/4]: 'test_s1.avi'
+== Transcoding [1/4] (35%): 'test_s1.avi'
    under subdir
 ] ffmpeg -i ./subdir/test_s1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./subdir/test_s1_.mkv
 ffcvt: to execute -
   ffmpeg -i ./subdir/test_s1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./subdir/test_s1_.mkv
 
-== Transcoding [2/4]: 'test1.avi'
+== Transcoding [2/4] (56%): 'test1.avi'
    under .
 ] ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test1_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test1_.mkv
 
-== Transcoding [3/4]: 'test2.avi'
+== Transcoding [3/4] (77%): 'test2.avi'
    under .
 ] ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test2_.mkv
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test2_.mkv
 
-== Transcoding [4/4]: 'test3.webm'
+== Transcoding [4/4] (100%): 'test3.webm'
    under .
 ] ffmpeg -i ./test3.webm -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test3_.mkv
 ffcvt: to execute -
@@ -232,25 +232,25 @@ Saved:    0%
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
 
-== Transcoding [1/4]: 'test_s1.avi'
+== Transcoding [1/4] (35%): 'test_s1.avi'
    under subdir
 ] ffmpeg -i ./subdir/test_s1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/subdir/test_s1.mkv
 ffcvt: to execute -
   ffmpeg -i ./subdir/test_s1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/subdir/test_s1.mkv
 
-== Transcoding [2/4]: 'test1.avi'
+== Transcoding [2/4] (56%): 'test1.avi'
    under .
 ] ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/test1.mkv
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/test1.mkv
 
-== Transcoding [3/4]: 'test2.avi'
+== Transcoding [3/4] (77%): 'test2.avi'
    under .
 ] ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/test2.mkv
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/test2.mkv
 
-== Transcoding [4/4]: 'test3.webm'
+== Transcoding [4/4] (100%): 'test3.webm'
    under .
 ] ffmpeg -i ./test3.webm -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/test3.mkv
 ffcvt: to execute -
