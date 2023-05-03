@@ -30,7 +30,6 @@ using ffmpeg.
   - [Environment Variables](#environment-variables)
   - [Encoding Help](#encoding-help)
   - [Tools Choices](#tools-choices)
-    - [Install Debian/Ubuntu package](#install-debianubuntu-package)
 - [Install Debian/Ubuntu package](#install-debianubuntu-package)
 - [Download/install binaries](#downloadinstall-binaries)
   - [The binary executables](#the-binary-executables)
@@ -120,10 +119,10 @@ There is a quick usage help that comes with `ffcvt`, produced when it is invoked
 $ ffcvt -version
 ffcvt version 1.9.0 built on 2023-03-16
 
-ffmpeg version 4.3.3-0+deb11u1 Copyright (c) 2000-2021 the FFmpeg developers
+ffmpeg version 4.3.5-0+deb11u1 Copyright (c) 2000-2022 the FFmpeg developers
 built with gcc 10 (Debian 10.2.1-6)
 
-ffprobe version 4.3.3-0+deb11u1 Copyright (c) 2007-2021 the FFmpeg developers
+ffprobe version 4.3.5-0+deb11u1 Copyright (c) 2007-2022 the FFmpeg developers
 built with gcc 10 (Debian 10.2.1-6)
 ```
 
@@ -295,9 +294,9 @@ As suggested before, don't use `avconv`, use `ffmpeg` instead (the `avconv` fork
 
 As for video/movie play back, use [mpv](http://mpv.io/). It is a fork of mplayer2 and MPlayer, and is a true *modern* *all-in-one* movie player that can play ANYTHING, and one of the few movie players being actively developed all the time. Download link is in [mpv.io](http://mpv.io/), from which Ubuntu repo I get my Ubuntu `ffmpeg` package as well. If you are unsatisfied with mpv's simple user interface, check out https://wiki.archlinux.org/index.php/Mpv#Front_ends.
 
-### Install Debian/Ubuntu package
+## Install Debian/Ubuntu package
 
-    apt install ffcvt
+    sudo apt install -y ffcvt
 
 ## Download/install binaries
 
@@ -347,10 +346,10 @@ curl -1sLf \
 
 # That's it. You then can do your normal operations, like
 
-sudo apt-get update
+sudo apt update
 apt-cache policy ffcvt
 
-sudo apt-get install -y ffcvt
+sudo apt install -y ffcvt
 ```
 
 ## Install Source
@@ -358,7 +357,7 @@ sudo apt-get install -y ffcvt
 To install the source code instead:
 
 ```
-go get -v -u github.com/suntong/ffcvt
+go install github.com/suntong/ffcvt@latest
 ```
 
 ## Author
