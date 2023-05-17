@@ -54,8 +54,8 @@ type videoCol struct {
 // Global variables definitions
 
 var (
-	version = "1.9.0"
-	date    = "2023-03-16"
+	version = "1.10.0"
+	date    = "2023-05-16"
 
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1
@@ -63,15 +63,39 @@ var (
 	vidCol     videoCol
 	workDirs   []string
 	cutOps     string = ""
+
+	transpFrom, transpTo string
 )
+
+var pitch = map[string]string{
+	"C":  "261.63",
+	"Db": "277.18",
+	"D":  "293.66",
+	"Eb": "311.13",
+	"E":  "329.63",
+	"F":  "349.23",
+	"Gb": "369.99",
+	"G":  "392.00",
+	"Ab": "415.30",
+	"A":  "440.00",
+	"Bb": "466.16",
+	"B":  "493.88",
+}
+
+func init() {
+	pitch["C#"] = pitch["Db"]
+	pitch["D#"] = pitch["Eb"]
+	pitch["F#"] = pitch["Gb"]
+	pitch["G#"] = pitch["Ab"]
+	pitch["A#"] = pitch["Bb"]
+}
 
 ////////////////////////////////////////////////////////////////////////////
 // Main
 
 func main() {
-	flag.Usage = Usage
-	flag.Parse()
 
+	// == Commandline handling
 	if Opts.PrintV {
 		fmt.Printf("%s version %s built on %s\n\n", progname, version, date)
 
@@ -154,8 +178,24 @@ cut_ok:
 	if len(Opts.Directory)+len(Opts.File) < 1 {
 		Usage()
 	}
-	getDefault()
-	//fmt.Fprintf(os.Stderr, "Defaults: '%+v'\n", Defaults)
+	if len(Opts.TranspFrom) != 0 && len(Opts.TranspTo) == 0 ||
+		len(Opts.TranspFrom) == 0 && len(Opts.TranspTo) != 0 {
+		fmt.Fprintf(os.Stderr, "Signature transposition needs transpose keys for both from and to\n")
+		os.Exit(1)
+	}
+	if len(Opts.TranspFrom) != 0 {
+		var ok bool
+		if transpFrom, ok = pitch[Opts.TranspFrom]; !ok {
+			fmt.Fprintf(os.Stderr, "Unknown key signature to transpose from\n")
+			os.Exit(1)
+		}
+		if transpTo, ok = pitch[Opts.TranspTo]; !ok {
+			fmt.Fprintf(os.Stderr, "Unknown key signature to transpose to\n")
+			os.Exit(1)
+		}
+		fmt.Fprintf(os.Stderr, "Transposing from '%s' (%s) to '%s' (%s)\n",
+			Opts.TranspFrom, transpFrom, Opts.TranspTo, transpTo)
+	}
 
 	encodedExt = Opts.Ext
 	// Sanity check
@@ -359,7 +399,7 @@ func transcodeFile(inputName string) {
 		debug(fsinfo, 4)
 		/*
 
-		   Cases when `-map`s are necessary
+		   Cases when `-map`s are necessary to deal with here
 
 		   - more than one audio stream, and we pick eng stream only
 		   - more than one subtitle stream, and
@@ -395,6 +435,12 @@ func transcodeFile(inputName string) {
 	args := []string{"-i", inputName}
 	args = append(args, strings.Fields(Opts.OptExtra)...)
 	args = encodeParametersS(encodeParametersA(encodeParametersV(args)))
+	if len(transpFrom) != 0 {
+		args = append(args, "-af")
+		af := fmt.Sprintf("atempo=%s/%s,asetrate=44100*%[2]s/%[1]s",
+			transpFrom, transpTo)
+		args = append(args, af)
+	}
 	if Opts.Force {
 		args = append(args, "-y")
 	}
@@ -554,6 +600,7 @@ func encodeParametersA(args []string) []string {
 	if Opts.A2Opus {
 		Opts.AES = "libopus"
 	}
+	//fmt.Printf("] %v + AE: '%s' '%s'\n", args, Opts.AES, Opts.ABR)
 	if Opts.AES != "" {
 		args = append(args, "-c:a", Opts.AES)
 	}

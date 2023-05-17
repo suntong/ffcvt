@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 	"encoding/json"
+	"flag"
 	"io/ioutil"
 	"log"
 )
@@ -34,10 +35,20 @@ type Encoding struct {
 var Defaults map[string]Encoding
 
 func init() {
-	initVars()
+	initVars() // define flag vars
 	debug(Opts.CRF, 3)
-	initDefaults()
+
+	flag.Usage = Usage
+	flag.Parse()
+
+	initDefaults() // read & populate defaults from ffcvt.json
 	debug(Opts.CRF, 3)
+
+	getDefault() // re-read defaults based on cli -cfg & -t
+	//fmt.Fprintf(os.Stderr, "Defaults: '%+v'\n", Defaults)
+	debug(Opts.CRF, 3)
+	flag.Parse() // update Opts again from cli to overwrite defaults if necessary
+	initVals()   // update as per cli settings
 }
 
 //go:embed ffcvt.json
@@ -51,9 +62,6 @@ func initDefaults() {
 }
 
 func getDefault() {
-	initVals()
-	debug(Opts.CRF, 3)
-
 	if Opts.Cfg != "" {
 		data, err := ioutil.ReadFile(Opts.Cfg)
 		checkError(err)
