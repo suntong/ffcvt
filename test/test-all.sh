@@ -24,6 +24,10 @@ $FFCVT -t wx -n -f StreamSample.mkv -w /tmp >> /tmp/ffcvt_test.txt 2>&1
 $FFCVT -t youtube -n -f StreamSample.mkv -w /tmp >> /tmp/ffcvt_test.txt 2>&1
 $FFCVT -t copy -n -f StreamSample.mkv -w /tmp >> /tmp/ffcvt_test.txt 2>&1
 
+echo '# Test transposing different keys' | tee -a /tmp/ffcvt_test.txt
+$FFCVT -t x264-mp3 -n -f StreamSample.mkv -w /tmp -tkf F -tkt D -vn >> /tmp/ffcvt_test.txt 2>&1
+$FFCVT -t x264-mp3 -n -f StreamSample.mkv -w /tmp -tkf 'F#' -tkt Db -vn -abr 72k >> /tmp/ffcvt_test.txt 2>&1
+$FFCVT -t '' -n -f StreamSample.mkv -tkf Gb -tkt 'A#' -vn -abr 72k -aes libmp3lame -ext _.mp3 >> /tmp/ffcvt_test.txt 2>&1
 
 echo '# Test -sym control' | tee -a /tmp/ffcvt_test.txt
 $FFCVT -t x265-opus -n -d . >> /tmp/ffcvt_test.txt 2>&1

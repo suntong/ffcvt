@@ -217,6 +217,40 @@ Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
+# Test transposing different keys
+Transposing from 'F' (349.23) to 'D' (293.66)
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 256k -q:a 3 -af atempo=349.23/293.66,asetrate=44100*293.66/349.23 /tmp/StreamSample.mp4
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 256k -q:a 3 -af atempo=349.23/293.66,asetrate=44100*293.66/349.23 /tmp/StreamSample.mp4
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+Transposing from 'F#' (369.99) to 'Db' (277.18)
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 72k -q:a 3 -af atempo=369.99/277.18,asetrate=44100*277.18/369.99 /tmp/StreamSample.mp4
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 72k -q:a 3 -af atempo=369.99/277.18,asetrate=44100*277.18/369.99 /tmp/StreamSample.mp4
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+Transposing from 'Gb' (369.99) to 'A#' (466.16)
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 72k -af atempo=369.99/466.16,asetrate=44100*466.16/369.99 StreamSample_.mp3
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 72k -af atempo=369.99/466.16,asetrate=44100*466.16/369.99 StreamSample_.mp3
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
 # Test -sym control
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
