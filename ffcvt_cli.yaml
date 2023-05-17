@@ -204,6 +204,18 @@ Options:
     Value: '""'
     Usage: "Speed up/down video playback speed (e.g. 1.28)"
 
+  - Name: TranspFrom
+    Type: string
+    Flag: tkf
+    Value: '""'
+    Usage: "Transpose song's key from (e.g. C/C#/Db/D etc)"
+
+  - Name: TranspTo
+    Type: string
+    Flag: tkt
+    Value: '""'
+    Usage: "Transpose song's key to (e.g. -tkf C -tkt Db)"
+
   - Name: Lang
     Type: string
     Flag: lang
