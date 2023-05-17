@@ -35,6 +35,8 @@ Flags:
 	strictly in the format of hh:mm:ss, and may repeat (FFCVT_C,CUT)
   -S,Seg	Split video into multiple segments (strictly in format: hh:mm:ss) (FFCVT_S,SEG)
   -Speed	Speed up/down video playback speed (e.g. 1.28) (FFCVT_SPEED)
+  -tkf	Transpose song's key from (e.g. C/C#/Db/D etc) (FFCVT_TKF)
+  -tkt	Transpose song's key to (e.g. -tkf C -tkt Db) (FFCVT_TKT)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
   -sel	subtitle encoding language (language picked for reencoded video) (FFCVT_SEL)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
@@ -120,6 +122,10 @@ Details:
     	symlinks will be processed as well
   -t string
     	target type: webm/x265-opus/x264-mp3/wx/youtube/copy (default "webm")
+  -tkf string
+    	Transpose song's key from (e.g. C/C#/Db/D etc)
+  -tkt string
+    	Transpose song's key to (e.g. -tkf C -tkt Db)
   -vc
     	copy video codec
   -vea string
@@ -140,7 +146,7 @@ Details:
     	work directory that hold output files
 
 To reduce output, use `-debug 0`, e.g., `ffcvt -force -debug 0 -f testf.mp4 ...`
-- Test transcoding single file
+# Test transcoding single file
 
 == Transcoding: StreamSample.mkv
 ffcvt: to execute -
@@ -150,7 +156,7 @@ Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
-- Test transcoding different target types
+# Test transcoding different target types
 
 == Transcoding: StreamSample.mkv
 ] ffmpeg -i StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/StreamSample.mkv
@@ -211,7 +217,41 @@ Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
-- Test -sym control
+# Test transposing different keys
+Transposing from 'F' (349.23) to 'D' (293.66)
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 256k -q:a 3 -af atempo=349.23/293.66,asetrate=44100*293.66/349.23 /tmp/StreamSample.mp4
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 256k -q:a 3 -af atempo=349.23/293.66,asetrate=44100*293.66/349.23 /tmp/StreamSample.mp4
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+Transposing from 'F#' (369.99) to 'Db' (277.18)
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 72k -q:a 3 -af atempo=369.99/277.18,asetrate=44100*277.18/369.99 /tmp/StreamSample.mp4
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 72k -q:a 3 -af atempo=369.99/277.18,asetrate=44100*277.18/369.99 /tmp/StreamSample.mp4
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+Transposing from 'Gb' (369.99) to 'A#' (466.16)
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 72k -af atempo=369.99/466.16,asetrate=44100*466.16/369.99 StreamSample_.mp3
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -vn -c:a libmp3lame -b:a 72k -af atempo=369.99/466.16,asetrate=44100*466.16/369.99 StreamSample_.mp3
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+# Test -sym control
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] Skip symlink file: ./subdir/test_s1.avi
 ] None-video file './test-all.sh' duplicated to dest dir.
