@@ -198,6 +198,9 @@ cut_ok:
 	}
 
 	encodedExt = Opts.Ext
+	if Opts.Karaoke && encodedExt == _encodedExt {
+		encodedExt = "_karaoke.mp4"
+	}
 	// Sanity check
 	if Opts.WDirectory != "" {
 		// To error on the safe side -- when -d is not given but -f is,
@@ -435,6 +438,16 @@ func transcodeFile(inputName string) {
 	args := []string{"-i", inputName}
 	args = append(args, strings.Fields(Opts.OptExtra)...)
 	args = encodeParametersS(encodeParametersA(encodeParametersV(args)))
+	if Opts.Karaoke {
+		args = append(args, "-filter_complex")
+		args = append(args, "[0:1]pan=mono|c0=c0-c1[a]")
+		args = append(args, "-map")
+		args = append(args, "0:0")
+		args = append(args, "-map")
+		args = append(args, "[a]")
+		args = append(args, "-map")
+		args = append(args, "0:1")
+	}
 	if len(transpFrom) != 0 {
 		args = append(args, "-af")
 		af := fmt.Sprintf("atempo=%s/%s,asetrate=44100*%[2]s/%[1]s",
