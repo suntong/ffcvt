@@ -18,7 +18,7 @@ const progname = "ffcvt" // os.Args[0]
 // The Options struct defines the structure to hold the commandline values
 type Options struct {
 	Cfg        string // cfg file to define your own targets: webm/wx/youtube etc
-	Target     string // target type: webm/x265-opus/x264-mp3/wx/youtube/copy
+	Target     string // target type: webm/x265-opus/x264-mp3/wx/youtube/copy, or empty
 	Encoding          // anonymous field to hold encoding values
 	Directory  string // directory that hold input files
 	File       string // input file name (either -d or -f must be specified)
@@ -67,7 +67,7 @@ func initVars() {
 	flag.StringVar(&Opts.Cfg, "cfg", "",
 		"cfg file to define your own targets: webm/wx/youtube etc")
 	flag.StringVar(&Opts.Target, "t", "webm",
-		"target type: webm/x265-opus/x264-mp3/wx/youtube/copy")
+		"target type: webm/x265-opus/x264-mp3/wx/youtube/copy, or empty")
 	flag.StringVar(&Opts.VES, "ves", "",
 		"video encoding method set")
 	flag.StringVar(&Opts.AES, "aes", "",
@@ -124,7 +124,7 @@ func initVars() {
 		"Split video into multiple segments (strictly in format: hh:mm:ss)")
 	flag.StringVar(&Opts.Speed, "Speed", "",
 		"Speed up/down video playback speed (e.g. 1.28)")
-	flag.BoolVar(&Opts.Karaoke, "k", false,
+	flag.BoolVar(&Opts.Karaoke, "K", false,
 		"Add a karaoke audio track to .mp4 MTV")
 	flag.BoolVar(&Opts.Karaoke, "karaoke", false,
 		"Add a karaoke audio track to .mp4 MTV")
@@ -322,7 +322,7 @@ func initVals() {
 
 }
 
-const usageSummary = "  -cfg\tcfg file to define your own targets: webm/wx/youtube etc (FFCVT_CFG)\n  -t\ttarget type: webm/x265-opus/x264-mp3/wx/youtube/copy (FFCVT_T)\n  -ves\tvideo encoding method set (FFCVT_VES)\n  -aes\taudio encoding method set (FFCVT_AES)\n  -ses\tsubtitle encoding method set (FFCVT_SES)\n  -vep\tvideo encoding method prepend (FFCVT_VEP)\n  -aep\taudio encoding method prepend (FFCVT_AEP)\n  -sep\tsubtitle encoding method prepend (FFCVT_SEP)\n  -vea\tvideo encoding method append (FFCVT_VEA)\n  -aea\taudio encoding method append (FFCVT_AEA)\n  -abr\taudio bitrate (64k for opus, 256k for mp3) (FFCVT_ABR)\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264) (FFCVT_CRF)\n\n  -d\tdirectory that hold input files (FFCVT_D)\n  -f\tinput file name (either -d or -f must be specified) (FFCVT_F)\n  -sym\tsymlinks will be processed as well (FFCVT_SYM)\n  -exts\textension list for all the files to be queued (FFCVT_EXTS)\n  -suf\tsuffix to the output file names (FFCVT_SUF)\n  -ext\textension for the output file (FFCVT_EXT)\n  -w\twork directory that hold output files (FFCVT_W)\n\n  -ac\tcopy audio codec (FFCVT_AC)\n  -vc\tcopy video codec (FFCVT_VC)\n  -an\tno audio, output video only (FFCVT_AN)\n  -vn\tno video, output audio only (FFCVT_VN)\n  -vss\tvideo: same size (FFCVT_VSS)\n  -C,Cut\tCut segment(s) out to keep. Specify in the form of start-[end],\n\tstrictly in the format of hh:mm:ss, and may repeat (FFCVT_C,CUT)\n  -S,Seg\tSplit video into multiple segments (strictly in format: hh:mm:ss) (FFCVT_S,SEG)\n  -Speed\tSpeed up/down video playback speed (e.g. 1.28) (FFCVT_SPEED)\n  -k,karaoke\tAdd a karaoke audio track to .mp4 MTV (FFCVT_K,KARAOKE)\n  -tkf\tTranspose song's key from (e.g. C/C#/Db/D etc) (FFCVT_TKF)\n  -tkt\tTranspose song's key to (e.g. -tkf C -tkt Db) (FFCVT_TKT)\n  -lang\tlanguage selection for audio stream extraction (FFCVT_LANG)\n  -sel\tsubtitle encoding language (language picked for reencoded video) (FFCVT_SEL)\n  -o\tmore options that will pass to ffmpeg program (FFCVT_O)\n  -ato-opus\taudio encode to opus, using -abr (FFCVT_ATO_OPUS)\n  -vto-x265\tvideo video encode to x265, using -crf (FFCVT_VTO_X265)\n\n  -p\tpar2create, create par2 files (in work directory) (FFCVT_P)\n  -nc\tno clobber, do not queue those already been converted (FFCVT_NC)\n  -n\tno exec, dry run (FFCVT_N)\n\n  -force\toverwrite any existing none-empty file (FFCVT_FORCE)\n  -debug\tdebugging level (FFCVT_DEBUG)\n  -ffmpeg\tffmpeg program executable name (FFCVT_FFMPEG)\n  -ffprobe\tffprobe program execution (FFCVT_FFPROBE)\n  -version\tprint version then exit (FFCVT_VERSION)\n\nDetails:\n\n"
+const usageSummary = "  -cfg\tcfg file to define your own targets: webm/wx/youtube etc (FFCVT_CFG)\n  -t\ttarget type: webm/x265-opus/x264-mp3/wx/youtube/copy, or empty (FFCVT_T)\n  -ves\tvideo encoding method set (FFCVT_VES)\n  -aes\taudio encoding method set (FFCVT_AES)\n  -ses\tsubtitle encoding method set (FFCVT_SES)\n  -vep\tvideo encoding method prepend (FFCVT_VEP)\n  -aep\taudio encoding method prepend (FFCVT_AEP)\n  -sep\tsubtitle encoding method prepend (FFCVT_SEP)\n  -vea\tvideo encoding method append (FFCVT_VEA)\n  -aea\taudio encoding method append (FFCVT_AEA)\n  -abr\taudio bitrate (64k for opus, 256k for mp3) (FFCVT_ABR)\n  -crf\tthe CRF value: 0-51. Higher CRF gives lower quality\n\t (28 for x265, ~ 23 for x264) (FFCVT_CRF)\n\n  -d\tdirectory that hold input files (FFCVT_D)\n  -f\tinput file name (either -d or -f must be specified) (FFCVT_F)\n  -sym\tsymlinks will be processed as well (FFCVT_SYM)\n  -exts\textension list for all the files to be queued (FFCVT_EXTS)\n  -suf\tsuffix to the output file names (FFCVT_SUF)\n  -ext\textension for the output file (FFCVT_EXT)\n  -w\twork directory that hold output files (FFCVT_W)\n\n  -ac\tcopy audio codec (FFCVT_AC)\n  -vc\tcopy video codec (FFCVT_VC)\n  -an\tno audio, output video only (FFCVT_AN)\n  -vn\tno video, output audio only (FFCVT_VN)\n  -vss\tvideo: same size (FFCVT_VSS)\n  -C,Cut\tCut segment(s) out to keep. Specify in the form of start-[end],\n\tstrictly in the format of hh:mm:ss, and may repeat (FFCVT_C,CUT)\n  -S,Seg\tSplit video into multiple segments (strictly in format: hh:mm:ss) (FFCVT_S,SEG)\n  -Speed\tSpeed up/down video playback speed (e.g. 1.28) (FFCVT_SPEED)\n  -K,karaoke\tAdd a karaoke audio track to .mp4 MTV (FFCVT_K,KARAOKE)\n  -tkf\tTranspose song's key from (e.g. C/C#/Db/D etc) (FFCVT_TKF)\n  -tkt\tTranspose song's key to (e.g. -tkf C -tkt Db) (FFCVT_TKT)\n  -lang\tlanguage selection for audio stream extraction (FFCVT_LANG)\n  -sel\tsubtitle encoding language (language picked for reencoded video) (FFCVT_SEL)\n  -o\tmore options that will pass to ffmpeg program (FFCVT_O)\n  -ato-opus\taudio encode to opus, using -abr (FFCVT_ATO_OPUS)\n  -vto-x265\tvideo video encode to x265, using -crf (FFCVT_VTO_X265)\n\n  -p\tpar2create, create par2 files (in work directory) (FFCVT_P)\n  -nc\tno clobber, do not queue those already been converted (FFCVT_NC)\n  -n\tno exec, dry run (FFCVT_N)\n\n  -force\toverwrite any existing none-empty file (FFCVT_FORCE)\n  -debug\tdebugging level (FFCVT_DEBUG)\n  -ffmpeg\tffmpeg program executable name (FFCVT_FFMPEG)\n  -ffprobe\tffprobe program execution (FFCVT_FFPROBE)\n  -version\tprint version then exit (FFCVT_VERSION)\n\nDetails:\n\n"
 
 // Usage function shows help on commandline usage
 func Usage() {

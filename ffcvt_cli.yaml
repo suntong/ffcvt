@@ -40,7 +40,7 @@ Options:
     Type: string
     Flag: t
     Value: '"webm"'
-    Usage: "target type: webm/x265-opus/x264-mp3/wx/youtube/copy"
+    Usage: "target type: webm/x265-opus/x264-mp3/wx/youtube/copy, or empty"
 
   - Name: VES
     Type: string
@@ -206,7 +206,7 @@ Options:
 
   - Name: Karaoke
     Type: bool
-    Flag: k,karaoke
+    Flag: K,karaoke
     Value: false
     Usage: "Add a karaoke audio track to .mp4 MTV"
 
