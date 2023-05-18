@@ -204,6 +204,12 @@ Options:
     Value: '""'
     Usage: "Speed up/down video playback speed (e.g. 1.28)"
 
+  - Name: Karaoke
+    Type: bool
+    Flag: k,karaoke
+    Value: false
+    Usage: "Add a karaoke audio track to .mp4 MTV"
+
   - Name: TranspFrom
     Type: string
     Flag: tkf
