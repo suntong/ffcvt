@@ -55,7 +55,7 @@ type videoCol struct {
 
 var (
 	version = "1.10.0"
-	date    = "2023-05-16"
+	date    = "2023-05-18"
 
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1

@@ -16,7 +16,8 @@ using ffmpeg.
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
   - [Latest Update(s)](#latest-update(s))
-    - [Latest Releases](#latest-releases)
+    - [Release v1.10.0](#release-v1100)
+    - [Release v1.9.0](#release-v190)
     - [Release v1.8.0](#release-v180)
     - [Release v1.7.5](#release-v175)
     - [Release v1.7.3](#release-v173)
@@ -43,8 +44,15 @@ using ffmpeg.
 
 ### Latest Update(s)
 
+#### Release v1.10.0
 
-#### Latest Releases
+Now able to
+
+* change the key signature of a song. Details in [\#30](https://github.com/suntong/ffcvt/issues/30).
+* add a karaoke audio track to the MTV videos. Details in [\#31](https://github.com/suntong/ffcvt/issues/31).
+
+
+#### Release v1.9.0
 
 - Release v1.9.0
   * `ffcvt -version` now checks/outputs dependent program versions too
@@ -117,12 +125,12 @@ There is a quick usage help that comes with `ffcvt`, produced when it is invoked
 
 ```sh
 $ ffcvt -version
-ffcvt version 1.9.0 built on 2023-03-16
+ffcvt version 1.10.0 built on 2023-05-18
 
-ffmpeg version 4.3.5-0+deb11u1 Copyright (c) 2000-2022 the FFmpeg developers
+ffmpeg version 4.3.6-0+deb11u1 Copyright (c) 2000-2023 the FFmpeg developers
 built with gcc 10 (Debian 10.2.1-6)
 
-ffprobe version 4.3.5-0+deb11u1 Copyright (c) 2007-2022 the FFmpeg developers
+ffprobe version 4.3.6-0+deb11u1 Copyright (c) 2007-2023 the FFmpeg developers
 built with gcc 10 (Debian 10.2.1-6)
 ```
 
@@ -134,7 +142,7 @@ Usage:
 Flags:
 
   -cfg	cfg file to define your own targets: webm/wx/youtube etc (FFCVT_CFG)
-  -t	target type: webm/x265-opus/x264-mp3/wx/youtube/copy (FFCVT_T)
+  -t	target type: webm/x265-opus/x264-mp3/wx/youtube/copy, or empty (FFCVT_T)
   -ves	video encoding method set (FFCVT_VES)
   -aes	audio encoding method set (FFCVT_AES)
   -ses	subtitle encoding method set (FFCVT_SES)
@@ -164,6 +172,9 @@ Flags:
 	strictly in the format of hh:mm:ss, and may repeat (FFCVT_C,CUT)
   -S,Seg	Split video into multiple segments (strictly in format: hh:mm:ss) (FFCVT_S,SEG)
   -Speed	Speed up/down video playback speed (e.g. 1.28) (FFCVT_SPEED)
+  -K,karaoke	Add a karaoke audio track to .mp4 MTV (FFCVT_K,KARAOKE)
+  -tkf	Transpose song's key from (e.g. C/C#/Db/D etc) (FFCVT_TKF)
+  -tkt	Transpose song's key to (e.g. -tkf C -tkt Db) (FFCVT_TKT)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
   -sel	subtitle encoding language (language picked for reencoded video) (FFCVT_SEL)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
@@ -188,6 +199,7 @@ Details:
   -Cut value
     	Cut segment(s) out to keep. Specify in the form of start-[end],
     		strictly in the format of hh:mm:ss, and may repeat
+  -K	Add a karaoke audio track to .mp4 MTV
   -S string
     	Split video into multiple segments (strictly in format: hh:mm:ss)
   -Seg string
@@ -229,6 +241,8 @@ Details:
     	ffprobe program execution (default "ffprobe -print_format flat")
   -force
     	overwrite any existing none-empty file
+  -karaoke
+    	Add a karaoke audio track to .mp4 MTV
   -lang string
     	language selection for audio stream extraction (default "eng")
   -n	no exec, dry run
@@ -248,7 +262,11 @@ Details:
   -sym
     	symlinks will be processed as well
   -t string
-    	target type: webm/x265-opus/x264-mp3/wx/youtube/copy (default "webm")
+    	target type: webm/x265-opus/x264-mp3/wx/youtube/copy, or empty (default "webm")
+  -tkf string
+    	Transpose song's key from (e.g. C/C#/Db/D etc)
+  -tkt string
+    	Transpose song's key to (e.g. -tkf C -tkt Db)
   -vc
     	copy video codec
   -vea string

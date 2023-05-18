@@ -12,8 +12,15 @@
 
 ### Latest Update(s)
 
+#### Release v1.10.0
 
-#### Latest Releases
+Now able to
+
+* change the key signature of a song. Details in [\#30](https://github.com/suntong/ffcvt/issues/30).
+* add a karaoke audio track to the MTV videos. Details in [\#31](https://github.com/suntong/ffcvt/issues/31).
+
+
+#### Release v1.9.0
 
 - Release v1.9.0
   * `ffcvt -version` now checks/outputs dependent program versions too
