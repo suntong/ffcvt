@@ -35,6 +35,7 @@ Flags:
 	strictly in the format of hh:mm:ss, and may repeat (FFCVT_C,CUT)
   -S,Seg	Split video into multiple segments (strictly in format: hh:mm:ss) (FFCVT_S,SEG)
   -Speed	Speed up/down video playback speed (e.g. 1.28) (FFCVT_SPEED)
+  -k,karaoke	Add a karaoke audio track to .mp4 MTV (FFCVT_K,KARAOKE)
   -tkf	Transpose song's key from (e.g. C/C#/Db/D etc) (FFCVT_TKF)
   -tkt	Transpose song's key to (e.g. -tkf C -tkt Db) (FFCVT_TKT)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
@@ -102,6 +103,9 @@ Details:
     	ffprobe program execution (default "ffprobe -print_format flat")
   -force
     	overwrite any existing none-empty file
+  -k	Add a karaoke audio track to .mp4 MTV
+  -karaoke
+    	Add a karaoke audio track to .mp4 MTV
   -lang string
     	language selection for audio stream extraction (default "eng")
   -n	no exec, dry run
@@ -212,6 +216,27 @@ Saved:    0%
 ] ffmpeg -i StreamSample.mkv -c:v copy -c:a copy -b:a 64k -c:s copy /tmp/StreamSample.mkv
 ffcvt: to execute -
   ffmpeg -i StreamSample.mkv -c:v copy -c:a copy -b:a 64k -c:s copy /tmp/StreamSample.mkv
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+# Test adding karaoke audio track
+
+== Transcoding: test1.avi
+] ffmpeg -i test1.avi -filter_complex [0:1]pan=mono|c0=c0-c1[a] -map 0:0 -map [a] -map 0:1 test1_karaoke.mp4
+ffcvt: to execute -
+  ffmpeg -i test1.avi -filter_complex [0:1]pan=mono|c0=c0-c1[a] -map 0:0 -map [a] -map 0:1 test1_karaoke.mp4
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding: test1.avi
+] ffmpeg -i test1.avi -filter_complex [0:1]pan=mono|c0=c0-c1[a] -map 0:0 -map [a] -map 0:1 test1_k.avi
+ffcvt: to execute -
+  ffmpeg -i test1.avi -filter_complex [0:1]pan=mono|c0=c0-c1[a] -map 0:0 -map [a] -map 0:1 test1_k.avi
 
 Transcoding completed in xxx ms
 Org Size: 0 MB
