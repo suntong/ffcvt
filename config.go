@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -308,12 +309,24 @@ func initVals() {
 	if _, exists = os.LookupEnv("FFCVT_NC"); Opts.NoClobber || exists {
 		Opts.NoClobber = true
 	}
+	if Opts.MaxC == 0 ||
+		len(os.Getenv("FFCVT_MAXC")) != 0 {
+		if i, err := strconv.Atoi(os.Getenv("FFCVT_MAXC")); err == nil {
+			Opts.MaxC = i
+		}
+	}
 	if _, exists = os.LookupEnv("FFCVT_N"); Opts.NoExec || exists {
 		Opts.NoExec = true
 	}
 
 	if _, exists = os.LookupEnv("FFCVT_FORCE"); Opts.Force || exists {
 		Opts.Force = true
+	}
+	if Opts.Debug == 0 ||
+		len(os.Getenv("FFCVT_DEBUG")) != 0 {
+		if i, err := strconv.Atoi(os.Getenv("FFCVT_DEBUG")); err == nil {
+			Opts.Debug = i
+		}
 	}
 	if len(Opts.FFMpeg) == 0 ||
 		len(os.Getenv("FFCVT_FFMPEG")) != 0 {

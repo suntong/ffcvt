@@ -115,6 +115,7 @@ func main() {
 		os.Exit(0)
 	}
 
+	//fmt.Printf("%+v\n", Opts)
 	if len(Opts.Seg) > 0 {
 		// sanity check
 		_, err := time.Parse("15:04:05", Opts.Seg)

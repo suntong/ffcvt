@@ -40,6 +40,7 @@ $FFCVT -t x265-opus -n -bt 0.1s -d . -sym  >> /tmp/ffcvt_test.txt 2>&1
 $FFCVT -n -bt 0.1s -d .  >> /tmp/ffcvt_test.txt 2>&1
 $FFCVT -n -bt 0.1s -d . -sym  >> /tmp/ffcvt_test.txt 2>&1
 $FFCVT -n -bt 0.1s -d . -sym -maxc 2  >> /tmp/ffcvt_test.txt 2>&1
+FFCVT_MAXC=1 $FFCVT -n -bt 0.1s -d . -sym  >> /tmp/ffcvt_test.txt 2>&1
 
 $FFCVT -n -sym -debug 2 -bt 0.1s -d . -w /tmp >> /tmp/ffcvt_test.txt 2>&1
 

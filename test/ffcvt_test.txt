@@ -426,6 +426,16 @@ ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test1_.mkv
 Time taken so far xxx ms
 ] Max conversion count reached.
+] None-video file './ffcvt_test.txt' duplicated to dest dir.
+] None-video file './test-all.sh' duplicated to dest dir.
+
+== Transcoding [1/4] (100%): 'StreamSample.mkv'
+   under .
+] ffmpeg -i ./StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./StreamSample_.mkv
+ffcvt: to execute -
+  ffmpeg -i ./StreamSample.mkv -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./StreamSample_.mkv
+Time taken so far xxx ms
+] Max conversion count reached.
 ] Transcoding to /tmp/test
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
