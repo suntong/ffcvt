@@ -266,6 +266,18 @@ Options:
     Value: false
     Usage: "no clobber, do not queue those already been converted"
 
+  - Name: BreathTime
+    Type: duration
+    Flag: bt
+    Value: '120*time.Second'
+    Usage: "breath time, interval between conversion to take a breath"
+
+  - Name: MaxC
+    Type: int
+    Flag: maxc
+    Value: 0
+    Usage: max conversion done each run (default no limit)
+
   - Name: NoExec
     Type: bool
     Flag: "n"
