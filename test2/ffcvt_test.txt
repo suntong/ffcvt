@@ -391,6 +391,25 @@ Transcoding completed in xxx ms
 Org Size: 0 MB
 New Size: 0 MB
 Saved:    0%
+] None-video file './ffcvt_test.txt' duplicated to dest dir.
+] None-video file './test-all.sh' duplicated to dest dir.
+
+== Transcoding [1/4] (36%): 'test_s1.avi'
+   under subdir
+] ffmpeg -i ./subdir/test_s1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./subdir/test_s1_.mkv
+ffcvt: to execute -
+  ffmpeg -i ./subdir/test_s1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./subdir/test_s1_.mkv
+Time taken so far xxx ms
+] Taking a breath for: xxx ms
+Finishing the remaining 64% in xxx ms
+
+== Transcoding [2/4] (57%): 'test1.avi'
+   under .
+] ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test1_.mkv
+ffcvt: to execute -
+  ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test1_.mkv
+Time taken so far xxx ms
+] Max conversion count reached.
 ] Transcoding to /tmp/test2
 ] None-video file './ffcvt_test.txt' duplicated to dest dir.
 ] None-video file './test-all.sh' duplicated to dest dir.
