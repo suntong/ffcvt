@@ -34,13 +34,13 @@ $FFCVT -t x264-mp3 -n -f StreamSample.mkv -w /tmp -tkf 'F#' -tkt Db -vn -abr 72k
 $FFCVT -t '' -n -f StreamSample.mkv -tkf Gb -tkt 'A#' -vn -abr 72k -aes libmp3lame -ext _.mp3 >> /tmp/ffcvt_test.txt 2>&1
 
 echo '# Test -sym control' | tee -a /tmp/ffcvt_test.txt
-$FFCVT -t x265-opus -n -d . >> /tmp/ffcvt_test.txt 2>&1
-$FFCVT -t x265-opus -n -d . -sym  >> /tmp/ffcvt_test.txt 2>&1
+$FFCVT -t x265-opus -n -bt 0.1s -d . >> /tmp/ffcvt_test.txt 2>&1
+$FFCVT -t x265-opus -n -bt 0.1s -d . -sym  >> /tmp/ffcvt_test.txt 2>&1
 
-$FFCVT -n -d .  >> /tmp/ffcvt_test.txt 2>&1
-$FFCVT -n -d . -sym  >> /tmp/ffcvt_test.txt 2>&1
+$FFCVT -n -bt 0.1s -d .  >> /tmp/ffcvt_test.txt 2>&1
+$FFCVT -n -bt 0.1s -d . -sym  >> /tmp/ffcvt_test.txt 2>&1
 
-$FFCVT -n -sym -debug 2 -d . -w /tmp >> /tmp/ffcvt_test.txt 2>&1
+$FFCVT -n -sym -debug 2 -bt 0.1s -d . -w /tmp >> /tmp/ffcvt_test.txt 2>&1
 
 echo '# Compare test results, 0 means AOK:'
 sed -i '/ [0-9.]*[nmµ]*s$/s// xxx ms/' /tmp/ffcvt_test.txt

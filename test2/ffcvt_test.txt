@@ -46,6 +46,8 @@ Flags:
 
   -p	par2create, create par2 files (in work directory) (FFCVT_P)
   -nc	no clobber, do not queue those already been converted (FFCVT_NC)
+  -bt	breath time, interval between conversion to take a breath (FFCVT_BT)
+  -maxc	max conversion done each run (default no limit) (FFCVT_MAXC)
   -n	no exec, dry run (FFCVT_N)
 
   -force	overwrite any existing none-empty file (FFCVT_FORCE)
@@ -83,6 +85,8 @@ Details:
     	no audio, output video only
   -ato-opus
     	audio encode to opus, using -abr
+  -bt duration
+    	breath time, interval between conversion to take a breath (default 2m0s)
   -cfg string
     	cfg file to define your own targets: webm/wx/youtube etc
   -crf string
@@ -108,6 +112,8 @@ Details:
     	Add a karaoke audio track to .mp4 MTV
   -lang string
     	language selection for audio stream extraction (default "eng")
+  -maxc int
+    	max conversion done each run (default no limit)
   -n	no exec, dry run
   -nc
     	no clobber, do not queue those already been converted
@@ -297,6 +303,7 @@ Saved:    0%
 ffcvt: to execute -
   ffmpeg -i ./subdir/test_s1.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./subdir/test_s1_.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 64% in xxx ms
 
 == Transcoding [2/4] (57%): 'test1.avi'
@@ -305,6 +312,7 @@ Finishing the remaining 64% in xxx ms
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test1_.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 43% in xxx ms
 
 == Transcoding [3/4] (78%): 'test2.avi'
@@ -313,6 +321,7 @@ Finishing the remaining 43% in xxx ms
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test2_.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 22% in xxx ms
 
 == Transcoding [4/4] (100%): 'test3.webm'
@@ -321,6 +330,7 @@ Finishing the remaining 22% in xxx ms
 ffcvt: to execute -
   ffmpeg -i ./test3.webm -c:v libx265 -x265-params crf=28 -c:a libopus -b:a 64k ./test3_.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 0% in xxx ms
 
 Transcoding completed in xxx ms
@@ -347,6 +357,7 @@ Saved:    0%
 ffcvt: to execute -
   ffmpeg -i ./subdir/test_s1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./subdir/test_s1_.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 64% in xxx ms
 
 == Transcoding [2/4] (57%): 'test1.avi'
@@ -355,6 +366,7 @@ Finishing the remaining 64% in xxx ms
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test1_.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 43% in xxx ms
 
 == Transcoding [3/4] (78%): 'test2.avi'
@@ -363,6 +375,7 @@ Finishing the remaining 43% in xxx ms
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test2_.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 22% in xxx ms
 
 == Transcoding [4/4] (100%): 'test3.webm'
@@ -371,6 +384,7 @@ Finishing the remaining 22% in xxx ms
 ffcvt: to execute -
   ffmpeg -i ./test3.webm -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy ./test3_.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 0% in xxx ms
 
 Transcoding completed in xxx ms
@@ -387,6 +401,7 @@ Saved:    0%
 ffcvt: to execute -
   ffmpeg -i ./subdir/test_s1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/subdir/test_s1.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 64% in xxx ms
 
 == Transcoding [2/4] (57%): 'test1.avi'
@@ -395,6 +410,7 @@ Finishing the remaining 64% in xxx ms
 ffcvt: to execute -
   ffmpeg -i ./test1.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/test1.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 43% in xxx ms
 
 == Transcoding [3/4] (78%): 'test2.avi'
@@ -403,6 +419,7 @@ Finishing the remaining 43% in xxx ms
 ffcvt: to execute -
   ffmpeg -i ./test2.avi -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/test2.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 22% in xxx ms
 
 == Transcoding [4/4] (100%): 'test3.webm'
@@ -411,6 +428,7 @@ Finishing the remaining 22% in xxx ms
 ffcvt: to execute -
   ffmpeg -i ./test3.webm -c:v libvpx-vp9 -b:v 0 -crf 42 -c:a libopus -b:a 64k -c:s copy /tmp/test2/test3.mkv
 Time taken so far xxx ms
+] Taking a breath for: xxx ms
 Finishing the remaining 0% in xxx ms
 
 Transcoding completed in xxx ms

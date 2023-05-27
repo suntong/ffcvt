@@ -374,6 +374,12 @@ func transcodeVideos(startTime time.Time) {
 			videoNdx, videosTotal, v.pct, filepath.Base(inputName), filepath.Dir(inputName))
 		transcodeFile(inputName)
 		fmt.Printf("Time taken so far %s\n", time.Since(startTime))
+		if Opts.MaxC != 0 && videoNdx >= Opts.MaxC {
+			debug("Max conversion count reached.", 1)
+			os.Exit(0)
+		}
+		debug("Taking a breath for: "+Opts.BreathTime.String(), 1)
+		time.Sleep(Opts.BreathTime)
 		fmt.Printf("Finishing the remaining %d%% in %s\n",
 			100-v.pct,
 			time.Duration(int64(float32(time.Since(startTime))*
