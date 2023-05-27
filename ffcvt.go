@@ -54,8 +54,8 @@ type videoCol struct {
 // Global variables definitions
 
 var (
-	version = "1.10.0"
-	date    = "2023-05-18"
+	version = "1.11.0"
+	date    = "2023-05-26"
 
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1
