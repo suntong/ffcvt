@@ -173,79 +173,79 @@ func initVars() {
 func initVals() {
 	exists := false
 	// Now override those default values from environment variables
-	if len(Opts.Cfg) == 0 ||
+	if len(Opts.Cfg) == 0 &&
 		len(os.Getenv("FFCVT_CFG")) != 0 {
 		Opts.Cfg = os.Getenv("FFCVT_CFG")
 	}
-	if len(Opts.Target) == 0 ||
+	if len(Opts.Target) == 0 &&
 		len(os.Getenv("FFCVT_T")) != 0 {
 		Opts.Target = os.Getenv("FFCVT_T")
 	}
-	if len(Opts.VES) == 0 ||
+	if len(Opts.VES) == 0 &&
 		len(os.Getenv("FFCVT_VES")) != 0 {
 		Opts.VES = os.Getenv("FFCVT_VES")
 	}
-	if len(Opts.AES) == 0 ||
+	if len(Opts.AES) == 0 &&
 		len(os.Getenv("FFCVT_AES")) != 0 {
 		Opts.AES = os.Getenv("FFCVT_AES")
 	}
-	if len(Opts.SES) == 0 ||
+	if len(Opts.SES) == 0 &&
 		len(os.Getenv("FFCVT_SES")) != 0 {
 		Opts.SES = os.Getenv("FFCVT_SES")
 	}
-	if len(Opts.VEP) == 0 ||
+	if len(Opts.VEP) == 0 &&
 		len(os.Getenv("FFCVT_VEP")) != 0 {
 		Opts.VEP = os.Getenv("FFCVT_VEP")
 	}
-	if len(Opts.AEP) == 0 ||
+	if len(Opts.AEP) == 0 &&
 		len(os.Getenv("FFCVT_AEP")) != 0 {
 		Opts.AEP = os.Getenv("FFCVT_AEP")
 	}
-	if len(Opts.SEP) == 0 ||
+	if len(Opts.SEP) == 0 &&
 		len(os.Getenv("FFCVT_SEP")) != 0 {
 		Opts.SEP = os.Getenv("FFCVT_SEP")
 	}
-	if len(Opts.VEA) == 0 ||
+	if len(Opts.VEA) == 0 &&
 		len(os.Getenv("FFCVT_VEA")) != 0 {
 		Opts.VEA = os.Getenv("FFCVT_VEA")
 	}
-	if len(Opts.AEA) == 0 ||
+	if len(Opts.AEA) == 0 &&
 		len(os.Getenv("FFCVT_AEA")) != 0 {
 		Opts.AEA = os.Getenv("FFCVT_AEA")
 	}
-	if len(Opts.ABR) == 0 ||
+	if len(Opts.ABR) == 0 &&
 		len(os.Getenv("FFCVT_ABR")) != 0 {
 		Opts.ABR = os.Getenv("FFCVT_ABR")
 	}
-	if len(Opts.CRF) == 0 ||
+	if len(Opts.CRF) == 0 &&
 		len(os.Getenv("FFCVT_CRF")) != 0 {
 		Opts.CRF = os.Getenv("FFCVT_CRF")
 	}
 
-	if len(Opts.Directory) == 0 ||
+	if len(Opts.Directory) == 0 &&
 		len(os.Getenv("FFCVT_D")) != 0 {
 		Opts.Directory = os.Getenv("FFCVT_D")
 	}
-	if len(Opts.File) == 0 ||
+	if len(Opts.File) == 0 &&
 		len(os.Getenv("FFCVT_F")) != 0 {
 		Opts.File = os.Getenv("FFCVT_F")
 	}
 	if _, exists = os.LookupEnv("FFCVT_SYM"); Opts.Links || exists {
 		Opts.Links = true
 	}
-	if len(Opts.Exts) == 0 ||
+	if len(Opts.Exts) == 0 &&
 		len(os.Getenv("FFCVT_EXTS")) != 0 {
 		Opts.Exts = os.Getenv("FFCVT_EXTS")
 	}
-	if len(Opts.Suffix) == 0 ||
+	if len(Opts.Suffix) == 0 &&
 		len(os.Getenv("FFCVT_SUF")) != 0 {
 		Opts.Suffix = os.Getenv("FFCVT_SUF")
 	}
-	if len(Opts.Ext) == 0 ||
+	if len(Opts.Ext) == 0 &&
 		len(os.Getenv("FFCVT_EXT")) != 0 {
 		Opts.Ext = os.Getenv("FFCVT_EXT")
 	}
-	if len(Opts.WDirectory) == 0 ||
+	if len(Opts.WDirectory) == 0 &&
 		len(os.Getenv("FFCVT_W")) != 0 {
 		Opts.WDirectory = os.Getenv("FFCVT_W")
 	}
@@ -265,34 +265,34 @@ func initVals() {
 	if _, exists = os.LookupEnv("FFCVT_VSS"); Opts.VSS || exists {
 		Opts.VSS = true
 	}
-	if len(Opts.Seg) == 0 ||
+	if len(Opts.Seg) == 0 &&
 		len(os.Getenv("FFCVT_S")) != 0 {
 		Opts.Seg = os.Getenv("FFCVT_S")
 	}
-	if len(Opts.Seg) == 0 ||
+	if len(Opts.Seg) == 0 &&
 		len(os.Getenv("FFCVT_SEG")) != 0 {
 		Opts.Seg = os.Getenv("FFCVT_SEG")
 	}
-	if len(Opts.Speed) == 0 ||
+	if len(Opts.Speed) == 0 &&
 		len(os.Getenv("FFCVT_SPEED")) != 0 {
 		Opts.Speed = os.Getenv("FFCVT_SPEED")
 	}
 	if _, exists = os.LookupEnv("FFCVT_K,KARAOKE"); Opts.Karaoke || exists {
 		Opts.Karaoke = true
 	}
-	if len(Opts.TranspFrom) == 0 ||
+	if len(Opts.TranspFrom) == 0 &&
 		len(os.Getenv("FFCVT_TKF")) != 0 {
 		Opts.TranspFrom = os.Getenv("FFCVT_TKF")
 	}
-	if len(Opts.TranspTo) == 0 ||
+	if len(Opts.TranspTo) == 0 &&
 		len(os.Getenv("FFCVT_TKT")) != 0 {
 		Opts.TranspTo = os.Getenv("FFCVT_TKT")
 	}
-	if len(Opts.Lang) == 0 ||
+	if len(Opts.Lang) == 0 &&
 		len(os.Getenv("FFCVT_LANG")) != 0 {
 		Opts.Lang = os.Getenv("FFCVT_LANG")
 	}
-	if len(Opts.OptExtra) == 0 ||
+	if len(Opts.OptExtra) == 0 &&
 		len(os.Getenv("FFCVT_O")) != 0 {
 		Opts.OptExtra = os.Getenv("FFCVT_O")
 	}
@@ -309,7 +309,7 @@ func initVals() {
 	if _, exists = os.LookupEnv("FFCVT_NC"); Opts.NoClobber || exists {
 		Opts.NoClobber = true
 	}
-	if Opts.MaxC == 0 ||
+	if Opts.MaxC == 0 &&
 		len(os.Getenv("FFCVT_MAXC")) != 0 {
 		if i, err := strconv.Atoi(os.Getenv("FFCVT_MAXC")); err == nil {
 			Opts.MaxC = i
@@ -322,17 +322,17 @@ func initVals() {
 	if _, exists = os.LookupEnv("FFCVT_FORCE"); Opts.Force || exists {
 		Opts.Force = true
 	}
-	if Opts.Debug == 0 ||
+	if Opts.Debug == 0 &&
 		len(os.Getenv("FFCVT_DEBUG")) != 0 {
 		if i, err := strconv.Atoi(os.Getenv("FFCVT_DEBUG")); err == nil {
 			Opts.Debug = i
 		}
 	}
-	if len(Opts.FFMpeg) == 0 ||
+	if len(Opts.FFMpeg) == 0 &&
 		len(os.Getenv("FFCVT_FFMPEG")) != 0 {
 		Opts.FFMpeg = os.Getenv("FFCVT_FFMPEG")
 	}
-	if len(Opts.FFProbe) == 0 ||
+	if len(Opts.FFProbe) == 0 &&
 		len(os.Getenv("FFCVT_FFPROBE")) != 0 {
 		Opts.FFProbe = os.Getenv("FFCVT_FFPROBE")
 	}
