@@ -16,6 +16,8 @@ using ffmpeg.
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
   - [Latest Update(s)](#latest-update(s))
+    - [Release v1.12.0](#release-v1120)
+    - [Release v1.11.1](#release-v1111)
     - [Release v1.10.0](#release-v1100)
     - [Release v1.9.0](#release-v190)
     - [Release v1.8.0](#release-v180)
@@ -43,6 +45,18 @@ using ffmpeg.
 ## ffcvt - ffmpeg convert wrapper tool
 
 ### Latest Update(s)
+
+#### Release v1.12.0
+
+Now able to have specific CRF environment variable for `libx26?` types:
+
+- libx264: `FFCVT_CRF4`
+- libx265: `FFCVT_CRF5`
+
+
+#### Release v1.11.1
+
+Now able to restrict CPU usage by limiting max conversions done in each run.
 
 #### Release v1.10.0
 
@@ -125,13 +139,13 @@ There is a quick usage help that comes with `ffcvt`, produced when it is invoked
 
 ```sh
 $ ffcvt -version
-ffcvt version 1.10.0 built on 2023-05-18
+ffcvt version 1.12.0 built on 2023-08-21
 
-ffmpeg version 4.3.6-0+deb11u1 Copyright (c) 2000-2023 the FFmpeg developers
-built with gcc 10 (Debian 10.2.1-6)
+ffmpeg version 5.1.3-1 Copyright (c) 2000-2022 the FFmpeg developers
+built with gcc 12 (Debian 12.2.0-14)
 
-ffprobe version 4.3.6-0+deb11u1 Copyright (c) 2007-2023 the FFmpeg developers
-built with gcc 10 (Debian 10.2.1-6)
+ffprobe version 5.1.3-1 Copyright (c) 2007-2022 the FFmpeg developers
+built with gcc 12 (Debian 12.2.0-14)
 ```
 
 ### $ ffcvt
@@ -183,6 +197,8 @@ Flags:
 
   -p	par2create, create par2 files (in work directory) (FFCVT_P)
   -nc	no clobber, do not queue those already been converted (FFCVT_NC)
+  -bt	breath time, interval between conversion to take a breath (FFCVT_BT)
+  -maxc	max conversion done each run (default no limit) (FFCVT_MAXC)
   -n	no exec, dry run (FFCVT_N)
 
   -force	overwrite any existing none-empty file (FFCVT_FORCE)
@@ -220,6 +236,8 @@ Details:
     	no audio, output video only
   -ato-opus
     	audio encode to opus, using -abr
+  -bt duration
+    	breath time, interval between conversion to take a breath (default 2m0s)
   -cfg string
     	cfg file to define your own targets: webm/wx/youtube etc
   -crf string
@@ -245,6 +263,8 @@ Details:
     	Add a karaoke audio track to .mp4 MTV
   -lang string
     	language selection for audio stream extraction (default "eng")
+  -maxc int
+    	max conversion done each run (default no limit)
   -n	no exec, dry run
   -nc
     	no clobber, do not queue those already been converted

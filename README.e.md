@@ -12,6 +12,18 @@
 
 ### Latest Update(s)
 
+#### Release v1.12.0
+
+Now able to have specific CRF environment variable for `libx26?` types:
+
+- libx264: `FFCVT_CRF4`
+- libx265: `FFCVT_CRF5`
+
+
+#### Release v1.11.1
+
+Now able to restrict CPU usage by limiting max conversions done in each run.
+
 #### Release v1.10.0
 
 Now able to
