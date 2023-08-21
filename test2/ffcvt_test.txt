@@ -189,9 +189,29 @@ New Size: 0 MB
 Saved:    0%
 
 == Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -c:v libx265 -x265-params crf=33.8 -c:a libopus -b:a 64k /tmp/StreamSample.mkv
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -c:v libx265 -x265-params crf=33.8 -c:a libopus -b:a 64k /tmp/StreamSample.mkv
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding: StreamSample.mkv
 ] ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=23 -c:a libmp3lame -b:a 256k -q:a 3 /tmp/StreamSample.mp4
 ffcvt: to execute -
   ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=23 -c:a libmp3lame -b:a 256k -q:a 3 /tmp/StreamSample.mp4
+
+Transcoding completed in xxx ms
+Org Size: 0 MB
+New Size: 0 MB
+Saved:    0%
+
+== Transcoding: StreamSample.mkv
+] ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=33.8 -c:a libmp3lame -b:a 256k -q:a 3 /tmp/StreamSample.mp4
+ffcvt: to execute -
+  ffmpeg -i StreamSample.mkv -c:v libx264 -x264-params crf=33.8 -c:a libmp3lame -b:a 256k -q:a 3 /tmp/StreamSample.mp4
 
 Transcoding completed in xxx ms
 Org Size: 0 MB

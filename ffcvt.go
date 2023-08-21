@@ -389,8 +389,13 @@ func transcodeVideos(startTime time.Time) {
 }
 
 func transcodeFile(inputName string) {
+	//debug(fmt.Sprintf("Transcoding file, NoClobber = %v\n", Opts.NoClobber), 4)
 	startTime := time.Now()
 	outputName, outputGrpName := getOutputName(inputName), ""
+	if Opts.NoClobber && fileExist(outputName) {
+		debug("Aborted as the encoded output file exist: "+inputName, 1)
+		return
+	}
 	if len(Opts.Seg) > 0 {
 		outputName, outputGrpName = getOutputNameSeg(inputName)
 	}
@@ -444,6 +449,7 @@ func transcodeFile(inputName string) {
 
 	args := []string{"-i", inputName}
 	args = append(args, strings.Fields(Opts.OptExtra)...)
+	//debug(strings.Join(args, " "), 4)
 	args = encodeParametersS(encodeParametersA(encodeParametersV(args)))
 	if Opts.Karaoke {
 		args = append(args, "-filter_complex")
@@ -635,6 +641,7 @@ func encodeParametersA(args []string) []string {
 
 // Returns the encode parameters for Video
 func encodeParametersV(args []string) []string {
+	//debug(Opts.VES, 4)
 	if Opts.VEP != "" {
 		args = append(args, strings.Fields(Opts.VEP)...)
 	}
@@ -652,13 +659,20 @@ func encodeParametersV(args []string) []string {
 	if Opts.VES != "" {
 		args = append(args, "-c:v", Opts.VES)
 	}
+	libx2x := regexp.MustCompile(`^libx26(.)`).FindStringSubmatch(Opts.VES)
+	if len(libx2x) >= 2 { // VES is either libx264 or libx265
+		// check for their specific CRF env var setting, FFCVT_CRF[45]
+		libx2t := libx2x[1]
+		if len(os.Getenv("FFCVT_CRF"+libx2t)) != 0 {
+			Opts.CRF = os.Getenv("FFCVT_CRF" + libx2t)
+			debug(Opts.CRF, 3)
+		}
+		args = append(args, "-"+Opts.VES[3:]+"-params", "crf="+Opts.CRF)
+	}
 	if Opts.CRF != "" {
 		if Opts.VES == "libvpx-vp9" {
 			// -b:v 0 -crf 37
 			args = append(args, "-b:v", "0", "-crf", Opts.CRF)
-		}
-		if len(Opts.VES) > 6 && Opts.VES[:6] == "libx26" {
-			args = append(args, "-"+Opts.VES[3:]+"-params", "crf="+Opts.CRF)
 		}
 	}
 	if Opts.VEA != "" {
