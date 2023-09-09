@@ -447,7 +447,7 @@ func transcodeFile(inputName string) {
 		}
 	}
 
-	args := []string{"-i", inputName}
+	args := []string{"-hide_banner", "-i", inputName}
 	args = append(args, strings.Fields(Opts.OptExtra)...)
 	//debug(strings.Join(args, " "), 4)
 	args = encodeParametersS(encodeParametersA(encodeParametersV(args)))
@@ -463,7 +463,7 @@ func transcodeFile(inputName string) {
 	}
 	if len(transpFrom) != 0 {
 		args = append(args, "-af")
-		af := fmt.Sprintf("atempo=%s/%s,asetrate=44100*%[2]s/%[1]s",
+		af := fmt.Sprintf("rubberband=pitch=%[2]s/%[1]s",
 			transpFrom, transpTo)
 		args = append(args, af)
 	}
