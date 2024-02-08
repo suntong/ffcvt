@@ -222,6 +222,12 @@ Options:
     Value: '""'
     Usage: "Transpose song's key to (e.g. -tkf C -tkt Db)"
 
+  - Name: TranspBy
+    Type: int
+    Flag: tkb
+    Value: 0
+    Usage: "Transpose song by (e.g. +2, -3, etc) chromatic scale"
+
   - Name: Lang
     Type: string
     Flag: lang
@@ -322,5 +328,6 @@ UsageSummary: "TRUE"
 
 UsageLead: "\\nUsage:\\n %s [flags] \\n\\nFlags:\\n\\n"
 
-UsageEnd: "\\nTo reduce output, use `-debug 0`, e.g., `ffcvt -force -debug 0 -f testf.mp4 ...`\\n"
+UsageEnd: |
 
+  To reduce output, use '-debug 0', e.g., 'ffcvt -force -debug 0 -f testf.mp4 ...'
