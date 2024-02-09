@@ -10,7 +10,7 @@ package main
 ////////////////////////////////////////////////////////////////////////////
 // Porgram: FfCvt
 // Purpose: ffmpeg convert wrapper tool
-// Authors: Tong Sun (c) 2015-2023, All rights reserved
+// Authors: Tong Sun (c) 2015-2024, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 //go:generate sh -x ffcvt_cli.sh
@@ -54,8 +54,8 @@ type videoCol struct {
 // Global variables definitions
 
 var (
-	version = "1.12.0"
-	date    = "2023-08-21"
+	version = "1.15.0"
+	date    = "2024-02-08"
 
 	encodedExt string = _encodedExt
 	totalOrg   int64  = 1
@@ -80,6 +80,20 @@ var pitch = map[string]string{
 	"A":  "440.00",
 	"Bb": "466.16",
 	"B":  "493.88",
+}
+
+var pitchCoefficient = map[int]string{
+	1:  "1.059463094359",
+	2:  "1.122462048308",
+	3:  "1.189207115001",
+	4:  "1.259921049893",
+	5:  "1.334839854168",
+	6:  "1.414213562370",
+	7:  "1.498307076873",
+	8:  "1.587401051964",
+	9:  "1.681792830503",
+	10: "1.781797436275",
+	11: "1.887748625357",
 }
 
 func init() {
@@ -196,6 +210,19 @@ cut_ok:
 		}
 		fmt.Fprintf(os.Stderr, "Transposing from '%s' (%s) to '%s' (%s)\n",
 			Opts.TranspFrom, transpFrom, Opts.TranspTo, transpTo)
+	}
+	if Opts.TranspBy != 0 {
+		if Opts.TranspBy > 0 {
+			transpFrom, transpTo = "1", pitchCoefficient[Opts.TranspBy]
+		} else {
+			transpFrom, transpTo = pitchCoefficient[-Opts.TranspBy], "1"
+		}
+		if transpFrom == "" || transpTo == "" {
+			fmt.Fprintf(os.Stderr, "Error: TranspBy value not within +-1~11\n")
+			os.Exit(1)
+		}
+		fmt.Fprintf(os.Stderr, "Transposing by %d (%s->%s)\n",
+			Opts.TranspBy, transpFrom, transpTo)
 	}
 
 	encodedExt = Opts.Ext
