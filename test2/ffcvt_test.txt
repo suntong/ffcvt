@@ -38,6 +38,7 @@ Flags:
   -K,karaoke	Add a karaoke audio track to .mp4 MTV (FFCVT_K,KARAOKE)
   -tkf	Transpose song's key from (e.g. C/C#/Db/D etc) (FFCVT_TKF)
   -tkt	Transpose song's key to (e.g. -tkf C -tkt Db) (FFCVT_TKT)
+  -tkb	Transpose song by (e.g. +2, -3, etc) chromatic scale (FFCVT_TKB)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
   -sel	subtitle encoding language (language picked for reencoded video) (FFCVT_SEL)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
@@ -132,6 +133,8 @@ Details:
     	symlinks will be processed as well
   -t string
     	target type: webm/x265-opus/x264-mp3/wx/youtube/copy, or empty (default "webm")
+  -tkb int
+    	Transpose song by (e.g. +2, -3, etc) chromatic scale
   -tkf string
     	Transpose song's key from (e.g. C/C#/Db/D etc)
   -tkt string
@@ -155,7 +158,7 @@ Details:
   -w string
     	work directory that hold output files
 
-To reduce output, use `-debug 0`, e.g., `ffcvt -force -debug 0 -f testf.mp4 ...`
+To reduce output, use '-debug 0', e.g., 'ffcvt -force -debug 0 -f testf.mp4 ...'
 # Test transcoding single file
 
 == Transcoding: StreamSample.mkv
