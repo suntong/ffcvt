@@ -16,6 +16,8 @@ using ffmpeg.
 ## TOC
 - [ffcvt - ffmpeg convert wrapper tool](#ffcvt---ffmpeg-convert-wrapper-tool)
   - [Latest Update(s)](#latest-update(s))
+    - [Release v1.15.0](#release-v1150)
+    - [Release v1.13~1.14](#release-v113~114)
     - [Release v1.12.0](#release-v1120)
     - [Release v1.11.1](#release-v1111)
     - [Release v1.10.0](#release-v1100)
@@ -45,6 +47,20 @@ using ffmpeg.
 ## ffcvt - ffmpeg convert wrapper tool
 
 ### Latest Update(s)
+
+#### Release v1.15.0
+
+Add a more tolerable transpose approach.
+
+For all transpose features, check out
+https://github.com/suntong/ffcvt/wiki/Tips:-To-transpose-song's-key
+
+Implemented on 2024-02-08, dedicated to 龙年春节.
+
+
+#### Release v1.13~1.14
+
+Skipped.
 
 #### Release v1.12.0
 
@@ -139,7 +155,7 @@ There is a quick usage help that comes with `ffcvt`, produced when it is invoked
 
 ```sh
 $ ffcvt -version
-ffcvt version 1.12.0 built on 2023-08-21
+ffcvt version 1.15.0 built on 2024-02-08
 
 ffmpeg version 5.1.3-1 Copyright (c) 2000-2022 the FFmpeg developers
 built with gcc 12 (Debian 12.2.0-14)
@@ -189,6 +205,7 @@ Flags:
   -K,karaoke	Add a karaoke audio track to .mp4 MTV (FFCVT_K,KARAOKE)
   -tkf	Transpose song's key from (e.g. C/C#/Db/D etc) (FFCVT_TKF)
   -tkt	Transpose song's key to (e.g. -tkf C -tkt Db) (FFCVT_TKT)
+  -tkb	Transpose song by (e.g. +2, -3, etc) chromatic scale (FFCVT_TKB)
   -lang	language selection for audio stream extraction (FFCVT_LANG)
   -sel	subtitle encoding language (language picked for reencoded video) (FFCVT_SEL)
   -o	more options that will pass to ffmpeg program (FFCVT_O)
@@ -283,6 +300,8 @@ Details:
     	symlinks will be processed as well
   -t string
     	target type: webm/x265-opus/x264-mp3/wx/youtube/copy, or empty (default "webm")
+  -tkb int
+    	Transpose song by (e.g. +2, -3, etc) chromatic scale
   -tkf string
     	Transpose song's key from (e.g. C/C#/Db/D etc)
   -tkt string
@@ -306,7 +325,7 @@ Details:
   -w string
     	work directory that hold output files
 
-To reduce output, use `-debug 0`, e.g., `ffcvt -force -debug 0 -f testf.mp4 ...`
+To reduce output, use '-debug 0', e.g., 'ffcvt -force -debug 0 -f testf.mp4 ...'
 ```
 
 

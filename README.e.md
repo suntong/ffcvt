@@ -12,6 +12,20 @@
 
 ### Latest Update(s)
 
+#### Release v1.15.0
+
+Add a more tolerable transpose approach.
+
+For all transpose features, check out
+https://github.com/suntong/ffcvt/wiki/Tips:-To-transpose-song's-key
+
+Implemented on 2024-02-08, dedicated to 龙年春节.
+
+
+#### Release v1.13~1.14
+
+Skipped.
+
 #### Release v1.12.0
 
 Now able to have specific CRF environment variable for `libx26?` types:
